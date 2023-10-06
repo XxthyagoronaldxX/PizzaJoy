@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="cellRoot" prefHeight="44.0" prefWidth="226.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="44.0" fitWidth="45.0" layoutX="-6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="181.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../assets/imgs/pizza-queijo-icon.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="itemStockNameLabel" layoutX="44.0" prefHeight="44.0" prefWidth="141.0" text="Item" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+         <font>
+            <Font name="Lucida Bright Demibold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="itemStockQuantityLabel" layoutX="181.0" prefHeight="44.0" prefWidth="44.0" text="0x" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="Lucida Bright Demibold" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

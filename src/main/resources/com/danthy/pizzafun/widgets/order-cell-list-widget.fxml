@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="cell-root" fx:id="cellRoot" prefHeight="323.0" prefWidth="228.0" stylesheets="@../styles/widgets/order-item-list-widget.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane id="header-container" prefHeight="108.0" prefWidth="224.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="55.0" fitWidth="115.0" layoutX="70.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/imgs/pizza-button-background.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="pizzaNameLabel" alignment="CENTER" layoutY="79.0" prefHeight="30.0" prefWidth="224.0" text="Nome" textAlignment="JUSTIFY" wrapText="true">
+               <font>
+                  <Font name="Candara Bold" size="19.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.4961630702018738" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.7333333492279053" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+         </children>
+      </Pane>
+      <Label layoutX="19.0" layoutY="121.0" prefHeight="27.0" prefWidth="189.0" text="Ingredientes:" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="19.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="itemsLabel" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="19.0" layoutY="148.0" prefHeight="137.0" prefWidth="189.0" text="Items" textAlignment="JUSTIFY" wrapText="true" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="19.0" />
+      <Button id="produce-button" fx:id="produceButton" layoutY="285.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="224.0" text="Produzir" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="Unispace-Bold" size="12.0" />
+         </font></Button>
+      <ProgressBar fx:id="progressStatus" layoutY="301.0" prefHeight="38.0" prefWidth="228.0" progress="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,25 @@
+.home-button {
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-background-color: transparent;
+}
+
+.home-button:hover {
+    -fx-background-color: rgba(255, 0, 0, 0.4);
+}
+
+#pizza-form-name-bg {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+#pizza-form-name-container {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 15px;
+}
+
+#home-button-init {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}

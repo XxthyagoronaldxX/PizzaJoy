@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox fx:id="rootView" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="690.0" prefWidth="1041.0" stylesheets="@styles/room.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.RoomController">
+   <children>
+      <AnchorPane id="room-view" fx:id="roomView" prefHeight="641.0" prefWidth="771.0" HBox.hgrow="ALWAYS">
+         <children>
+            <ImageView fx:id="roomImageBg" fitHeight="290.0" fitWidth="771.0" layoutY="465.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <image>
+                  <Image url="@assets/imgs/pizza-info-background.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+            <AnchorPane prefHeight="400.0" prefWidth="771.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ListView id="orders-list" fx:id="ordersList" orientation="HORIZONTAL" prefHeight="400.0" prefWidth="771.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <opaqueInsets>
+                        <Insets right="20.0" />
+                     </opaqueInsets>
+                  </ListView>
+               </children>
+            </AnchorPane>
+            <Label fx:id="balanceLabel" layoutY="400.0" prefHeight="51.0" prefWidth="222.0" text="Dinheiro: $20" textAlignment="JUSTIFY" textFill="#12c666" wrapText="true">
+               <font>
+                  <Font name="Unispace-Bold" size="17.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <Pane id="stock-view-container" layoutX="662.0" layoutY="586.0" onMouseClicked="#stockViewEvent" prefHeight="90.0" prefWidth="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+               <children>
+                  <ImageView fitHeight="57.0" fitWidth="73.0" layoutX="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/imgs/pizza-box-icon.png" />
+                     </image>
+                     <viewport>
+                        <Rectangle2D height="100.0" minX="-5.0" minY="-16.0" width="100.0" />
+                     </viewport>
+                  </ImageView>
+                  <Label layoutX="21.0" layoutY="57.0" text="Estoque">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font></Label>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="stockView" prefHeight="690.0" prefWidth="295.0">
+         <children>
+            <ListView fx:id="itemStockList" layoutY="172.0" prefHeight="619.0" prefWidth="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label alignment="CENTER" layoutX="103.0" layoutY="25.0" prefHeight="24.0" prefWidth="65.0" text="Estoque">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+   </children>
+</HBox>

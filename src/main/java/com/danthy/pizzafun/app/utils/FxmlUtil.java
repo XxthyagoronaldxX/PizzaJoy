@@ -1,0 +1,32 @@
+package com.danthy.pizzafun.app.utils;
+
+import com.danthy.pizzafun.PizzaFunApplication;
+import com.danthy.pizzafun.app.contracts.Controller;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+
+import java.io.IOException;
+
+public class FxmlUtil {
+    public static FXMLLoader loaderFromName(String name, Class<?> getClass) {
+        String file = String.format("%s.fxml", name);
+        return new FXMLLoader(getClass.getResource(file));
+    }
+
+    public static FXMLLoader loaderFromName(String name) {
+        String file = String.format("%s.fxml", name);
+        return new FXMLLoader(PizzaFunApplication.class.getResource(file));
+    }
+
+    public static Scene sceneFromLoader(FXMLLoader loader, double width, double height) {
+        try {
+            return new Scene(loader.load(), width, height);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T extends Controller> T controllerFromLoader(FXMLLoader loader) {
+        return loader.getController();
+    }
+}

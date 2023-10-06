@@ -1,0 +1,41 @@
+#orders-list {
+    -fx-hgap: 10px;
+}
+
+#orders-list .track {
+    -fx-background-color: white;
+}
+
+#orders-list .thumb {
+    -fx-background-color: #3498db;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+#orders-list .increment-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+#orders-list .decrement-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+#stock-list {
+    -fx-background-color: green;
+}
+
+#room-view {
+    -fx-background-color: rgba(153, 0, 48, 1);
+}
+
+#stock-view-container {
+    -fx-background-color: white;
+    -fx-background-radius: 100px;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+    -fx-border-radius: 100px;
+}
