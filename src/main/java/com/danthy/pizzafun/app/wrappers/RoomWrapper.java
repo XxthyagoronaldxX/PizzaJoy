@@ -1,21 +1,20 @@
 package com.danthy.pizzafun.app.wrappers;
 
-import com.danthy.pizzafun.domain.models.ItemModel;
-import com.danthy.pizzafun.domain.models.ItemPizzaModel;
-import com.danthy.pizzafun.domain.models.ItemStockModel;
-import com.danthy.pizzafun.domain.models.RoomModel;
+import com.danthy.pizzafun.app.utils.ApplicationProperties;
+import com.danthy.pizzafun.domain.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RoomWrapper {
     private final RoomModel roomModel;
 
-    private final ObservableList<OrderItemListWrapper> orderModelObservableList;
+    private final ObservableList<OrderWrapper> orderModelObservableList;
 
     private final ObservableList<ItemStockWrapper> itemStockModelObservableList;
+
+    private SupplierModel supplierModel;
 
     public RoomWrapper(RoomModel roomModel) {
         this.roomModel = roomModel;
@@ -32,20 +31,44 @@ public class RoomWrapper {
         this.itemStockModelObservableList = FXCollections.observableArrayList(itemStockWrapperList);
     }
 
-    public void addOrder(OrderItemListWrapper orderItemListWrapper) {
-        this.orderModelObservableList.add(orderItemListWrapper);
+    public void addOrder(OrderWrapper orderWrapper) {
+        this.orderModelObservableList.add(orderWrapper);
     }
 
-    public void removeOrder(OrderItemListWrapper orderItemListWrapper) {
-        this.orderModelObservableList.remove(orderItemListWrapper);
+    public void restockBySupplier(SupplierModel supplierModel) {
+        int itemMaxWeight = ApplicationProperties.itemMaxWeight;
 
-        roomModel.incBalance(orderItemListWrapper.getOrderModel().getPizzaModel().getPrice());
+        for (int i = 0;i < itemStockModelObservableList.size();i++) {
+            ItemStockWrapper itemStockWrapper = itemStockModelObservableList.get(i);
 
-        refreshItemStockListFromOrderProduced(orderItemListWrapper);
+            itemStockWrapper.incrementQuantity(itemMaxWeight - itemStockWrapper.getItem().getWeight() + 1);
+
+            itemStockModelObservableList.set(i, itemStockWrapper);
+        }
+
+        roomModel.decBalance(supplierModel.getCost());
     }
 
-    private void refreshItemStockListFromOrderProduced(OrderItemListWrapper orderItemListWrapper) {
-        List<ItemPizzaModel> itemPizzaModelList = orderItemListWrapper.getOrderModel().getPizzaModel().getItemPizzaModels();
+    public boolean isRemoveOrderValid(OrderModel orderModel) {
+        List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
+
+        for (ItemStockWrapper itemStockWrapper : itemStockModelObservableList) {
+            ItemModel itemModel = itemStockWrapper.getItem();
+
+            for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
+                ItemModel itemModelAux = itemPizzaModel.getItem();
+
+                if (itemModel.equals(itemModelAux)) {
+                    if (itemPizzaModel.getQuantity() > itemStockWrapper.getQuantity()) return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void removeItemStockFromOrder(OrderModel orderModel) {
+        List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
         for (int i = 0;i < itemStockModelObservableList.size();i++) {
             ItemStockWrapper itemStockWrapper = itemStockModelObservableList.get(i);
@@ -63,6 +86,12 @@ public class RoomWrapper {
         }
     }
 
+    public void removeOrder(OrderWrapper orderWrapper) {
+        this.orderModelObservableList.remove(orderWrapper);
+
+        roomModel.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
+    }
+
     public String getBalancePrint() {
         return String.format("Dinheiro: $%.2f", roomModel.getBalance());
     }
@@ -71,7 +100,7 @@ public class RoomWrapper {
         return this.orderModelObservableList.size();
     }
 
-    public ObservableList<OrderItemListWrapper> getOrderModelObservableList() {
+    public ObservableList<OrderWrapper> getOrderModelObservableList() {
         return orderModelObservableList;
     }
 

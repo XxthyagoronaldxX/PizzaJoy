@@ -1,11 +1,11 @@
 package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
-import com.danthy.pizzafun.app.wrappers.OrderItemListWrapper;
+import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import javafx.scene.control.ListCell;
 
-public class OrderCellListFactory extends ListCell<OrderItemListWrapper> {
+public class OrderCellListFactory extends ListCell<OrderWrapper> {
     @Override
-    protected void updateItem(OrderItemListWrapper item, boolean empty) {
+    protected void updateItem(OrderWrapper item, boolean empty) {
         super.updateSelected(false);
         super.updateItem(item, empty);
 

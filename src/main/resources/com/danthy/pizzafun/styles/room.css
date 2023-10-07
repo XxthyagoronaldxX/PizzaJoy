@@ -1,5 +1,6 @@
 #orders-list {
     -fx-hgap: 10px;
+    -fx-border-color: transparent;
 }
 
 #orders-list .track {
@@ -29,7 +30,7 @@
 }
 
 #room-view {
-    -fx-background-color: rgba(153, 0, 48, 1);
+    -fx-background-color: white;
 }
 
 #stock-view-container {
@@ -38,4 +39,21 @@
     -fx-border-width: 2px;
     -fx-border-color: black;
     -fx-border-radius: 100px;
+}
+
+#stock-view {
+    -fx-background-color: transparent;
+}
+
+#item-stock-list {
+    -fx-background-color: transparent;
+}
+
+#upgrade-view-root {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+#upgrade-view-container {
+    -fx-background-color: white;
+    -fx-background-radius: 0px 0px 100px 100px;
 }

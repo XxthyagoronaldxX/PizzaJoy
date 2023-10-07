@@ -3,7 +3,9 @@ package com.danthy.pizzafun;
 import com.danthy.pizzafun.app.controllers.HomeController;
 import com.danthy.pizzafun.app.controllers.RoomController;
 import com.danthy.pizzafun.app.enums.ScreenType;
+import com.danthy.pizzafun.app.handles.GenItemStockThreadHandle;
 import com.danthy.pizzafun.app.handles.GenOrderThreadHandle;
+import com.danthy.pizzafun.app.handles.GenSupplierThreadHandle;
 import com.danthy.pizzafun.app.utils.EventPublisher;
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.utils.GetIt;
@@ -39,11 +41,19 @@ public class GetItSetup {
                 .addListener(roomController)
                 .addListener(screenManager);
 
-        Thread genOrderThreadHandle = new GenOrderThreadHandle(roomController);
+        GenSupplierThreadHandle genSupplierThreadHandle = new GenSupplierThreadHandle();
+        GenOrderThreadHandle genOrderThreadHandle = new GenOrderThreadHandle();
+        GenItemStockThreadHandle genItemStockThreadHandle = new GenItemStockThreadHandle();
+
+        GameThreadManager gameThreadManager = GameThreadManager
+                .build()
+                .addThread(genSupplierThreadHandle)
+                .addThread(genOrderThreadHandle)
+                .addThread(genItemStockThreadHandle);
 
         getIt.addSingleton(eventPublisher);
         getIt.addSingleton(screenManager);
-        getIt.addSingleton(genOrderThreadHandle);
+        getIt.addSingleton(gameThreadManager);
         getIt.addSingleton(roomController);
         getIt.addSingleton(homeController);
         getIt.addSingleton(stage);

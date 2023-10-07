@@ -11,7 +11,7 @@ import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.util.Duration;
 
-public class OrderItemListWrapper {
+public class OrderWrapper {
     private OrderModel orderModel;
 
     private Double progress;
@@ -20,36 +20,52 @@ public class OrderItemListWrapper {
 
     private boolean isLoading;
 
+    private boolean isItemStockAlreadyRemoved;
+
     private boolean isAlreadyAnimated;
 
-    public OrderItemListWrapper(OrderModel orderModel) {
+    public OrderWrapper(OrderModel orderModel) {
         this.orderModel = orderModel;
         this.progress = 0.0;
         this.isLoading = false;
         this.isAlreadyAnimated = false;
+        this.isItemStockAlreadyRemoved = false;
     }
 
-    public void produceOrder() {
-        this.isLoading = true;
+    public boolean produceOrder() {
+        RoomWrapper roomWrapper = GetIt.getInstance().find(RoomWrapper.class);
 
-        Platform.runLater(() -> {
-            int totDurationSeconds = ApplicationProperties.pizzaProduceBaseTime;
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), timeEvent -> {
-                double progress = getProgress();
-                if (progress < 1.0) {
-                    setProgress(progress + 1.0 / totDurationSeconds);
+        if (roomWrapper.isRemoveOrderValid(orderModel) || isLoading) {
+            if (!this.isItemStockAlreadyRemoved) {
+                roomWrapper.removeItemStockFromOrder(orderModel);
+                this.isItemStockAlreadyRemoved = true;
+            }
 
-                    progressBar.setProgress(getProgress());
-                }
-            }));
+            this.isLoading = true;
+
+            Platform.runLater(() -> {
+                int totDurationSeconds = ApplicationProperties.pizzaProduceBaseTime;
+                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), timeEvent -> {
+                    double progress = getProgress();
+                    if (progress < 1.0) {
+                        setProgress(progress + 1.0 / totDurationSeconds);
+
+                        progressBar.setProgress(getProgress());
+                    }
+                }));
 
 
-            timeline.setCycleCount(totDurationSeconds);
-            timeline.setOnFinished(onFinish -> {
-                GetIt.getInstance().find(EventPublisher.class).notifyAll(new ProducedOrderEvent(this));
+                timeline.setCycleCount(totDurationSeconds);
+                timeline.setOnFinished(onFinish -> {
+                    GetIt.getInstance().find(EventPublisher.class).notifyAll(new ProducedOrderEvent(this));
+                });
+                timeline.play();
             });
-            timeline.play();
-        });
+
+            return true;
+        }
+
+        return false;
     }
 
     public void setProgressBar(ProgressBar progressBar) {

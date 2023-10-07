@@ -6,14 +6,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="cellRoot" prefHeight="44.0" prefWidth="226.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="cellRoot" prefHeight="54.0" prefWidth="226.0" stylesheets="@../styles/widgets/item-stock-cell-list-widget.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="44.0" fitWidth="45.0" layoutX="-6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="181.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="itemStockBg" fitHeight="54.0" fitWidth="226.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assets/imgs/pizza-stock-item-background.png" />
+         </image>
+      </ImageView>
+      <ImageView id="item-stock-img" fitHeight="54.0" fitWidth="44.0" layoutX="7.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="5.0">
          <image>
             <Image url="@../assets/imgs/pizza-queijo-icon.png" />
          </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
       </ImageView>
-      <Label fx:id="itemStockNameLabel" layoutX="44.0" prefHeight="44.0" prefWidth="141.0" text="Item" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="itemStockNameLabel" layoutX="52.0" layoutY="5.0" prefHeight="44.0" prefWidth="132.0" text="Item" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="5.0">
          <padding>
             <Insets left="10.0" />
          </padding>
@@ -21,7 +29,7 @@
             <Font name="Lucida Bright Demibold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="itemStockQuantityLabel" layoutX="181.0" prefHeight="44.0" prefWidth="44.0" text="0x" AnchorPane.rightAnchor="0.0">
+      <Label fx:id="itemStockQuantityLabel" layoutX="184.0" layoutY="5.0" prefHeight="44.0" prefWidth="44.0" text="0x" AnchorPane.rightAnchor="-2.0">
          <font>
             <Font name="Lucida Bright Demibold" size="14.0" />
          </font>

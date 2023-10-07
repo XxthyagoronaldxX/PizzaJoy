@@ -5,12 +5,12 @@ import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
-import com.danthy.pizzafun.app.events.ProducedOrderEvent;
-import com.danthy.pizzafun.app.events.StartGameEvent;
+import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.utils.EventPublisher;
 import com.danthy.pizzafun.app.utils.GetIt;
-import com.danthy.pizzafun.app.wrappers.OrderItemListWrapper;
+import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.app.wrappers.RoomWrapper;
+import com.danthy.pizzafun.app.wrappers.UpgradeWrapper;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.*;
 import javafx.fxml.FXML;
@@ -19,8 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 public class RoomController extends Controller implements IListener {
@@ -40,10 +39,25 @@ public class RoomController extends Controller implements IListener {
     public AnchorPane roomView;
 
     @FXML
+    public ImageView roomImageBg;
+
+    @FXML
+    public AnchorPane stockPaneBg;
+
+    @FXML
+    public ImageView stockImageBg;
+
+    @FXML
+    public HBox upgradeViewRoot;
+
+    @FXML
+    public AnchorPane upgradeViewSubRoot;
+
+    @FXML
     public HBox rootView;
 
     @FXML
-    public ImageView roomImageBg;
+    public ListView supplierList;
 
     public double prefWidthStockView;
 
@@ -51,21 +65,24 @@ public class RoomController extends Controller implements IListener {
 
     private RoomWrapper roomWrapper;
 
+    private UpgradeWrapper upgradeWrapper;
+
     public RoomController() {}
-
-    public void addOrderEvent(OrderModel orderModel) {
-        roomWrapper.addOrder(new OrderItemListWrapper(orderModel));
-    }
-
-    public int getAmountOrders() {
-        return roomWrapper.getOrdersAmount();
-    }
 
     @Override
     public void initialize() {
+        initUpgradeView();
         initOrderListView();
         initStockView();
         initItemStockListView();
+    }
+
+    private void initUpgradeView() {
+        roomView.widthProperty().addListener((observable, oldValue, newValue) -> {
+            upgradeViewSubRoot.setPrefWidth(newValue.doubleValue());
+        });
+
+        upgradeViewRoot.toBack();
     }
 
     private void initItemStockListView() {
@@ -77,6 +94,13 @@ public class RoomController extends Controller implements IListener {
         prefWidthStockView = stockView.getPrefWidth();
         stockView.setTranslateX(prefWidthStockView);
         stockView.setPrefWidth(0);
+
+        stockPaneBg.widthProperty().addListener((observable, oldValue, newValue) -> {
+            stockImageBg.setFitWidth(newValue.doubleValue());
+        });
+        stockPaneBg.heightProperty().addListener((observable, oldValue, newValue) -> {
+            stockImageBg.setFitHeight(newValue.doubleValue());
+        });
     }
 
     private void initOrderListView() {
@@ -89,16 +113,32 @@ public class RoomController extends Controller implements IListener {
         if (event.getClass() == ProducedOrderEvent.class) {
             ProducedOrderEvent producedOrderEvent = (ProducedOrderEvent) event;
 
-            roomWrapper.removeOrder(producedOrderEvent.orderItemListWrapper());
+            roomWrapper.removeOrder(producedOrderEvent.orderWrapper());
             balanceLabel.setText(roomWrapper.getBalancePrint());
         } else if (event.getClass() == StartGameEvent.class) {
             roomWrapper = GetIt.getInstance().find(RoomWrapper.class);
+            upgradeWrapper = GetIt.getInstance().find(UpgradeWrapper.class);
 
             itemStockList.setItems(roomWrapper.getItemStockModelObservableList());
             ordersList.setItems(roomWrapper.getOrderModelObservableList());
+            supplierList.setItems(upgradeWrapper.getSupplierModelObservableList());
+
             balanceLabel.setText(roomWrapper.getBalancePrint());
             maxWidth = roomImageBg.getScene().getWidth();
             roomImageBg.setFitWidth(maxWidth);
+        } else if (event.getClass() == SupplierGenerateEvent.class) {
+            SupplierGenerateEvent supplierGenerateEvent = (SupplierGenerateEvent) event;
+
+            upgradeWrapper.addAllSupplierModel(supplierGenerateEvent.supplierModelList());
+        } else if (event.getClass() == OrderGenerateEvent.class) {
+            OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
+
+            roomWrapper.addOrder(new OrderWrapper(orderGenerateEvent.orderWrapper()));
+        } else if (event.getClass() == ReStockEvent.class) {
+            ReStockEvent reStockEvent = (ReStockEvent) event;
+
+            roomWrapper.restockBySupplier(reStockEvent.supplierModel());
+            balanceLabel.setText(roomWrapper.getBalancePrint());
         }
     }
 
@@ -140,5 +180,15 @@ public class RoomController extends Controller implements IListener {
             ParallelTransition parallelTransition = new ParallelTransition(translateTransition, timelineCloseStock, timelineStrectchBg);
             parallelTransition.play();
         }
+    }
+
+    @FXML
+    public void closeUpgradeViewEvent(MouseEvent mouseEvent) {
+        upgradeViewRoot.toBack();
+    }
+
+    @FXML
+    public void openUpgradeViewEvent(MouseEvent mouseEvent) {
+        upgradeViewRoot.toFront();
     }
 }

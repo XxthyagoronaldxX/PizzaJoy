@@ -12,6 +12,7 @@ public class RoomModel {
     private String name;
     private double balance;
     private StockModel stockModel;
+    private SupplierModel supplierModel;
     private List<PizzaModel> pizzaModels;
     private final List<OrderModel> orderModels;
 

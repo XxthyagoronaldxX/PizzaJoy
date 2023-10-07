@@ -1,8 +1,10 @@
 package com.danthy.pizzafun.app.handles;
 
-import com.danthy.pizzafun.app.controllers.RoomController;
+import com.danthy.pizzafun.app.events.OrderGenerateEvent;
 import com.danthy.pizzafun.app.utils.ApplicationProperties;
-import com.danthy.pizzafun.app.wrappers.OrderItemListWrapper;
+import com.danthy.pizzafun.app.utils.EventPublisher;
+import com.danthy.pizzafun.app.utils.GetIt;
+import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.domain.data.PizzaDataSingleton;
 import com.danthy.pizzafun.domain.enums.NpcLevel;
 import com.danthy.pizzafun.domain.models.NpcModel;
@@ -10,28 +12,26 @@ import com.danthy.pizzafun.domain.models.OrderModel;
 import com.danthy.pizzafun.domain.models.PizzaModel;
 import javafx.application.Platform;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GenOrderThreadHandle extends Thread {
-    public RoomController roomController;
 
-    public GenOrderThreadHandle(RoomController roomController) {
-        this.roomController = roomController;
-    }
+    public GenOrderThreadHandle() {}
 
     @Override
     public void run() {
+        RoomWrapper roomWrapper = GetIt.getInstance().find(RoomWrapper.class);
+        int maxpizzas = ApplicationProperties.roomInitialMaxPizzas;
+        int mintime = ApplicationProperties.pizzaGenerationMinBaseTime;
+        int maxtime = ApplicationProperties.pizzaGenerationMaxBaseTime;
+
         while (true) {
             try {
-                int maxpizzas = ApplicationProperties.roomInitialMaxPizzas;
-                int mintime = ApplicationProperties.pizzaGenerationMinBaseTime;
-                int maxtime = ApplicationProperties.pizzaGenerationMaxBaseTime;
-                int time = ((int) Math.floor((maxtime-mintime) * Math.random())) + mintime;
+                int time = ((int) Math.floor((maxtime - mintime) * Math.random())) + mintime;
 
                 TimeUnit.SECONDS.sleep(time);
 
-                if(maxpizzas > roomController.getAmountOrders()) {
+                if (maxpizzas > roomWrapper.getOrdersAmount()) {
                     NpcModel npcModel = new NpcModel("Thyago", NpcLevel.EASY);
 
                     PizzaModel pizzaModel = PizzaDataSingleton
@@ -39,8 +39,9 @@ public class GenOrderThreadHandle extends Thread {
                             .getRandomPizza();
 
                     OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
+
                     Platform.runLater(() -> {
-                        roomController.addOrderEvent(orderModel);
+                        GetIt.getInstance().find(EventPublisher.class).notifyAll(new OrderGenerateEvent(orderModel));
                     });
                 }
             } catch (InterruptedException e) {

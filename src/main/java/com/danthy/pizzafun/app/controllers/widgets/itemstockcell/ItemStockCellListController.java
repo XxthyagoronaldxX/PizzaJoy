@@ -8,6 +8,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
@@ -23,6 +24,9 @@ public class ItemStockCellListController extends AnchorPane {
     @FXML
     private AnchorPane cellRoot;
 
+    @FXML
+    private ImageView itemStockBg;
+
     private final ItemStockWrapper itemStockWrapper;
 
     public ItemStockCellListController(ItemStockWrapper itemStockWrapper) {
@@ -34,7 +38,11 @@ public class ItemStockCellListController extends AnchorPane {
 
     private void initialize() {
         itemStockNameLabel.setText(itemStockWrapper.getName());
-        itemStockQuantityLabel.setText(itemStockWrapper.getQuantity());
+        itemStockQuantityLabel.setText(itemStockWrapper.getQuantityPrint());
+
+        cellRoot.widthProperty().addListener((observable, oldValue, newValue) -> {
+            itemStockBg.setFitWidth(newValue.doubleValue());
+        });;
 
         getChildren().add(cellRoot);
         setLeftAnchor(cellRoot, 0.0);

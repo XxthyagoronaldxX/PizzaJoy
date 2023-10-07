@@ -18,12 +18,12 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-base</artifactId>
-      <version>17.0.6</version>
+      <version>19.0.2.1</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-swing</artifactId>
-      <version>17.0.2</version>
+      <version>19.0.2.1</version>
     </dependency>
     <dependency>
       <groupId>eu.hansolo.fx</groupId>
@@ -38,7 +38,7 @@
     <dependency>
       <groupId>eu.hansolo</groupId>
       <artifactId>toolbox</artifactId>
-      <version>17.0.35</version>
+      <version>17.0.43</version>
     </dependency>
     <dependency>
       <groupId>eu.hansolo</groupId>
@@ -54,17 +54,17 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
-      <version>17.0.6</version>
+      <version>19.0.2.1</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
-      <version>17.0.6</version>
+      <version>19.0.2.1</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-web</artifactId>
-      <version>17.0.6</version>
+      <version>19.0.2.1</version>
     </dependency>        <dependency>
       <groupId>org.controlsfx</groupId>
       <artifactId>controlsfx</artifactId>
@@ -99,7 +99,8 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
-    </dependency>              </dependencies>
+    </dependency>
+  </dependencies>
 
   <build>
         <plugins>

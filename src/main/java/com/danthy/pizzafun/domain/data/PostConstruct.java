@@ -1,5 +1,6 @@
 package com.danthy.pizzafun.domain.data;
 
+import com.danthy.pizzafun.app.utils.ApplicationProperties;
 import com.danthy.pizzafun.domain.models.*;
 
 public class PostConstruct {
@@ -12,11 +13,11 @@ public class PostConstruct {
                 10
         );
         ItemStockModel massaStockModel = new ItemStockModel(
-                new ItemModel("Massa", 2),
+                new ItemModel("Massa", 4),
                 10
         );
         ItemStockModel molhoDeTomateStockModel = new ItemStockModel(
-                new ItemModel("Molho de tomate", 2),
+                new ItemModel("Molho de tomate", 4),
                 10
         );
 
@@ -32,12 +33,23 @@ public class PostConstruct {
         return roomModel;
     }
 
+    public static SupplierModel genSupplierModel() {
+        return new SupplierModel(
+                ApplicationProperties.roomInitialSupplierLevel,
+                ApplicationProperties.roomInitialSupplierName,
+                ApplicationProperties.roomInitialSupplierCost,
+                ApplicationProperties.roomInitialSupplierBonus,
+                ApplicationProperties.roomInitialSupplierBonusChance,
+                ApplicationProperties.roomInitialSupplierDeliveryTimeInSeconds
+        );
+    }
+
     public static void genModels() {
         // BUILDING STANDARD ITEMS
         ItemModel queijoItem = new ItemModel("Queijo", 2);
         ItemModel calabresaItem = new ItemModel("Calabresa", 2);
-        ItemModel massaItem = new ItemModel("Massa", 6);
-        ItemModel molhoDeTomateItem = new ItemModel("Molho de tomate", 2);
+        ItemModel massaItem = new ItemModel("Massa", 4);
+        ItemModel molhoDeTomateItem = new ItemModel("Molho de tomate", 4);
         ItemModel chocolateItem = new ItemModel("Chocolate", 3);
 
         ItemDataSingleton

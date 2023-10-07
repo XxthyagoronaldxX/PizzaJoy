@@ -22,7 +22,11 @@ public class ItemStockWrapper {
         this.itemStockModel.decrementQuantity(quantity);
     }
 
-    public String getQuantity() {
+    public void incrementQuantity(int quantity) {this.itemStockModel.incrementQuantity(quantity);}
+
+    public int getQuantity() {return this.itemStockModel.getQuantity();}
+
+    public String getQuantityPrint() {
         return this.itemStockModel.getQuantity() + "x";
     }
 }

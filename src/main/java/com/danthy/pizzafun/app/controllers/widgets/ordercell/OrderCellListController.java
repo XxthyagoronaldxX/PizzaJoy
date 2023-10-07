@@ -2,7 +2,7 @@ package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
 
 import com.danthy.pizzafun.app.utils.FxmlUtil;
-import com.danthy.pizzafun.app.wrappers.OrderItemListWrapper;
+import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -34,9 +34,9 @@ public class OrderCellListController extends AnchorPane {
     @FXML
     private ProgressBar progressStatus;
 
-    private final OrderItemListWrapper orderModelWrapper;
+    private final OrderWrapper orderModelWrapper;
 
-    public OrderCellListController(OrderItemListWrapper orderModelWrapper) {
+    public OrderCellListController(OrderWrapper orderModelWrapper) {
         this.orderModelWrapper = orderModelWrapper;
 
         loadFXML();
@@ -92,8 +92,9 @@ public class OrderCellListController extends AnchorPane {
 
     @FXML
     private void produceOrderEvent(MouseEvent event) {
-        produceButton.setVisible(false);
-        progressStatus.setVisible(true);
-        orderModelWrapper.produceOrder();
+        if (orderModelWrapper.produceOrder()) {
+            produceButton.setVisible(false);
+            progressStatus.setVisible(true);
+        }
     }
 }
