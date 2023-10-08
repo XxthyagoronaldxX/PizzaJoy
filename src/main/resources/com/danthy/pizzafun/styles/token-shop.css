@@ -1,0 +1,8 @@
+#tokenshop-view-root {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+#tokenshop-view-container {
+    -fx-background-color: white;
+    -fx-background-radius: 0px 0px 100px 100px;
+}

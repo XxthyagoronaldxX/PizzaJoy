@@ -1,6 +1,6 @@
 package com.danthy.pizzafun.app.controllers.widgets.suppliercell;
 
-import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
+import com.danthy.pizzafun.app.wrappers.implementations.SupplierWrapper;
 import javafx.scene.control.ListCell;
 
 public class SupplierCellListFactory extends ListCell<SupplierWrapper> {

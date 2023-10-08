@@ -1,0 +1,11 @@
+#stock-list {
+    -fx-background-color: green;
+}
+
+#stock-view {
+    -fx-background-color: transparent;
+}
+
+#item-stock-list {
+    -fx-background-color: transparent;
+}

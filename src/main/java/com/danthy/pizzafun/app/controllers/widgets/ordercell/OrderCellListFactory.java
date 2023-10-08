@@ -1,6 +1,6 @@
 package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
-import com.danthy.pizzafun.app.wrappers.OrderWrapper;
+import com.danthy.pizzafun.app.wrappers.implementations.OrderWrapper;
 import javafx.scene.control.ListCell;
 
 public class OrderCellListFactory extends ListCell<OrderWrapper> {

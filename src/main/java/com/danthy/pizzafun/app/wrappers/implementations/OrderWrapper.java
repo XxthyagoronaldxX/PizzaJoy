@@ -1,9 +1,10 @@
-package com.danthy.pizzafun.app.wrappers;
+package com.danthy.pizzafun.app.wrappers.implementations;
 
 import com.danthy.pizzafun.app.events.ProducedOrderEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.wrappers.IOrderWrapper;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,7 +16,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderWrapper {
+public class OrderWrapper implements IOrderWrapper {
     private OrderModel orderModel;
 
     private Double progress;
@@ -70,5 +71,10 @@ public class OrderWrapper {
         }
 
         return false;
+    }
+
+    @Override
+    public OrderModel getWrappe() {
+        return this.orderModel;
     }
 }

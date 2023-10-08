@@ -1,8 +1,7 @@
 package com.danthy.pizzafun.app.events;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
-import com.danthy.pizzafun.domain.models.SupplierModel;
+import com.danthy.pizzafun.app.wrappers.implementations.SupplierWrapper;
 
 import java.util.List;
 

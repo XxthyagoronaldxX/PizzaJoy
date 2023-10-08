@@ -2,6 +2,8 @@ package com.danthy.pizzafun;
 
 import com.danthy.pizzafun.app.controllers.HomeController;
 import com.danthy.pizzafun.app.controllers.RoomController;
+import com.danthy.pizzafun.app.controllers.StockController;
+import com.danthy.pizzafun.app.controllers.TokenShopController;
 import com.danthy.pizzafun.app.enums.ScreenType;
 import com.danthy.pizzafun.app.handles.GenItemStockThreadHandle;
 import com.danthy.pizzafun.app.handles.GenOrderThreadHandle;
@@ -28,9 +30,12 @@ public class GetItSetup {
 
         RoomController roomController = FxmlUtil.controllerFromLoader(roomLoader);
         HomeController homeController = FxmlUtil.controllerFromLoader(homeLoader);
+        TokenShopController tokenShopController = roomController.tokenShopController;
+        StockController stockController = roomController.stockController;
 
         roomController.setEventPublisher(eventPublisher);
         homeController.setEventPublisher(eventPublisher);
+        tokenShopController.setEventPublisher(eventPublisher);
 
         ScreenManager screenManager = ScreenManager
                 .build(stage)
@@ -40,6 +45,8 @@ public class GetItSetup {
 
         eventPublisher
                 .addListener(roomController)
+                .addListener(tokenShopController)
+                .addListener(stockController)
                 .addListener(screenManager);
 
         GenSupplierThreadHandle genSupplierThreadHandle = new GenSupplierThreadHandle();

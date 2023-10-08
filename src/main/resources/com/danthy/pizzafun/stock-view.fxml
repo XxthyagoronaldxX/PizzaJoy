@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.paint.Color?>
+
+
+<StackPane stylesheets="@styles/stock.css" fx:controller="com.danthy.pizzafun.app.controllers.StockController" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <AnchorPane fx:id="stockPaneBg">
+            <children>
+                <ImageView fx:id="stockImageBg" fitHeight="690.0" fitWidth="270.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <image>
+                        <Image url="@assets/imgs/pizza-stock-background02.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+        <AnchorPane id="stock-view" fx:id="stockView" prefHeight="690.0" prefWidth="295.0">
+            <children>
+                <ListView id="item-stock-list" fx:id="itemStockList" layoutY="172.0" prefHeight="538.0" prefWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="152.0" />
+                <Label alignment="CENTER" layoutX="88.0" layoutY="63.0" prefHeight="26.0" prefWidth="95.0" text="ESTOQUE" AnchorPane.leftAnchor="88.0" AnchorPane.rightAnchor="87.0">
+                    <font>
+                        <Font name="Unispace-Bold" size="22.0" />
+                    </font>
+                    <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                            <stops>
+                                <Stop>
+                                    <color>
+                                        <Color red="1.0" green="1.0" blue="1.0" />
+                                    </color>
+                                </Stop>
+                                <Stop offset="1.0">
+                                    <color>
+                                        <Color red="0.9666666388511658" green="1.0" />
+                                    </color>
+                                </Stop>
+                            </stops>
+                        </LinearGradient>
+                    </textFill>
+                </Label>
+            </children>
+        </AnchorPane>
+    </children>
+</StackPane>

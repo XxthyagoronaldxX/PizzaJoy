@@ -1,6 +1,7 @@
-package com.danthy.pizzafun.app.wrappers;
+package com.danthy.pizzafun.app.wrappers.implementations;
 
 import com.danthy.pizzafun.app.config.ApplicationProperties;
+import com.danthy.pizzafun.app.wrappers.IRoomWrapper;
 import com.danthy.pizzafun.domain.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,7 +9,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-public class RoomWrapper {
+public class RoomWrapper implements IRoomWrapper {
     private final RoomModel roomModel;
 
     @Getter
@@ -38,10 +39,12 @@ public class RoomWrapper {
         this.itemStockModelObservableList = FXCollections.observableArrayList(itemStockWrapperList);
     }
 
+    @Override
     public void addOrder(OrderWrapper orderWrapper) {
         this.orderModelObservableList.add(orderWrapper);
     }
 
+    @Override
     public void restockBySupplier(SupplierModel supplierModel) {
         int itemMaxWeight = ApplicationProperties.itemMaxWeight;
 
@@ -56,6 +59,7 @@ public class RoomWrapper {
         roomModel.decBalance(supplierModel.getCost());
     }
 
+    @Override
     public boolean isRemoveOrderValid(OrderModel orderModel) {
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
@@ -74,6 +78,7 @@ public class RoomWrapper {
         return true;
     }
 
+    @Override
     public void removeItemStockFromOrder(OrderModel orderModel) {
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
@@ -93,6 +98,7 @@ public class RoomWrapper {
         }
     }
 
+    @Override
     public void removeOrder(OrderWrapper orderWrapper) {
         this.orderModelObservableList.remove(orderWrapper);
 
@@ -100,6 +106,7 @@ public class RoomWrapper {
         roomModel.setTokens(roomModel.getTokens() + 1);
     }
 
+    @Override
     public SupplierWrapper getSupplierWrapper() {
         if (nextSupplierWrapper != null) {
             supplierWrapper = nextSupplierWrapper;
@@ -109,6 +116,7 @@ public class RoomWrapper {
         return supplierWrapper;
     }
 
+    @Override
     public void setNextSupplierWrapper(SupplierWrapper supplierWrapper) {
         if (roomModel.getTokens() > supplierWrapper.getBuyToken()) {
             nextSupplierWrapper = supplierWrapper;
@@ -117,17 +125,26 @@ public class RoomWrapper {
         }
     }
 
+    @Override
     public String getBalancePrint() {
         return String.format("Dinheiro: $%.2f", roomModel.getBalance());
     }
 
+    @Override
     public double getBalance() {
         return roomModel.getBalance();
     }
 
+    @Override
     public String getTokensPrint() {return String.format("Tokens: %d", roomModel.getTokens());}
 
+    @Override
     public int getOrdersAmount() {
         return this.orderModelObservableList.size();
+    }
+
+    @Override
+    public RoomModel getWrappe() {
+        return this.roomModel;
     }
 }

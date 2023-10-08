@@ -6,8 +6,8 @@ import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.GameThreadManager;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.wrappers.RoomWrapper;
-import com.danthy.pizzafun.app.wrappers.UpgradeWrapper;
+import com.danthy.pizzafun.app.wrappers.implementations.RoomWrapper;
+import com.danthy.pizzafun.app.wrappers.implementations.TokenShopWrapper;
 import com.danthy.pizzafun.domain.data.PostConstruct;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -39,7 +39,7 @@ public class HomeController extends IEmitter implements IController {
         GetIt.getInstance()
                 .addSingleton(new RoomWrapper(PostConstruct.genRoomModel(pizzaName), PostConstruct.genSupplierModel()));
         GetIt.getInstance()
-                .addSingleton(new UpgradeWrapper());
+                .addSingleton(new TokenShopWrapper());
         GetIt.getInstance()
                 .addSingleton(PostConstruct.genSupplierModel());
         GetIt.getInstance()

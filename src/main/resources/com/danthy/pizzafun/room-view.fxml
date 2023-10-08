@@ -44,7 +44,7 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Pane id="stock-view-container" layoutX="662.0" layoutY="586.0" onMouseClicked="#stockViewEvent" prefHeight="90.0" prefWidth="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+                        <Pane styleClass="room-button" layoutX="662.0" layoutY="586.0" onMouseClicked="#stockViewEvent" prefHeight="90.0" prefWidth="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                            <children>
                               <ImageView fitHeight="57.0" fitWidth="73.0" layoutX="19.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -61,7 +61,7 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Pane id="stock-view-container" layoutX="547.0" layoutY="586.0" onMouseClicked="#openUpgradeViewEvent" prefHeight="90.0" prefWidth="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="129.0">
+                        <Pane styleClass="room-button" layoutX="547.0" layoutY="586.0" onMouseClicked="#openTokenShopViewEvent" prefHeight="90.0" prefWidth="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="129.0">
                            <children>
                               <ImageView fitHeight="57.0" fitWidth="73.0" layoutX="19.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -88,87 +88,14 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <StackPane>
-                     <children>
-                        <AnchorPane fx:id="stockPaneBg">
-                           <children>
-                              <ImageView fx:id="stockImageBg" fitHeight="690.0" fitWidth="270.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <image>
-                                    <Image url="@assets/imgs/pizza-stock-background02.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane id="stock-view" fx:id="stockView" prefHeight="690.0" prefWidth="295.0">
-                           <children>
-                              <ListView id="item-stock-list" fx:id="itemStockList" layoutY="172.0" prefHeight="538.0" prefWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="152.0" />
-                              <Label alignment="CENTER" layoutX="88.0" layoutY="63.0" prefHeight="26.0" prefWidth="95.0" text="ESTOQUE" AnchorPane.leftAnchor="88.0" AnchorPane.rightAnchor="87.0">
-                                 <font>
-                                    <Font name="Unispace-Bold" size="22.0" />
-                                 </font>
-                                 <textFill>
-                                    <LinearGradient endX="1.0" endY="1.0">
-                                       <stops>
-                                          <Stop>
-                                             <color>
-                                                <Color red="1.0" green="1.0" blue="1.0" />
-                                             </color>
-                                          </Stop>
-                                          <Stop offset="1.0">
-                                             <color>
-                                                <Color red="0.9666666388511658" green="1.0" />
-                                             </color>
-                                          </Stop>
-                                       </stops>
-                                    </LinearGradient>
-                                 </textFill>
-                              </Label>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </StackPane>
+
+                  <fx:include source="stock-view.fxml" fx:id="stock" />
+
                </children>
             </HBox>
-            <HBox id="upgrade-view-root" fx:id="upgradeViewRoot">
-               <children>
-                  <AnchorPane fx:id="upgradeViewSubRoot" onMouseClicked="#closeUpgradeViewEvent">
-                     <children>
-                        <AnchorPane id="upgrade-view-container" fx:id="upgradeViewContainer" layoutX="48.0" prefHeight="576.0" prefWidth="945.0" AnchorPane.bottomAnchor="114.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <ListView fx:id="supplierList" layoutY="76.0" prefHeight="500.0" prefWidth="353.0" style="-fx-background-radius: 0px 0px 0px 100px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="76.0" />
-                              <AnchorPane prefHeight="76.0" prefWidth="353.0" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <ImageView fitHeight="51.0" fitWidth="54.0" layoutX="12.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="14.0">
-                                       <image>
-                                          <Image url="@assets/imgs/pizza-queijo-icon.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label fx:id="supplierNameLabel" layoutX="75.0" layoutY="14.0" prefHeight="16.0" prefWidth="172.0" text="Nome">
-                                       <font>
-                                          <Font name="Unispace-Bold" size="12.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="supplierRestockTimeLabel" layoutX="75.0" layoutY="32.0" prefHeight="16.0" prefWidth="172.0" text="Velocidade: 10s">
-                                       <font>
-                                          <Font name="Unispace-Bold" size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="supplierBonusChanceLabel" layoutX="75.0" layoutY="48.0" prefHeight="16.0" prefWidth="172.0" text="Bonus Chance: 40%">
-                                       <font>
-                                          <Font name="Unispace-Bold" size="10.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="supplierCostLabel" layoutX="253.0" layoutY="15.0" prefHeight="51.0" prefWidth="86.0" text="R$ 20">
-                                       <font>
-                                          <Font name="Unispace-Bold" size="14.0" />
-                                       </font>
-                                    </Label>
-                                 </children></AnchorPane>
-                           </children></AnchorPane>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
+
+            <fx:include fx:id="tokenShop" source="token-shop-view.fxml" />
+
          </children>
       </StackPane>
    </children>

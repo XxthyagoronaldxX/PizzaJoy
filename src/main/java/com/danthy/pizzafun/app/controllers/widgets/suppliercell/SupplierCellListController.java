@@ -5,7 +5,7 @@ import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;
-import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
+import com.danthy.pizzafun.app.wrappers.implementations.SupplierWrapper;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

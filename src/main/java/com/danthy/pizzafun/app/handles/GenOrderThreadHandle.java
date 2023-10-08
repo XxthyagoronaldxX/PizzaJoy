@@ -4,7 +4,7 @@ import com.danthy.pizzafun.app.events.OrderGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.wrappers.RoomWrapper;
+import com.danthy.pizzafun.app.wrappers.implementations.RoomWrapper;
 import com.danthy.pizzafun.domain.data.PizzaDataSingleton;
 import com.danthy.pizzafun.domain.enums.NpcLevel;
 import com.danthy.pizzafun.domain.models.NpcModel;
