@@ -35,7 +35,6 @@ public class GetItSetup {
         TokenShopController tokenShopController = pizzariaController.tokenShopController;
         StockController stockController = pizzariaController.stockController;
 
-        pizzariaController.setEventPublisher(eventPublisher);
         homeController.setEventPublisher(eventPublisher);
         tokenShopController.setEventPublisher(eventPublisher);
         stockController.setEventPublisher(eventPublisher);

@@ -1,6 +1,7 @@
 package com.danthy.pizzafun.app.utils;
 
 import com.danthy.pizzafun.PizzaFunApplication;
+import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEmitter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,7 +38,7 @@ public class FxmlUtil {
         }
     }
 
-    public static <T extends IEmitter> T controllerFromLoader(FXMLLoader loader) {
+    public static <T extends IController> T controllerFromLoader(FXMLLoader loader) {
         return loader.getController();
     }
 }

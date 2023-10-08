@@ -15,11 +15,12 @@ import lombok.Getter;
 
 @Getter
 public class OrderCellListModel {
-    private IPizzariaService roomService;
-    private OrderWrapper orderWrapper;
+    private final IPizzariaService pizzariaService;
+    private final OrderWrapper orderWrapper;
 
-    public OrderCellListModel(OrderWrapper orderWrapper, IPizzariaService roomService) {
+    public OrderCellListModel(OrderWrapper orderWrapper, IPizzariaService pizzariaService) {
         this.orderWrapper = orderWrapper;
+        this.pizzariaService = pizzariaService;
     }
 
     public boolean produceOrder() {
@@ -27,14 +28,12 @@ public class OrderCellListModel {
         boolean isLoading = orderWrapper.isLoading();
         boolean isItemStockAlreadyRemoved = orderWrapper.isItemStockAlreadyRemoved();
 
-        if (roomService.isRemoveOrderValid(orderModel) || isLoading) {
+        if (pizzariaService.isRemoveOrderValid(orderModel) || isLoading) {
             if (!isItemStockAlreadyRemoved) {
-                roomService.removeItemStockFromOrder(orderModel);
-                isItemStockAlreadyRemoved = true;
+                pizzariaService.removeItemStockFromOrder(orderModel);
                 orderWrapper.setItemStockAlreadyRemoved(true);
             }
 
-            isLoading = true;
             orderWrapper.setLoading(true);
 
             Platform.runLater(() -> {

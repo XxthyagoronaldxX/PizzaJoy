@@ -17,8 +17,8 @@ public class PizzariaState {
 
     private final ObservableList<ItemStockWrapper> itemStockModelObservableList;
 
-    public PizzariaState(RoomWrapper roomModel) {
-        this.roomWrapper = roomModel;
+    public PizzariaState(RoomWrapper roomWrapper) {
+        this.roomWrapper = roomWrapper;
 
         List<ItemStockWrapper> itemStockWrapperList = roomWrapper
                 .getWrapped()

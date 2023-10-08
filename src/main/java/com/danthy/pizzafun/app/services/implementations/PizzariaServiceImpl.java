@@ -3,12 +3,16 @@ package com.danthy.pizzafun.app.services.implementations;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
+import com.danthy.pizzafun.app.events.OrderGenerateEvent;
+import com.danthy.pizzafun.app.events.ProducedOrderEvent;
+import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
+import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.domain.models.*;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -82,11 +86,11 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
 
     @Override
     public void removeOrder(OrderWrapper orderWrapper) {
-        RoomModel roomModel = pizzariaState.getRoomWrapper().getWrapped();
+        RoomWrapper roomWrapper = pizzariaState.getRoomWrapper();
         pizzariaState.getOrderModelObservableList().remove(orderWrapper);
 
-        roomModel.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
-        roomModel.setTokens(roomModel.getTokens() + 1);
+        roomWrapper.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
+        roomWrapper.incTokens(1);
     }
 
     @Override
@@ -98,6 +102,18 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
     public void update(IEvent event) {
         if (event.getClass() == StartGameEvent.class) {
             this.pizzariaState = GetIt.getInstance().find(PizzariaState.class);
+        } else if (event.getClass() == ProducedOrderEvent.class) {
+            ProducedOrderEvent producedOrderEvent = (ProducedOrderEvent) event;
+
+            removeOrder(producedOrderEvent.orderWrapper());
+        } else if (event.getClass() == OrderGenerateEvent.class) {
+            OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
+
+            addOrder(new OrderWrapper(orderGenerateEvent.orderWrapper()));
+        } else if (event.getClass() == ReStockEvent.class) {
+            ReStockEvent reStockEvent = (ReStockEvent) event;
+
+            restockBySupplier(reStockEvent.supplierModel());
         }
     }
 }

@@ -1,18 +1,17 @@
 package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
 import com.danthy.pizzafun.app.events.*;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
-import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
+import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.animation.*;
+import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -22,7 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-public class PizzariaController extends IEmitter implements IListener, IController {
+public class PizzariaController implements IListener, IController {
     @FXML
     public ListView ordersList;
 
@@ -42,10 +41,10 @@ public class PizzariaController extends IEmitter implements IListener, IControll
     public HBox rootView;
 
     @FXML
-    public TokenShopController tokenShopController;
+    public HBox tokenShop;
 
     @FXML
-    public HBox tokenShop;
+    public TokenShopController tokenShopController;
 
     @FXML
     public StockController stockController;
@@ -75,56 +74,39 @@ public class PizzariaController extends IEmitter implements IListener, IControll
 
     @Override
     public void update(IEvent event) {
-        if (event.getClass() == ProducedOrderEvent.class) {
-            onProducedOrderEvent(event);
-        } else if (event.getClass() == StartGameEvent.class) {
-            onStartGameEvent(event);
-        } else if (event.getClass() == OrderGenerateEvent.class) {
-            onOrderGenerateEvent(event);
-        } else if (event.getClass() == ReStockEvent.class) {
-            onRestockEvent(event);
-        } else if (event.getClass() == SetSupplierEvent.class) {
-            onSetSupplierEvent(event);
+        if (event.getClass() == StartGameEvent.class) {
+            pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
+            PizzariaState pizzariaState = pizzariaService.getPizzariaState();
+
+            ordersList.setItems(pizzariaState.getOrderModelObservableList());
+
+            maxWidth = roomImageBg.getScene().getWidth();
+            roomImageBg.setFitWidth(maxWidth);
+
+            initObservers();
         }
     }
 
-    public void onProducedOrderEvent(IEvent event) {
-        ProducedOrderEvent producedOrderEvent = (ProducedOrderEvent) event;
+    private void initObservers() {
+        RoomWrapper roomWrapper = pizzariaService.getPizzariaState().getRoomWrapper();
+        Property<Double> balanceProperty = roomWrapper.getBalanceObservableValue().getProperty();
+        Property<Integer> tokensProperty = roomWrapper.getTokensObservableValue().getProperty();
+        RoomModel roomModel = roomWrapper.getWrapped();
 
-        pizzariaService.removeOrder(producedOrderEvent.orderWrapper());
+        balanceProperty.addListener((observable, oldValue, newValue) -> {
+            String balance = "Dinheiro: $" + newValue;
 
-        refreshBalanceAndTokenInfo();
+            balanceLabel.setText(balance);
+        });
+        tokensProperty.addListener((observable, oldValue, newValue) -> {
+            String tokens = String.format("Tokens: %d TK", newValue);
+
+            tokensLabel.setText(tokens);
+        });
+
+        balanceLabel.setText("Dinheiro: $" + roomModel.getBalance());
+        tokensLabel.setText(String.format("Tokens: %d TK", roomModel.getTokens()));
     }
-
-    public void onStartGameEvent(IEvent event) {
-        pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
-        PizzariaState pizzariaState = pizzariaService.getPizzariaState();
-
-        refreshBalanceAndTokenInfo();
-        ordersList.setItems(pizzariaState.getOrderModelObservableList());
-
-        maxWidth = roomImageBg.getScene().getWidth();
-        roomImageBg.setFitWidth(maxWidth);
-    }
-
-    public void onOrderGenerateEvent(IEvent event) {
-        OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
-
-        pizzariaService.addOrder(new OrderWrapper(orderGenerateEvent.orderWrapper()));
-    }
-
-    public void onRestockEvent(IEvent event) {
-        ReStockEvent reStockEvent = (ReStockEvent) event;
-
-        pizzariaService.restockBySupplier(reStockEvent.supplierModel());
-
-        refreshBalanceAndTokenInfo();
-    }
-
-    public void onSetSupplierEvent(IEvent event) {
-        refreshBalanceAndTokenInfo();
-    }
-
 
     @FXML
     public void openTokenShopViewEvent(MouseEvent mouseEvent) {
@@ -138,15 +120,6 @@ public class PizzariaController extends IEmitter implements IListener, IControll
         } else {
             closeStockViewEvent();
         }
-    }
-
-    public void refreshBalanceAndTokenInfo() {
-        RoomModel roomModel = pizzariaService.getPizzariaState().getRoomWrapper().getWrapped();
-
-        String balance = "Dinheiro: $" + roomModel.getBalance();
-        String tokens = String.format("Tokens: %d TK", roomModel.getTokens());
-        balanceLabel.setText(balance);
-        tokensLabel.setText(tokens);
     }
 
     public void openStockViewEvent() {
@@ -187,10 +160,5 @@ public class PizzariaController extends IEmitter implements IListener, IControll
 
         ParallelTransition parallelTransition = new ParallelTransition(translateTransition, timelineCloseStock, timelineStrectchBg);
         parallelTransition.play();
-    }
-
-    @Override
-    public void setEventPublisher(EventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
     }
 }
