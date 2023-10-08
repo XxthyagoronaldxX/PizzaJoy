@@ -1,10 +1,8 @@
 package com.danthy.pizzafun.app.handles;
 
-import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IListener;
+import com.danthy.pizzafun.app.events.GenOrderThreadEndedEvent;
 import com.danthy.pizzafun.app.events.OrderGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
-import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IPizzariaService;
@@ -14,14 +12,22 @@ import com.danthy.pizzafun.domain.enums.NpcLevel;
 import com.danthy.pizzafun.domain.models.NpcModel;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import com.danthy.pizzafun.domain.models.PizzaModel;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.util.Duration;
 
 import java.util.concurrent.TimeUnit;
 
-public class GenOrderThreadHandle extends Thread implements IListener {
-    private IPizzariaService roomService;
+public class GenOrderThreadHandle extends Thread {
+    private final IPizzariaService pizzariaService;
+    private final EventPublisher eventPublisher;
 
-    public GenOrderThreadHandle() {}
+    public GenOrderThreadHandle() {
+        pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
+        eventPublisher = GetIt.getInstance().find(EventPublisher.class);
+    }
 
     @Override
     public void run() {
@@ -29,35 +35,31 @@ public class GenOrderThreadHandle extends Thread implements IListener {
         int mintime = ApplicationProperties.pizzaGenerationMinBaseTime;
         int maxtime = ApplicationProperties.pizzaGenerationMaxBaseTime;
 
-        while (true) {
-            try {
-                int time = ((int) Math.floor((maxtime - mintime) * Math.random())) + mintime;
 
-                TimeUnit.SECONDS.sleep(time);
+        int time = ((int) Math.floor((maxtime - mintime) * Math.random())) + mintime;
 
-                if (maxpizzas > roomService.getOrdersAmount()) {
-                    NpcModel npcModel = new NpcModel("Thyago", NpcLevel.EASY);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(time)));
 
-                    PizzaModel pizzaModel = PizzaDataSingleton
-                            .getInstance()
-                            .getRandomPizza();
+        timeline.setOnFinished((event) -> {
+            if (maxpizzas > pizzariaService.getOrdersAmount()) {
+                NpcModel npcModel = new NpcModel("Thyago", NpcLevel.EASY);
 
-                    OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
+                PizzaModel pizzaModel = PizzaDataSingleton
+                        .getInstance()
+                        .getRandomPizza();
 
-                    Platform.runLater(() -> {
-                        GetIt.getInstance().find(EventPublisher.class).notifyAll(new OrderGenerateEvent(orderModel));
-                    });
-                }
-            } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
+                OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
+
+                Platform.runLater(() -> {
+                    eventPublisher.notifyAll(new OrderGenerateEvent(orderModel));
+                });
             }
-        }
-    }
+        });
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) {
-            this.roomService = GetIt.getInstance().find(PizzariaServiceImpl.class);
-        }
+        timeline.play();
+
+        while (timeline.getStatus() == Animation.Status.RUNNING) Thread.onSpinWait();
+
+        eventPublisher.notifyAll(new GenOrderThreadEndedEvent());
     }
 }

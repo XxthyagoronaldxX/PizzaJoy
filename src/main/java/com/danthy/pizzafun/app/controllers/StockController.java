@@ -11,9 +11,11 @@ import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class StockController extends IEmitter implements IController, IListener {
@@ -29,6 +31,9 @@ public class StockController extends IEmitter implements IController, IListener 
     @FXML
     public ImageView stockImageBg;
 
+    @FXML
+    public Label timeToNextRestockLabel;
+
     public double prefWidthStockView;
 
     private StockServiceImpl stockService;
@@ -37,15 +42,6 @@ public class StockController extends IEmitter implements IController, IListener 
     public void initialize() {
         initItemStockListView();
         initStockView();
-    }
-
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) {
-            stockService = GetIt.getInstance().find(StockServiceImpl.class);
-
-            itemStockList.setItems(stockService.getStockState().getItemStockModelObservableList());
-        }
     }
 
     private void initItemStockListView() {
@@ -70,5 +66,22 @@ public class StockController extends IEmitter implements IController, IListener 
     @Override
     public void setEventPublisher(EventPublisher eventPublisher) {
         super.eventPublisher = eventPublisher;
+    }
+
+    @Override
+    public void update(IEvent event) {
+        if (event.getClass() == StartGameEvent.class) {
+            stockService = GetIt.getInstance().find(StockServiceImpl.class);
+
+            itemStockList.setItems(stockService.getStockState().getItemStockModelObservableList());
+
+            stockService.getTimerToNextRestockProperty().addListener((observable, oldValue, newValue) -> {
+                timeToNextRestockLabel.setText(String.format("%.0fs", newValue));
+            });
+        }
+    }
+
+    public void boostTimerToNextRestock(MouseEvent mouseEvent) {
+        stockService.boostRateSpeed();
     }
 }

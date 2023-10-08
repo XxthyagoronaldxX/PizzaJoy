@@ -84,14 +84,13 @@ public class PizzariaController implements IListener, IController {
             roomImageBg.setFitWidth(maxWidth);
 
             initObservers();
-        }
+        } 
     }
 
     private void initObservers() {
-        RoomWrapper roomWrapper = pizzariaService.getPizzariaState().getRoomWrapper();
-        Property<Double> balanceProperty = roomWrapper.getBalanceObservable().getProperty();
-        Property<Integer> tokensProperty = roomWrapper.getTokensObservable().getProperty();
-        RoomModel roomModel = roomWrapper.getWrapped();
+        PizzariaState pizzariaState = pizzariaService.getPizzariaState();
+        Property<Double> balanceProperty = pizzariaState.getBalanceObservable().getProperty();
+        Property<Integer> tokensProperty = pizzariaState.getTokensObservable().getProperty();
 
         balanceProperty.addListener((observable, oldValue, newValue) -> {
             String balance = "Dinheiro: $" + newValue;
@@ -104,8 +103,8 @@ public class PizzariaController implements IListener, IController {
             tokensLabel.setText(tokens);
         });
 
-        balanceLabel.setText("Dinheiro: $" + roomModel.getBalance());
-        tokensLabel.setText(String.format("Tokens: %d TK", roomModel.getTokens()));
+        balanceLabel.setText("Dinheiro: $" + balanceProperty.getValue());
+        tokensLabel.setText(String.format("Tokens: %d TK", tokensProperty.getValue()));
     }
 
     @FXML

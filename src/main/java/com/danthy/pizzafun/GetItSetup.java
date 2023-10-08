@@ -5,10 +5,12 @@ import com.danthy.pizzafun.app.controllers.PizzariaController;
 import com.danthy.pizzafun.app.controllers.StockController;
 import com.danthy.pizzafun.app.controllers.TokenShopController;
 import com.danthy.pizzafun.app.enums.ScreenType;
+import com.danthy.pizzafun.app.handles.GameThreadHandle;
 import com.danthy.pizzafun.app.handles.GenItemStockThreadHandle;
 import com.danthy.pizzafun.app.handles.GenOrderThreadHandle;
 import com.danthy.pizzafun.app.handles.GenSupplierThreadHandle;
 import com.danthy.pizzafun.app.logic.EventPublisher;
+import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
@@ -50,41 +52,25 @@ public class GetItSetup {
         PizzariaServiceImpl roomService = new PizzariaServiceImpl();
         StockServiceImpl stockService = new StockServiceImpl();
 
-        GenSupplierThreadHandle genSupplierThreadHandle = new GenSupplierThreadHandle();
-        genSupplierThreadHandle.setDaemon(true);
-
-        GenOrderThreadHandle genOrderThreadHandle = new GenOrderThreadHandle();
-        genOrderThreadHandle.setDaemon(true);
-
-        GenItemStockThreadHandle genItemStockThreadHandle = new GenItemStockThreadHandle();
-        genItemStockThreadHandle.setDaemon(true);
-
-        GameThreadManager gameThreadManager = GameThreadManager
-                .build()
-                .addThread(genSupplierThreadHandle)
-                .addThread(genOrderThreadHandle)
-                .addThread(genItemStockThreadHandle);
+        GameThreadHandle gameThreadHandle = new GameThreadHandle();
 
         eventPublisher
                 .addListener(tokenShopService)
                 .addListener(roomService)
                 .addListener(stockService)
-                .addListener(genItemStockThreadHandle)
-                .addListener(genOrderThreadHandle)
                 .addListener(pizzariaController)
                 .addListener(tokenShopController)
                 .addListener(stockController)
-                .addListener(gameThreadManager)
+                .addListener(gameThreadHandle)
                 .addListener(screenManager);
 
-        getIt.addSingleton(tokenShopService);
-        getIt.addSingleton(stockService);
-        getIt.addSingleton(roomService);
-        getIt.addSingleton(eventPublisher);
-        getIt.addSingleton(screenManager);
-        getIt.addSingleton(gameThreadManager);
-        getIt.addSingleton(pizzariaController);
-        getIt.addSingleton(homeController);
-        getIt.addSingleton(stage);
+        getIt.addSingleton(tokenShopService)
+                .addSingleton(stockService)
+                .addSingleton(roomService)
+                .addSingleton(eventPublisher)
+                .addSingleton(screenManager)
+                .addSingleton(pizzariaController)
+                .addSingleton(homeController)
+                .addSingleton(stage);
     }
 }

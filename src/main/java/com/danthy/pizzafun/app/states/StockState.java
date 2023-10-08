@@ -1,5 +1,6 @@
 package com.danthy.pizzafun.app.states;
 
+import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import javafx.collections.FXCollections;
@@ -10,6 +11,10 @@ import java.util.List;
 
 @Getter
 public class StockState {
+    private final ObservableValue<Double> rateSpeedObservable;
+
+    private final ObservableValue<Double> timerToNextRestockObservable;
+
     private final ObservableList<ItemStockWrapper> itemStockModelObservableList;
 
     public StockState(RoomWrapper roomWrapper) {
@@ -22,5 +27,7 @@ public class StockState {
                 .toList();
 
         this.itemStockModelObservableList = FXCollections.observableArrayList(itemStockWrapperList);
+        this.timerToNextRestockObservable = new ObservableValue<>(50.0);
+        this.rateSpeedObservable = new ObservableValue<>(1.0);
     }
 }

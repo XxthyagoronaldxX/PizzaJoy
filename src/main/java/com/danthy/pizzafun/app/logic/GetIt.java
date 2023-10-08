@@ -20,8 +20,10 @@ public class GetIt {
         return GetIt.I;
     }
 
-    public <T> void addSingleton(T instance) {
+    public <T> GetIt addSingleton(T instance) {
         this.instances.put(instance.getClass(), instance);
+
+        return this;
     }
 
     public <T> T find(Class<T> instanceClass) {

@@ -24,11 +24,10 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
 
     @Override
     public void removeOrder(OrderWrapper orderWrapper) {
-        RoomWrapper roomWrapper = pizzariaState.getRoomWrapper();
         pizzariaState.getOrderModelObservableList().remove(orderWrapper);
 
-        roomWrapper.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
-        roomWrapper.incTokens(1);
+        pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
+        pizzariaState.incTokens(1);
     }
 
     @Override
@@ -51,13 +50,13 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
         } else if (event.getClass() == ReStockEvent.class) {
             SupplierModel supplierModel = ((ReStockEvent) event).supplierModel();
 
-            pizzariaState.getRoomWrapper().getWrapped().decBalance(supplierModel.getCost());
+            pizzariaState.decBalance(supplierModel.getCost());
         } else if (event.getClass() == SetSupplierEvent.class) {
             SetSupplierEvent setSupplierEvent = (SetSupplierEvent) event;
 
             int buyToken = setSupplierEvent.supplierWrapper().getWrapped().getBuyToken();
 
-            pizzariaState.getRoomWrapper().decTokens(buyToken);
+            pizzariaState.decTokens(buyToken);
         }
     }
 }
