@@ -89,8 +89,8 @@ public class PizzariaController implements IListener, IController {
 
     private void initObservers() {
         RoomWrapper roomWrapper = pizzariaService.getPizzariaState().getRoomWrapper();
-        Property<Double> balanceProperty = roomWrapper.getBalanceObservableValue().getProperty();
-        Property<Integer> tokensProperty = roomWrapper.getTokensObservableValue().getProperty();
+        Property<Double> balanceProperty = roomWrapper.getBalanceObservable().getProperty();
+        Property<Integer> tokensProperty = roomWrapper.getTokensObservable().getProperty();
         RoomModel roomModel = roomWrapper.getWrapped();
 
         balanceProperty.addListener((observable, oldValue, newValue) -> {

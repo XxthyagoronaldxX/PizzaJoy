@@ -8,6 +8,7 @@ import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellLi
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -30,6 +31,8 @@ public class StockController extends IEmitter implements IController, IListener 
 
     public double prefWidthStockView;
 
+    private StockServiceImpl stockService;
+
     @Override
     public void initialize() {
         initItemStockListView();
@@ -39,9 +42,9 @@ public class StockController extends IEmitter implements IController, IListener 
     @Override
     public void update(IEvent event) {
         if (event.getClass() == StartGameEvent.class) {
-            PizzariaState pizzariaState = GetIt.getInstance().find(PizzariaState.class);
+            stockService = GetIt.getInstance().find(StockServiceImpl.class);
 
-            itemStockList.setItems(pizzariaState.getItemStockModelObservableList());
+            itemStockList.setItems(stockService.getStockState().getItemStockModelObservableList());
         }
     }
 
@@ -52,6 +55,7 @@ public class StockController extends IEmitter implements IController, IListener 
 
     private void initStockView() {
         prefWidthStockView = stockView.getPrefWidth();
+
         stockView.setTranslateX(prefWidthStockView);
         stockView.setPrefWidth(0);
 

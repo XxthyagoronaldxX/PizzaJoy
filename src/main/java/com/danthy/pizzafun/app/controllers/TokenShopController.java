@@ -5,6 +5,7 @@ import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
+import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
@@ -14,6 +15,7 @@ import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
 import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.domain.models.SupplierModel;
+import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -62,8 +64,17 @@ public class TokenShopController extends IEmitter implements IController, IListe
         supplierList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    public void refreshCurrentSupplier() {
-        SupplierWrapper supplierWrapper = tokenShopService.getTokenShopWrapper().getCurrentSupplierWrapper();
+    public void initObservers() {
+        Property<SupplierWrapper> supplierWrapperProperty = tokenShopService.supplierWrapperProperty();
+
+        supplierWrapperProperty.addListener((observer, oldValue, newValue) -> {
+            refreshSupplier(newValue);
+        });
+
+        refreshSupplier(supplierWrapperProperty.getValue());
+    }
+
+    public void refreshSupplier(SupplierWrapper supplierWrapper) {
         SupplierModel supplierModel = supplierWrapper.getWrapped();
 
         String name = supplierModel.getName();
@@ -95,9 +106,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
             TokenShopState tokenShopState = tokenShopService.getTokenShopWrapper();
 
             supplierList.setItems(tokenShopState.getSupplierModelObservableList());
-            refreshCurrentSupplier();
-        } else if (event.getClass() == ReStockEvent.class) {
-            refreshCurrentSupplier();
+            initObservers();
         }
     }
 }

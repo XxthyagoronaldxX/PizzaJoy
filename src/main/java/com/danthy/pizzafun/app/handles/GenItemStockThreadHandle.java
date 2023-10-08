@@ -3,7 +3,6 @@ package com.danthy.pizzafun.app.handles;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.events.ReStockEvent;
-import com.danthy.pizzafun.app.events.SetSupplierEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -18,14 +17,13 @@ import javafx.util.Duration;
 
 public class GenItemStockThreadHandle extends Thread implements IListener {
     private PizzariaState pizzariaState;
-    private TokenShopServiceImpl tokenShopService;
+    private SupplierWrapper supplierWrapper;
     private Timeline timeline;
     private volatile boolean flag = true;
 
     @Override
     public void run() {
         while (true) {
-            SupplierWrapper supplierWrapper = tokenShopService.getTokenShopWrapper().getCurrentSupplierWrapper();
             SupplierModel supplierModel = supplierWrapper.getWrapped();
 
             flag = true;
@@ -36,7 +34,7 @@ public class GenItemStockThreadHandle extends Thread implements IListener {
             timeline.setOnFinished((onFinished) -> {
                 flag = false;
 
-                if (pizzariaState.getRoomWrapper().getWrapped().getBalance() > supplierModel.getCost()) {
+                if (pizzariaState.getRoomWrapper().getBalanceObservable().getValue() > supplierModel.getCost()) {
                     Platform.runLater(() -> {
                         GetIt.getInstance().find(EventPublisher.class).notifyAll(new ReStockEvent(supplierModel));
                     });
@@ -45,32 +43,27 @@ public class GenItemStockThreadHandle extends Thread implements IListener {
 
             timeline.play();
             while (flag) Thread.onSpinWait();
+            System.out.println("Test");
         }
     }
 
     @Override
     public void update(IEvent event) {
-        if (event.getClass() == SetSupplierEvent.class) {
-            onSetSupplierEvent(event);
-        } else if (event.getClass() == StartGameEvent.class) {
-            onStartGameEvent(event);
+        if (event.getClass() == StartGameEvent.class) {
+            pizzariaState = GetIt.getInstance().find(PizzariaState.class);
+            TokenShopServiceImpl tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
+
+            tokenShopService.supplierWrapperProperty().addListener((observer, oldValue, newValue) -> {
+                onSupplierWrapperChange(newValue);
+            });
+
+            supplierWrapper = tokenShopService.supplierWrapperProperty().getValue();
         }
     }
 
-    public void onSetSupplierEvent(IEvent event) {
-        SetSupplierEvent setSupplierEvent = (SetSupplierEvent) event;
-
-        timeline.setOnFinished((onFinished) -> {
-            flag = false;
-        });
-        timeline.stop();
-
-
-        tokenShopService.setCurrentSupplierWrapper(setSupplierEvent.supplierWrapper());
-    }
-
-    public void onStartGameEvent(IEvent event) {
-        pizzariaState = GetIt.getInstance().find(PizzariaState.class);
-        tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
+    public void onSupplierWrapperChange(SupplierWrapper supplierWrapper) {
+        this.flag = false;
+        this.timeline.stop();
+        this.supplierWrapper = supplierWrapper;
     }
 }

@@ -10,6 +10,7 @@ import com.danthy.pizzafun.app.handles.GenOrderThreadHandle;
 import com.danthy.pizzafun.app.handles.GenSupplierThreadHandle;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -47,6 +48,7 @@ public class GetItSetup {
 
         TokenShopServiceImpl tokenShopService = new TokenShopServiceImpl();
         PizzariaServiceImpl roomService = new PizzariaServiceImpl();
+        StockServiceImpl stockService = new StockServiceImpl();
 
         GenSupplierThreadHandle genSupplierThreadHandle = new GenSupplierThreadHandle();
         genSupplierThreadHandle.setDaemon(true);
@@ -66,6 +68,7 @@ public class GetItSetup {
         eventPublisher
                 .addListener(tokenShopService)
                 .addListener(roomService)
+                .addListener(stockService)
                 .addListener(genItemStockThreadHandle)
                 .addListener(genOrderThreadHandle)
                 .addListener(pizzariaController)
@@ -75,6 +78,7 @@ public class GetItSetup {
                 .addListener(screenManager);
 
         getIt.addSingleton(tokenShopService);
+        getIt.addSingleton(stockService);
         getIt.addSingleton(roomService);
         getIt.addSingleton(eventPublisher);
         getIt.addSingleton(screenManager);

@@ -5,6 +5,7 @@ import com.danthy.pizzafun.app.events.ProducedOrderEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IPizzariaService;
+import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.KeyFrame;
@@ -16,11 +17,13 @@ import lombok.Getter;
 @Getter
 public class OrderCellListModel {
     private final IPizzariaService pizzariaService;
+    private final IStockService stockService;
     private final OrderWrapper orderWrapper;
 
-    public OrderCellListModel(OrderWrapper orderWrapper, IPizzariaService pizzariaService) {
+    public OrderCellListModel(OrderWrapper orderWrapper, IPizzariaService pizzariaService, IStockService stockService) {
         this.orderWrapper = orderWrapper;
         this.pizzariaService = pizzariaService;
+        this.stockService = stockService;
     }
 
     public boolean produceOrder() {
@@ -28,9 +31,9 @@ public class OrderCellListModel {
         boolean isLoading = orderWrapper.isLoading();
         boolean isItemStockAlreadyRemoved = orderWrapper.isItemStockAlreadyRemoved();
 
-        if (pizzariaService.isRemoveOrderValid(orderModel) || isLoading) {
+        if (stockService.isRemoveOrderValid(orderModel) || isLoading) {
             if (!isItemStockAlreadyRemoved) {
-                pizzariaService.removeItemStockFromOrder(orderModel);
+                stockService.removeItemStockFromOrder(orderModel);
                 orderWrapper.setItemStockAlreadyRemoved(true);
             }
 

@@ -3,6 +3,7 @@ package com.danthy.pizzafun.app.wrappers;
 import com.danthy.pizzafun.app.contracts.IWrapperModel;
 import com.danthy.pizzafun.domain.models.ItemModel;
 import com.danthy.pizzafun.domain.models.ItemStockModel;
+import com.danthy.pizzafun.domain.models.RoomModel;
 
 public class ItemStockWrapper implements IWrapperModel<ItemStockModel> {
     private final ItemStockModel itemStockModel;

@@ -6,6 +6,8 @@ import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.states.PizzariaState;
+import com.danthy.pizzafun.app.states.StockState;
+import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.app.states.TokenShopState;
@@ -37,10 +39,14 @@ public class HomeController extends IEmitter implements IController {
     public void onInitClick() {
         String pizzaName = pizzaNameField.getText();
 
+        RoomWrapper roomWrapper = new RoomWrapper(PostConstruct.genRoomModel(pizzaName));
+
         GetIt.getInstance()
-                .addSingleton(new PizzariaState(new RoomWrapper(PostConstruct.genRoomModel(pizzaName))));
+                .addSingleton(new PizzariaState(roomWrapper));
         GetIt.getInstance()
                 .addSingleton(new TokenShopState(new SupplierWrapper(PostConstruct.genSupplierModel())));
+        GetIt.getInstance()
+                .addSingleton(new StockState(roomWrapper));
 
         this.eventPublisher.notifyAll(new StartGameEvent());
     }

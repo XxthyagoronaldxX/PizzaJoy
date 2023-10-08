@@ -9,40 +9,40 @@ public class RoomWrapper implements IWrapperModel<RoomModel> {
     private final RoomModel roomModel;
 
     @Getter
-    private final ObservableValue<Double> balanceObservableValue;
+    private final ObservableValue<Double> balanceObservable;
 
     @Getter
-    private final ObservableValue<Integer> tokensObservableValue;
+    private final ObservableValue<Integer> tokensObservable;
 
     public RoomWrapper(RoomModel roomModel) {
         this.roomModel = roomModel;
 
-        balanceObservableValue = new ObservableValue<>(roomModel.getBalance());
-        tokensObservableValue = new ObservableValue<>(roomModel.getTokens());
+        balanceObservable = new ObservableValue<>(roomModel.getBalance());
+        tokensObservable = new ObservableValue<>(roomModel.getTokens());
     }
 
     public void decBalance(double decrement) {
-        double currentBalance = balanceObservableValue.getValue();
+        double currentBalance = balanceObservable.getValue();
 
-        balanceObservableValue.getProperty().setValue(currentBalance - decrement);
+        balanceObservable.getProperty().setValue(currentBalance - decrement);
     }
 
     public void incBalance(double increment) {
-        double currentBalance = balanceObservableValue.getValue();
+        double currentBalance = balanceObservable.getValue();
 
-        balanceObservableValue.getProperty().setValue(currentBalance + increment);
+        balanceObservable.getProperty().setValue(currentBalance + increment);
     }
 
     public void incTokens(int increment) {
-        int currentTokens = tokensObservableValue.getValue();
+        int currentTokens = tokensObservable.getValue();
 
-        tokensObservableValue.getProperty().setValue(currentTokens + increment);
+        tokensObservable.getProperty().setValue(currentTokens + increment);
     }
 
     public void decTokens(int decrement) {
-        int currentTokens = tokensObservableValue.getValue();
+        int currentTokens = tokensObservable.getValue();
 
-        tokensObservableValue.getProperty().setValue(currentTokens - decrement);
+        tokensObservable.getProperty().setValue(currentTokens - decrement);
     }
 
 

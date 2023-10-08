@@ -8,12 +8,6 @@ import com.danthy.pizzafun.domain.models.SupplierModel;
 public interface IPizzariaService extends IService {
     void addOrder(OrderWrapper orderWrapper);
 
-    void restockBySupplier(SupplierModel supplierModel);
-
-    boolean isRemoveOrderValid(OrderModel orderModel);
-
-    void removeItemStockFromOrder(OrderModel orderModel);
-
     void removeOrder(OrderWrapper orderWrapper) ;
 
     int getOrdersAmount();
