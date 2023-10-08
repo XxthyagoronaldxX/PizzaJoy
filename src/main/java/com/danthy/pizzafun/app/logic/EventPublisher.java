@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.utils;
+package com.danthy.pizzafun.app.logic;
 
 import java.util.ArrayList;
 import java.util.List;

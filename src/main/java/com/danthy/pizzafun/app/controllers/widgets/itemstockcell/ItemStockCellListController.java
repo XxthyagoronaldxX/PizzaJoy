@@ -1,6 +1,8 @@
 package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
+import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.utils.FxmlUtil;
+import com.danthy.pizzafun.app.utils.PathFxmlUtil;
 import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -14,7 +16,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
-public class ItemStockCellListController extends AnchorPane {
+public class ItemStockCellListController extends AnchorPane  {
     @FXML
     private Label itemStockNameLabel;
 
@@ -32,7 +34,7 @@ public class ItemStockCellListController extends AnchorPane {
     public ItemStockCellListController(ItemStockWrapper itemStockWrapper) {
         this.itemStockWrapper = itemStockWrapper;
 
-        loadFXML();
+        FxmlUtil.loadFXMLInjectController(this, PathFxmlUtil.ITEM_STOCK_CELL_LIST_WIDGET);
         initialize();
     }
 
@@ -47,31 +49,5 @@ public class ItemStockCellListController extends AnchorPane {
         getChildren().add(cellRoot);
         setLeftAnchor(cellRoot, 0.0);
         setRightAnchor(cellRoot, 0.0);
-    }
-
-    private void animate() {
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1.2), this);
-        translateTransition.setFromX((-1) * getWidth());
-        translateTransition.setToX(0);
-
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1.2), this);
-        fadeTransition.setFromValue(0);
-        fadeTransition.setToValue(1);
-
-        ParallelTransition parallelTransition = new ParallelTransition(translateTransition, fadeTransition);
-        parallelTransition.play();
-    }
-
-    private void loadFXML() {
-        FXMLLoader loader = FxmlUtil.loaderFromName("widgets/item-stock-cell-list-widget");
-
-        try {
-            loader.setController(this);
-
-            loader.load();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
     }
 }

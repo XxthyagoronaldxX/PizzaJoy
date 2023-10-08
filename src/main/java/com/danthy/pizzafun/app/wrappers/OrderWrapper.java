@@ -1,16 +1,20 @@
 package com.danthy.pizzafun.app.wrappers;
 
 import com.danthy.pizzafun.app.events.ProducedOrderEvent;
-import com.danthy.pizzafun.app.utils.ApplicationProperties;
-import com.danthy.pizzafun.app.utils.EventPublisher;
-import com.danthy.pizzafun.app.utils.GetIt;
+import com.danthy.pizzafun.app.config.ApplicationProperties;
+import com.danthy.pizzafun.app.logic.EventPublisher;
+import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.util.Duration;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class OrderWrapper {
     private OrderModel orderModel;
 
@@ -66,41 +70,5 @@ public class OrderWrapper {
         }
 
         return false;
-    }
-
-    public void setProgressBar(ProgressBar progressBar) {
-        this.progressBar = progressBar;
-    }
-
-    public boolean isAlreadyAnimated() {
-        return isAlreadyAnimated;
-    }
-
-    public void setAlreadyAnimated(boolean alreadyAnimated) {
-        isAlreadyAnimated = alreadyAnimated;
-    }
-
-    public Double getProgress() {
-        return progress;
-    }
-
-    public void setProgress(Double progress) {
-        this.progress = progress;
-    }
-
-    public OrderModel getOrderModel() {
-        return orderModel;
-    }
-
-    public void setOrderModel(OrderModel orderModel) {
-        this.orderModel = orderModel;
-    }
-
-    public boolean isLoading() {
-        return isLoading;
-    }
-
-    public void setLoading(boolean loading) {
-        isLoading = loading;
     }
 }

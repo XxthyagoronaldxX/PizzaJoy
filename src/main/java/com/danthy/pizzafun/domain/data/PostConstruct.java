@@ -1,7 +1,9 @@
 package com.danthy.pizzafun.domain.data;
 
-import com.danthy.pizzafun.app.utils.ApplicationProperties;
+import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.domain.models.*;
+
+import java.util.UUID;
 
 public class PostConstruct {
 
@@ -28,20 +30,23 @@ public class PostConstruct {
 
         RoomModel roomModel = new RoomModel(name, stockModel);
 
-        roomModel.incBalance(100);
+        roomModel.setBalance(ApplicationProperties.roomInitialBalance);
+        roomModel.setTokens(ApplicationProperties.roomInitialTokens);
 
         return roomModel;
     }
 
     public static SupplierModel genSupplierModel() {
-        return new SupplierModel(
-                ApplicationProperties.roomInitialSupplierLevel,
-                ApplicationProperties.roomInitialSupplierName,
-                ApplicationProperties.roomInitialSupplierCost,
-                ApplicationProperties.roomInitialSupplierBonus,
-                ApplicationProperties.roomInitialSupplierBonusChance,
-                ApplicationProperties.roomInitialSupplierDeliveryTimeInSeconds
-        );
+        return SupplierModel
+            .builder()
+            .id(UUID.randomUUID())
+            .deliveryTimeInSeconds(ApplicationProperties.roomInitialSupplierDeliveryTimeInSeconds)
+            .supplierLevel(ApplicationProperties.roomInitialSupplierLevel)
+            .name(ApplicationProperties.roomInitialSupplierName)
+            .cost(ApplicationProperties.roomInitialSupplierCost)
+            .bonus(ApplicationProperties.roomInitialSupplierBonus)
+            .bonusChance(ApplicationProperties.roomInitialSupplierBonusChance)
+            .build();
     }
 
     public static void genModels() {

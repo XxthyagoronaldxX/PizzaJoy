@@ -8,6 +8,7 @@ module com.danthy.pizzafun {
     requires eu.hansolo.toolboxfx;
     requires javafx.base;
     requires com.google.gson;
+    requires lombok;
 
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;
@@ -22,6 +23,7 @@ module com.danthy.pizzafun {
     opens com.danthy.pizzafun.app.controllers.widgets.itemstockcell to javafx.fxml;
     exports com.danthy.pizzafun.app.controllers.widgets.ordercell;
     opens com.danthy.pizzafun.app.controllers.widgets.ordercell to javafx.fxml;
+    opens com.danthy.pizzafun.app.controllers.widgets.suppliercell to javafx.fxml;
     exports com.danthy.pizzafun.app.wrappers;
     opens com.danthy.pizzafun.app.wrappers to javafx.fxml;
 }

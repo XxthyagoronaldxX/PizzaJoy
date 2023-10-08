@@ -1,8 +1,20 @@
 package com.danthy.pizzafun.domain.models;
 
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
+import lombok.*;
 
+import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@Builder
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class SupplierModel {
+    @EqualsAndHashCode.Include
+    private UUID id;
+
     private final SupplierLevel supplierLevel;
 
     private String name;
@@ -10,6 +22,8 @@ public class SupplierModel {
     private double cost;
 
     private int bonus;
+
+    private int buyToken;
 
     private double bonusChance;
 
@@ -23,60 +37,7 @@ public class SupplierModel {
         this.bonus = supplierLevel.getBonus();
         this.bonusChance = supplierLevel.getBonusChance();
         this.deliveryTimeInSeconds = supplierLevel.getDeliveryTimeInSeconds();
-    }
-
-    public SupplierModel(SupplierLevel supplierLevel, String name, double cost, int bonus, double bonusChance, double deliveryTimeInSeconds) {
-        this.supplierLevel = supplierLevel;
-        this.name = name;
-        this.cost = cost;
-        this.bonus = bonus;
-        this.bonusChance = bonusChance;
-        this.deliveryTimeInSeconds = deliveryTimeInSeconds;
-    }
-
-    public int getBonus() {
-        return bonus;
-    }
-
-    public void setBonus(int bonus) {
-        this.bonus = bonus;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public SupplierLevel getSupplierLevel() {
-        return supplierLevel;
-    }
-
-
-    public double getBonusChance() {
-        return bonusChance;
-    }
-
-    public void setBonusChance(double bonusChance) {
-        this.bonusChance = bonusChance;
-    }
-
-    public double getDeliveryTimeInSeconds() {
-        return deliveryTimeInSeconds;
-    }
-
-    public void setDeliveryTimeInSeconds(double deliveryTimeInSeconds) {
-        this.deliveryTimeInSeconds = deliveryTimeInSeconds;
+        this.buyToken = supplierLevel.getBuyToken();
     }
 
     @Override

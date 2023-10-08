@@ -1,9 +1,10 @@
 package com.danthy.pizzafun.app.handles;
 
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
-import com.danthy.pizzafun.app.utils.ApplicationProperties;
-import com.danthy.pizzafun.app.utils.EventPublisher;
-import com.danthy.pizzafun.app.utils.GetIt;
+import com.danthy.pizzafun.app.config.ApplicationProperties;
+import com.danthy.pizzafun.app.logic.EventPublisher;
+import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.application.Platform;
@@ -24,14 +25,15 @@ public class GenSupplierThreadHandle extends Thread {
             try {
                 TimeUnit.SECONDS.sleep(ApplicationProperties.supplierGenerationBasetime);
 
-                List<SupplierModel> supplierModelList = new ArrayList<>();
+                List<SupplierWrapper> supplierModelList = new ArrayList<>();
 
                 for (int i = 0; i < maxSuppliers; i++) {
                     String supplierName = supplierNames[(int) Math.floor((supplierNames.length - 1) * Math.random())];
                     SupplierLevel supplierLevel = supplierLevels[(int) Math.floor((supplierLevels.length - 1) * Math.random())];
 
-                    supplierModelList.add(new SupplierModel(supplierName, supplierLevel));
+                    supplierModelList.add(new SupplierWrapper(new SupplierModel(supplierName, supplierLevel)));
                 }
+
                 Platform.runLater(() -> {
                     eventPublisher.notifyAll(new SupplierGenerateEvent(supplierModelList));
                 });

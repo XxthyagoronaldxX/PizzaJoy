@@ -1,29 +1,25 @@
 package com.danthy.pizzafun.domain.models;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.UUID;
+
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ItemStockModel {
+    @EqualsAndHashCode.Include
+    private UUID id;
 
     private ItemModel itemModel;
+
     private int quantity;
 
     public ItemStockModel(ItemModel itemModels, int quantity) {
         this.itemModel = itemModels;
         this.quantity = quantity;
-    }
-
-    public int getWeight() {
-        return this.itemModel.getWeight() * quantity;
-    }
-
-    public ItemModel getItemModel() {
-        return itemModel;
-    }
-
-    public void setItemModel(ItemModel itemModels) {
-        this.itemModel = itemModels;
-    }
-
-    public int getQuantity() {
-        return quantity;
     }
 
     public void incrementQuantity(int quantity) {

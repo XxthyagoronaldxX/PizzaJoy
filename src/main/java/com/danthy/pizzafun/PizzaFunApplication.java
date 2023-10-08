@@ -1,7 +1,7 @@
 package com.danthy.pizzafun;
 
-import com.danthy.pizzafun.app.utils.ApplicationProperties;
-import com.danthy.pizzafun.app.utils.GetIt;
+import com.danthy.pizzafun.app.config.ApplicationProperties;
+import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.domain.data.PostConstruct;
 import javafx.application.Application;
 import javafx.stage.Stage;

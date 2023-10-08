@@ -1,10 +1,11 @@
 package com.danthy.pizzafun.app.controllers;
 
-import com.danthy.pizzafun.app.contracts.Controller;
+import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.GameThreadManager;
-import com.danthy.pizzafun.app.utils.EventPublisher;
-import com.danthy.pizzafun.app.utils.GetIt;
+import com.danthy.pizzafun.app.logic.EventPublisher;
+import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.app.wrappers.UpgradeWrapper;
 import com.danthy.pizzafun.domain.data.PostConstruct;
@@ -13,7 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class HomeController extends Controller {
+public class HomeController extends IEmitter implements IController {
     @FXML
     public AnchorPane pizzaFormNameRoot;
 
@@ -35,10 +36,14 @@ public class HomeController extends Controller {
     public void onInitClick() {
         String pizzaName = pizzaNameField.getText();
 
-        GetIt.getInstance().addSingleton(new RoomWrapper(PostConstruct.genRoomModel(pizzaName)));
-        GetIt.getInstance().addSingleton(new UpgradeWrapper());
-        GetIt.getInstance().addSingleton(PostConstruct.genSupplierModel());
-        GetIt.getInstance().find(GameThreadManager.class).startAll();
+        GetIt.getInstance()
+                .addSingleton(new RoomWrapper(PostConstruct.genRoomModel(pizzaName), PostConstruct.genSupplierModel()));
+        GetIt.getInstance()
+                .addSingleton(new UpgradeWrapper());
+        GetIt.getInstance()
+                .addSingleton(PostConstruct.genSupplierModel());
+        GetIt.getInstance()
+                .find(GameThreadManager.class).startAll();
 
         this.eventPublisher.notifyAll(new StartGameEvent());
     }

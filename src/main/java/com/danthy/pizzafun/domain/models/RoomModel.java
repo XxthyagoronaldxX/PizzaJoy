@@ -1,19 +1,30 @@
 package com.danthy.pizzafun.domain.models;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
+@Getter @Setter @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RoomModel {
-
-    public static RoomModel I;
+    @EqualsAndHashCode.Include
     private UUID id;
+
     private String name;
+
     private double balance;
+
+    private int tokens;
+
     private StockModel stockModel;
+
     private SupplierModel supplierModel;
+
     private List<PizzaModel> pizzaModels;
+
     private final List<OrderModel> orderModels;
 
     public RoomModel(String name, StockModel stockModel) {
@@ -23,42 +34,6 @@ public class RoomModel {
         this.balance = 0.0;
         this.name = name;
         this.stockModel = stockModel;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public StockModel getStockModel() {
-        return stockModel;
-    }
-
-    public void setStockModel(StockModel stockModel) {
-        this.stockModel = stockModel;
-    }
-
-    public List<PizzaModel> getPizzaModels() {
-        return pizzaModels;
-    }
-
-    public void addPizza(PizzaModel pizzaModel) {
-        this.pizzaModels.add(pizzaModel);
-    }
-
-    public void setPizzaModels(List<PizzaModel> pizzaModels) {
-        this.pizzaModels = pizzaModels;
     }
 
     public String getOrders() {
@@ -71,16 +46,8 @@ public class RoomModel {
         return sOrders.toString();
     }
 
-    public List<OrderModel> getOrderModels() {
-        return orderModels;
-    }
-
     public void addOrder(OrderModel orderModel) {
         this.orderModels.add(orderModel);
-    }
-
-    public double getBalance() {
-        return balance;
     }
 
     public void incBalance(double balance) {
@@ -89,30 +56,5 @@ public class RoomModel {
 
     public void decBalance(double balance) {
         this.balance -= balance;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        RoomModel other = (RoomModel) obj;
-        if (id == null) {
-            return other.id == null;
-        } else return id.equals(other.id);
     }
 }

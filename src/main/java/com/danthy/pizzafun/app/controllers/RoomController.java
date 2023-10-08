@@ -1,17 +1,19 @@
 package com.danthy.pizzafun.app.controllers;
 
-import com.danthy.pizzafun.app.contracts.Controller;
+import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
+import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
 import com.danthy.pizzafun.app.events.*;
-import com.danthy.pizzafun.app.utils.EventPublisher;
-import com.danthy.pizzafun.app.utils.GetIt;
+import com.danthy.pizzafun.app.logic.EventPublisher;
+import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.app.wrappers.RoomWrapper;
+import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.app.wrappers.UpgradeWrapper;
-import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -22,7 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-public class RoomController extends Controller implements IListener {
+public class RoomController extends IEmitter implements IListener, IController {
     @FXML
     public ListView itemStockList;
 
@@ -59,6 +61,24 @@ public class RoomController extends Controller implements IListener {
     @FXML
     public ListView supplierList;
 
+    @FXML
+    public Label tokensLabel;
+
+    @FXML
+    public AnchorPane upgradeViewContainer;
+
+    @FXML
+    public Label supplierNameLabel;
+
+    @FXML
+    public Label supplierRestockTimeLabel;
+
+    @FXML
+    public Label supplierBonusChanceLabel;
+
+    @FXML
+    public Label supplierCostLabel;
+
     public double prefWidthStockView;
 
     private double maxWidth;
@@ -75,6 +95,12 @@ public class RoomController extends Controller implements IListener {
         initOrderListView();
         initStockView();
         initItemStockListView();
+        initSupplierListView();
+    }
+
+    private void initSupplierListView() {
+        supplierList.setCellFactory(object -> new SupplierCellListFactory());
+        supplierList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     private void initUpgradeView() {
@@ -111,35 +137,78 @@ public class RoomController extends Controller implements IListener {
     @Override
     public void update(IEvent event) {
         if (event.getClass() == ProducedOrderEvent.class) {
-            ProducedOrderEvent producedOrderEvent = (ProducedOrderEvent) event;
-
-            roomWrapper.removeOrder(producedOrderEvent.orderWrapper());
-            balanceLabel.setText(roomWrapper.getBalancePrint());
+            onProducedOrderEvent(event);
         } else if (event.getClass() == StartGameEvent.class) {
-            roomWrapper = GetIt.getInstance().find(RoomWrapper.class);
-            upgradeWrapper = GetIt.getInstance().find(UpgradeWrapper.class);
-
-            itemStockList.setItems(roomWrapper.getItemStockModelObservableList());
-            ordersList.setItems(roomWrapper.getOrderModelObservableList());
-            supplierList.setItems(upgradeWrapper.getSupplierModelObservableList());
-
-            balanceLabel.setText(roomWrapper.getBalancePrint());
-            maxWidth = roomImageBg.getScene().getWidth();
-            roomImageBg.setFitWidth(maxWidth);
+            onStartGameEvent(event);
         } else if (event.getClass() == SupplierGenerateEvent.class) {
-            SupplierGenerateEvent supplierGenerateEvent = (SupplierGenerateEvent) event;
-
-            upgradeWrapper.addAllSupplierModel(supplierGenerateEvent.supplierModelList());
+            onSupplierGenerateEvent(event);
         } else if (event.getClass() == OrderGenerateEvent.class) {
-            OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
-
-            roomWrapper.addOrder(new OrderWrapper(orderGenerateEvent.orderWrapper()));
+            onOrderGenerateEvent(event);
         } else if (event.getClass() == ReStockEvent.class) {
-            ReStockEvent reStockEvent = (ReStockEvent) event;
-
-            roomWrapper.restockBySupplier(reStockEvent.supplierModel());
-            balanceLabel.setText(roomWrapper.getBalancePrint());
+            onRestockEvent(event);
+        } else if (event.getClass() == SetSupplierEvent.class) {
+            onSetSupplierEvent(event);
         }
+    }
+
+    public void onProducedOrderEvent(IEvent event) {
+        ProducedOrderEvent producedOrderEvent = (ProducedOrderEvent) event;
+
+        roomWrapper.removeOrder(producedOrderEvent.orderWrapper());
+        balanceLabel.setText(roomWrapper.getBalancePrint());
+        tokensLabel.setText(roomWrapper.getTokensPrint());
+    }
+
+    public void onStartGameEvent(IEvent event) {
+        roomWrapper = GetIt.getInstance().find(RoomWrapper.class);
+        upgradeWrapper = GetIt.getInstance().find(UpgradeWrapper.class);
+
+        itemStockList.setItems(roomWrapper.getItemStockModelObservableList());
+        ordersList.setItems(roomWrapper.getOrderModelObservableList());
+        supplierList.setItems(upgradeWrapper.getSupplierModelObservableList());
+
+        balanceLabel.setText(roomWrapper.getBalancePrint());
+        tokensLabel.setText(roomWrapper.getTokensPrint());
+        maxWidth = roomImageBg.getScene().getWidth();
+        roomImageBg.setFitWidth(maxWidth);
+
+        refreshCurrentSupplier();
+    }
+
+    public void onSupplierGenerateEvent(IEvent event) {
+        SupplierGenerateEvent supplierGenerateEvent = (SupplierGenerateEvent) event;
+
+        upgradeWrapper.addAllSupplierModel(supplierGenerateEvent.supplierModelList());
+    }
+
+    public void onOrderGenerateEvent(IEvent event) {
+        OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
+
+        roomWrapper.addOrder(new OrderWrapper(orderGenerateEvent.orderWrapper()));
+    }
+
+    public void onRestockEvent(IEvent event) {
+        ReStockEvent reStockEvent = (ReStockEvent) event;
+
+        roomWrapper.restockBySupplier(reStockEvent.supplierModel());
+        balanceLabel.setText(roomWrapper.getBalancePrint());
+
+        refreshCurrentSupplier();
+    }
+
+    public void onSetSupplierEvent(IEvent event) {
+        SetSupplierEvent setSupplierEvent = (SetSupplierEvent) event;
+
+        roomWrapper.setNextSupplierWrapper(new SupplierWrapper(setSupplierEvent.supplierModel()));
+        tokensLabel.setText(roomWrapper.getTokensPrint());
+    }
+
+    public void refreshCurrentSupplier() {
+        SupplierWrapper supplierWrapper = roomWrapper.getSupplierWrapper();
+        supplierNameLabel.setText(supplierWrapper.getNamePrint());
+        supplierCostLabel.setText(supplierWrapper.getCostPrint());
+        supplierBonusChanceLabel.setText(supplierWrapper.getBonusChancePrint());
+        supplierRestockTimeLabel.setText(supplierWrapper.getDeliveryTimeInSecondsPrint());
     }
 
     @Override

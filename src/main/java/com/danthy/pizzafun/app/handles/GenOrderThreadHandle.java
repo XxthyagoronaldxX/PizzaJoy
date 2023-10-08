@@ -1,9 +1,9 @@
 package com.danthy.pizzafun.app.handles;
 
 import com.danthy.pizzafun.app.events.OrderGenerateEvent;
-import com.danthy.pizzafun.app.utils.ApplicationProperties;
-import com.danthy.pizzafun.app.utils.EventPublisher;
-import com.danthy.pizzafun.app.utils.GetIt;
+import com.danthy.pizzafun.app.config.ApplicationProperties;
+import com.danthy.pizzafun.app.logic.EventPublisher;
+import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.domain.data.PizzaDataSingleton;
 import com.danthy.pizzafun.domain.enums.NpcLevel;

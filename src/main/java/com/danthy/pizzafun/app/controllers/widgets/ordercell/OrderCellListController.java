@@ -2,6 +2,7 @@ package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
 
 import com.danthy.pizzafun.app.utils.FxmlUtil;
+import com.danthy.pizzafun.app.utils.PathFxmlUtil;
 import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.FadeTransition;
@@ -39,7 +40,7 @@ public class OrderCellListController extends AnchorPane {
     public OrderCellListController(OrderWrapper orderModelWrapper) {
         this.orderModelWrapper = orderModelWrapper;
 
-        loadFXML();
+        FxmlUtil.loadFXMLInjectController(this, PathFxmlUtil.ORDER_CELL_LIST_WIDGET);
         initialize();
     }
 
@@ -75,19 +76,6 @@ public class OrderCellListController extends AnchorPane {
         ParallelTransition parallelTransition = new ParallelTransition(translateTransition, fadeTransition);
         parallelTransition.play();
         orderModelWrapper.setAlreadyAnimated(true);
-    }
-
-    private void loadFXML() {
-        FXMLLoader loader = FxmlUtil.loaderFromName("widgets/order-cell-list-widget");
-
-        try {
-            loader.setController(this);
-
-            loader.load();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
     }
 
     @FXML

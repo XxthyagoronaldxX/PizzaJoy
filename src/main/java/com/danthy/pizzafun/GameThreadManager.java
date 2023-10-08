@@ -3,7 +3,7 @@ package com.danthy.pizzafun;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameThreadManager {
+public class GameThreadManager  {
     private final List<Thread> threadList;
 
     private GameThreadManager() {
@@ -22,9 +22,5 @@ public class GameThreadManager {
 
     public void startAll() {
         this.threadList.forEach(Thread::start);
-    }
-
-    public void stopAll() {
-        this.threadList.forEach(Thread::interrupt);
     }
 }

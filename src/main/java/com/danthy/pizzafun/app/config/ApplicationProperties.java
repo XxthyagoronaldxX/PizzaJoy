@@ -1,5 +1,6 @@
-package com.danthy.pizzafun.app.utils;
+package com.danthy.pizzafun.app.config;
 
+import com.danthy.pizzafun.app.utils.PathUtil;
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
 
 import java.io.File;
@@ -15,6 +16,8 @@ public class ApplicationProperties {
     public static int itemMaxWeight;
     public static int roomInitialMaxPizzas;
     public static int roomInitialMaxSuppliers;
+    public static double roomInitialBalance;
+    public static int roomInitialTokens;
     public static String[] supplierNames;
     public static int supplierGenerationBasetime;
     public static String roomInitialSupplierName;
@@ -48,6 +51,8 @@ public class ApplicationProperties {
         pizzaGenerationMinBaseTime = Integer.parseInt((String) properties.get("pizza.generation.minbasetime"));
         roomInitialMaxPizzas = Integer.parseInt((String) properties.get("room.initial.maxpizzas"));
         roomInitialMaxSuppliers = Integer.parseInt((String) properties.get("room.initial.maxsuppliers"));
+        roomInitialTokens = Integer.parseInt((String) properties.get("room.initial.tokens"));
+        roomInitialBalance = Double.parseDouble((String) properties.get("room.initial.balance"));
         supplierNames = ((String) properties.get("supplier.names")).split(";");
         supplierGenerationBasetime = Integer.parseInt((String) properties.get("supplier.generation.basetime"));
 

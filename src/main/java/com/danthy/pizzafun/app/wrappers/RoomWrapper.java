@@ -1,24 +1,31 @@
 package com.danthy.pizzafun.app.wrappers;
 
-import com.danthy.pizzafun.app.utils.ApplicationProperties;
+import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.domain.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lombok.Getter;
 
 import java.util.List;
 
 public class RoomWrapper {
     private final RoomModel roomModel;
 
+    @Getter
     private final ObservableList<OrderWrapper> orderModelObservableList;
 
+    @Getter
     private final ObservableList<ItemStockWrapper> itemStockModelObservableList;
 
-    private SupplierModel supplierModel;
+    @Getter
+    private SupplierWrapper nextSupplierWrapper;
 
-    public RoomWrapper(RoomModel roomModel) {
+    private SupplierWrapper supplierWrapper;
+
+    public RoomWrapper(RoomModel roomModel, SupplierModel supplierModel) {
         this.roomModel = roomModel;
 
+        this.supplierWrapper = new SupplierWrapper(supplierModel);
         this.orderModelObservableList = FXCollections.observableArrayList();
 
         List<ItemStockWrapper> itemStockWrapperList = roomModel
@@ -90,21 +97,37 @@ public class RoomWrapper {
         this.orderModelObservableList.remove(orderWrapper);
 
         roomModel.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
+        roomModel.setTokens(roomModel.getTokens() + 1);
+    }
+
+    public SupplierWrapper getSupplierWrapper() {
+        if (nextSupplierWrapper != null) {
+            supplierWrapper = nextSupplierWrapper;
+            nextSupplierWrapper = null;
+        }
+
+        return supplierWrapper;
+    }
+
+    public void setNextSupplierWrapper(SupplierWrapper supplierWrapper) {
+        if (roomModel.getTokens() > supplierWrapper.getBuyToken()) {
+            nextSupplierWrapper = supplierWrapper;
+
+            roomModel.setTokens(roomModel.getTokens() - supplierWrapper.getBuyToken());
+        }
     }
 
     public String getBalancePrint() {
         return String.format("Dinheiro: $%.2f", roomModel.getBalance());
     }
 
+    public double getBalance() {
+        return roomModel.getBalance();
+    }
+
+    public String getTokensPrint() {return String.format("Tokens: %d", roomModel.getTokens());}
+
     public int getOrdersAmount() {
         return this.orderModelObservableList.size();
-    }
-
-    public ObservableList<OrderWrapper> getOrderModelObservableList() {
-        return orderModelObservableList;
-    }
-
-    public ObservableList<ItemStockWrapper> getItemStockModelObservableList() {
-        return itemStockModelObservableList;
     }
 }
