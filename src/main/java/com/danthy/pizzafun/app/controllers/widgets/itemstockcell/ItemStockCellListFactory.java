@@ -1,6 +1,6 @@
 package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
-import com.danthy.pizzafun.app.wrappers.implementations.ItemStockWrapper;
+import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import javafx.scene.control.ListCell;
 
 public class ItemStockCellListFactory extends ListCell<ItemStockWrapper> {

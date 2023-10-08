@@ -3,11 +3,12 @@ package com.danthy.pizzafun.app.controllers;
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.events.StartGameEvent;
-import com.danthy.pizzafun.GameThreadManager;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.wrappers.implementations.RoomWrapper;
-import com.danthy.pizzafun.app.wrappers.implementations.TokenShopWrapper;
+import com.danthy.pizzafun.app.states.PizzariaState;
+import com.danthy.pizzafun.app.wrappers.RoomWrapper;
+import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
+import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.domain.data.PostConstruct;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -37,13 +38,9 @@ public class HomeController extends IEmitter implements IController {
         String pizzaName = pizzaNameField.getText();
 
         GetIt.getInstance()
-                .addSingleton(new RoomWrapper(PostConstruct.genRoomModel(pizzaName), PostConstruct.genSupplierModel()));
+                .addSingleton(new PizzariaState(new RoomWrapper(PostConstruct.genRoomModel(pizzaName))));
         GetIt.getInstance()
-                .addSingleton(new TokenShopWrapper());
-        GetIt.getInstance()
-                .addSingleton(PostConstruct.genSupplierModel());
-        GetIt.getInstance()
-                .find(GameThreadManager.class).startAll();
+                .addSingleton(new TokenShopState(new SupplierWrapper(PostConstruct.genSupplierModel())));
 
         this.eventPublisher.notifyAll(new StartGameEvent());
     }

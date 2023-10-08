@@ -8,9 +8,10 @@ import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactor
 import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.wrappers.implementations.OrderWrapper;
-import com.danthy.pizzafun.app.wrappers.implementations.RoomWrapper;
-import com.danthy.pizzafun.app.wrappers.implementations.SupplierWrapper;
+import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.wrappers.OrderWrapper;
+import com.danthy.pizzafun.app.states.PizzariaState;
+import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -21,7 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-public class RoomController extends IEmitter implements IListener, IController {
+public class PizzariaController extends IEmitter implements IListener, IController {
     @FXML
     public ListView ordersList;
 
@@ -49,9 +50,9 @@ public class RoomController extends IEmitter implements IListener, IController {
     @FXML
     public StockController stockController;
 
-    private double maxWidth;
+    private PizzariaServiceImpl pizzariaService;
 
-    private RoomWrapper roomWrapper;
+    private double maxWidth;
 
     @Override
     public void initialize() {
@@ -72,25 +73,6 @@ public class RoomController extends IEmitter implements IListener, IController {
         ordersList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    @FXML
-    public void openTokenShopViewEvent(MouseEvent mouseEvent) {
-        tokenShop.toFront();
-    }
-
-    @FXML
-    public void stockViewEvent(MouseEvent mouseEvent) {
-        if (stockController.stockView.getPrefWidth() != stockController.prefWidthStockView) {
-            openStockViewEvent();
-        } else {
-            closeStockViewEvent();
-        }
-    }
-
-    @Override
-    public void setEventPublisher(EventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
-    }
-
     @Override
     public void update(IEvent event) {
         if (event.getClass() == ProducedOrderEvent.class) {
@@ -109,17 +91,18 @@ public class RoomController extends IEmitter implements IListener, IController {
     public void onProducedOrderEvent(IEvent event) {
         ProducedOrderEvent producedOrderEvent = (ProducedOrderEvent) event;
 
-        roomWrapper.removeOrder(producedOrderEvent.orderWrapper());
-        balanceLabel.setText(roomWrapper.getBalancePrint());
-        tokensLabel.setText(roomWrapper.getTokensPrint());
+        pizzariaService.removeOrder(producedOrderEvent.orderWrapper());
+
+        refreshBalanceAndTokenInfo();
     }
 
     public void onStartGameEvent(IEvent event) {
-        roomWrapper = GetIt.getInstance().find(RoomWrapper.class);
+        pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
+        PizzariaState pizzariaState = pizzariaService.getPizzariaState();
 
-        ordersList.setItems(roomWrapper.getOrderModelObservableList());
-        balanceLabel.setText(roomWrapper.getBalancePrint());
-        tokensLabel.setText(roomWrapper.getTokensPrint());
+        refreshBalanceAndTokenInfo();
+        ordersList.setItems(pizzariaState.getOrderModelObservableList());
+
         maxWidth = roomImageBg.getScene().getWidth();
         roomImageBg.setFitWidth(maxWidth);
     }
@@ -127,21 +110,43 @@ public class RoomController extends IEmitter implements IListener, IController {
     public void onOrderGenerateEvent(IEvent event) {
         OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
 
-        roomWrapper.addOrder(new OrderWrapper(orderGenerateEvent.orderWrapper()));
+        pizzariaService.addOrder(new OrderWrapper(orderGenerateEvent.orderWrapper()));
     }
 
     public void onRestockEvent(IEvent event) {
         ReStockEvent reStockEvent = (ReStockEvent) event;
 
-        roomWrapper.restockBySupplier(reStockEvent.supplierModel());
-        balanceLabel.setText(roomWrapper.getBalancePrint());
+        pizzariaService.restockBySupplier(reStockEvent.supplierModel());
+
+        refreshBalanceAndTokenInfo();
     }
 
     public void onSetSupplierEvent(IEvent event) {
-        SetSupplierEvent setSupplierEvent = (SetSupplierEvent) event;
+        refreshBalanceAndTokenInfo();
+    }
 
-        roomWrapper.setNextSupplierWrapper(new SupplierWrapper(setSupplierEvent.supplierModel()));
-        tokensLabel.setText(roomWrapper.getTokensPrint());
+
+    @FXML
+    public void openTokenShopViewEvent(MouseEvent mouseEvent) {
+        tokenShop.toFront();
+    }
+
+    @FXML
+    public void stockViewEvent(MouseEvent mouseEvent) {
+        if (stockController.stockView.getPrefWidth() != stockController.prefWidthStockView) {
+            openStockViewEvent();
+        } else {
+            closeStockViewEvent();
+        }
+    }
+
+    public void refreshBalanceAndTokenInfo() {
+        RoomModel roomModel = pizzariaService.getPizzariaState().getRoomWrapper().getWrapped();
+
+        String balance = "Dinheiro: $" + roomModel.getBalance();
+        String tokens = String.format("Tokens: %d TK", roomModel.getTokens());
+        balanceLabel.setText(balance);
+        tokensLabel.setText(tokens);
     }
 
     public void openStockViewEvent() {
@@ -182,5 +187,10 @@ public class RoomController extends IEmitter implements IListener, IController {
 
         ParallelTransition parallelTransition = new ParallelTransition(translateTransition, timelineCloseStock, timelineStrectchBg);
         parallelTransition.play();
+    }
+
+    @Override
+    public void setEventPublisher(EventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
     }
 }

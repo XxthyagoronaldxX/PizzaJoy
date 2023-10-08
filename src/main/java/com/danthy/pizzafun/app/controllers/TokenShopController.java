@@ -5,14 +5,15 @@ import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
+import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
-import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.wrappers.implementations.RoomWrapper;
-import com.danthy.pizzafun.app.wrappers.implementations.SupplierWrapper;
-import com.danthy.pizzafun.app.wrappers.implementations.TokenShopWrapper;
+import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
+import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
+import com.danthy.pizzafun.app.states.TokenShopState;
+import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -46,9 +47,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
     @FXML
     public HBox tokenShopViewRoot;
 
-    private RoomWrapper roomWrapper;
-
-    private TokenShopWrapper tokenShopWrapper;
+    private ITokenShopService tokenShopService;
 
     public TokenShopController() {
     }
@@ -64,11 +63,18 @@ public class TokenShopController extends IEmitter implements IController, IListe
     }
 
     public void refreshCurrentSupplier() {
-        SupplierWrapper supplierWrapper = roomWrapper.getSupplierWrapper();
-        supplierNameLabel.setText(supplierWrapper.getNamePrint());
-        supplierCostLabel.setText(supplierWrapper.getCostPrint());
-        supplierBonusChanceLabel.setText(supplierWrapper.getBonusChancePrint());
-        supplierRestockTimeLabel.setText(supplierWrapper.getDeliveryTimeInSecondsPrint());
+        SupplierWrapper supplierWrapper = tokenShopService.getTokenShopWrapper().getCurrentSupplierWrapper();
+        SupplierModel supplierModel = supplierWrapper.getWrapped();
+
+        String name = supplierModel.getName();
+        String cost = "Custo: R$" + supplierModel.getCost();
+        String bonusChance = "Chance de Bonus: " + supplierModel.getBonusChance() + "%";
+        String deliveryTimeInSeconds = "Tempo: " + supplierModel.getDeliveryTimeInSeconds() + "s";
+
+        supplierNameLabel.setText(name);
+        supplierCostLabel.setText(cost);
+        supplierBonusChanceLabel.setText(bonusChance);
+        supplierRestockTimeLabel.setText(deliveryTimeInSeconds);
     }
 
     @FXML
@@ -84,17 +90,14 @@ public class TokenShopController extends IEmitter implements IController, IListe
     @Override
     public void update(IEvent event) {
         if (event.getClass() == StartGameEvent.class) {
-            roomWrapper = GetIt.getInstance().find(RoomWrapper.class);
-            tokenShopWrapper = GetIt.getInstance().find(TokenShopWrapper.class);
+            tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
 
-            supplierList.setItems(tokenShopWrapper.getSupplierModelObservableList());
+            TokenShopState tokenShopState = tokenShopService.getTokenShopWrapper();
+
+            supplierList.setItems(tokenShopState.getSupplierModelObservableList());
             refreshCurrentSupplier();
         } else if (event.getClass() == ReStockEvent.class) {
             refreshCurrentSupplier();
-        } else if (event.getClass() == SupplierGenerateEvent.class) {
-            SupplierGenerateEvent supplierGenerateEvent = (SupplierGenerateEvent) event;
-
-            tokenShopWrapper.addAllSupplierModel(supplierGenerateEvent.supplierModelList());
         }
     }
 }

@@ -5,7 +5,8 @@ import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;
-import com.danthy.pizzafun.app.wrappers.implementations.SupplierWrapper;
+import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
+import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -40,11 +41,19 @@ public class SupplierCellListController extends AnchorPane {
     }
 
     private void initialize() {
-        costLabel.setText(supplierWrapper.getCostPrint());
-        restockTimeLabel.setText(supplierWrapper.getDeliveryTimeInSecondsPrint());
-        nameLabel.setText(supplierWrapper.getNamePrint());
-        bonusChanceLabel.setText(supplierWrapper.getBonusChancePrint());
-        buyTokenLabel.setText(supplierWrapper.getBuyTokenPrint());
+        SupplierModel supplierModel = supplierWrapper.getWrapped();
+
+        String name = supplierModel.getName();
+        String cost = "Custo: R$" + supplierModel.getCost();
+        String bonusChance = "Chance de Bonus: " + supplierModel.getBonusChance() + "%";
+        String deliveryTimeInSeconds = "Tempo: " + supplierModel.getDeliveryTimeInSeconds() + "s";
+        String buyToken = supplierModel.getBuyToken()  +" TK";
+
+        costLabel.setText(cost);
+        restockTimeLabel.setText(deliveryTimeInSeconds);
+        nameLabel.setText(name);
+        bonusChanceLabel.setText(bonusChance);
+        buyTokenLabel.setText(buyToken);
 
         getChildren().add(cellRoot);
         setBottomAnchor(cellRoot, 0.0);
@@ -53,6 +62,6 @@ public class SupplierCellListController extends AnchorPane {
 
     @FXML
     public void setSupplierEvent(Event event) {
-        GetIt.getInstance().find(EventPublisher.class).notifyAll(new SetSupplierEvent(supplierWrapper.getSupplierModel()));
+        GetIt.getInstance().find(EventPublisher.class).notifyAll(new SetSupplierEvent(supplierWrapper));
     }
 }

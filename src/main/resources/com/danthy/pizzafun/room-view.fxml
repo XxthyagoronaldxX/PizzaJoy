@@ -8,7 +8,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<HBox fx:id="rootView" stylesheets="@styles/room.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.RoomController">
+<HBox fx:id="rootView" stylesheets="@styles/room.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.PizzariaController">
    <children>
       <StackPane HBox.hgrow="ALWAYS">
          <children>

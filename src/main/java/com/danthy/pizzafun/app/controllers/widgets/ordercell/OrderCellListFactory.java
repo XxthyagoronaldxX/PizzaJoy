@@ -1,11 +1,15 @@
 package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
-import com.danthy.pizzafun.app.wrappers.implementations.OrderWrapper;
+import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import javafx.scene.control.ListCell;
 
 public class OrderCellListFactory extends ListCell<OrderWrapper> {
     @Override
     protected void updateItem(OrderWrapper item, boolean empty) {
+        PizzariaServiceImpl roomService = GetIt.getInstance().find(PizzariaServiceImpl.class);
+
         super.updateSelected(false);
         super.updateItem(item, empty);
 
@@ -17,7 +21,7 @@ public class OrderCellListFactory extends ListCell<OrderWrapper> {
         }
 
         super.setStyle("-fx-background-color: white");
-        super.setGraphic(new OrderCellListController(item));
+        super.setGraphic(new OrderCellListController(new OrderCellListModel(item, roomService)));
     }
 
     @Override

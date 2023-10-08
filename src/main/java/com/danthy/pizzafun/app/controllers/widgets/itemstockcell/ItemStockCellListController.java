@@ -2,7 +2,7 @@ package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;
-import com.danthy.pizzafun.app.wrappers.implementations.ItemStockWrapper;
+import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;

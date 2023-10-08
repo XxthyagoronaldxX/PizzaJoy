@@ -1,19 +1,21 @@
 package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
 import com.danthy.pizzafun.app.events.StartGameEvent;
+import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.wrappers.implementations.RoomWrapper;
+import com.danthy.pizzafun.app.states.PizzariaState;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class StockController implements IController, IListener {
+public class StockController extends IEmitter implements IController, IListener {
     @FXML
     public ListView itemStockList;
 
@@ -37,9 +39,9 @@ public class StockController implements IController, IListener {
     @Override
     public void update(IEvent event) {
         if (event.getClass() == StartGameEvent.class) {
-            RoomWrapper roomWrapper = GetIt.getInstance().find(RoomWrapper.class);
+            PizzariaState pizzariaState = GetIt.getInstance().find(PizzariaState.class);
 
-            itemStockList.setItems(roomWrapper.getItemStockModelObservableList());
+            itemStockList.setItems(pizzariaState.getItemStockModelObservableList());
         }
     }
 
@@ -59,5 +61,10 @@ public class StockController implements IController, IListener {
         stockPaneBg.heightProperty().addListener((observable, oldValue, newValue) -> {
             stockImageBg.setFitHeight(newValue.doubleValue());
         });
+    }
+
+    @Override
+    public void setEventPublisher(EventPublisher eventPublisher) {
+        super.eventPublisher = eventPublisher;
     }
 }

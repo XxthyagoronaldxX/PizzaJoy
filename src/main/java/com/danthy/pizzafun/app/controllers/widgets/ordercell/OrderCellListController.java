@@ -3,7 +3,7 @@ package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;
-import com.danthy.pizzafun.app.wrappers.implementations.OrderWrapper;
+import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -32,29 +32,30 @@ public class OrderCellListController extends AnchorPane {
     @FXML
     private ProgressBar progressStatus;
 
-    private final OrderWrapper orderModelWrapper;
+    private final OrderCellListModel orderCellListModel;
 
-    public OrderCellListController(OrderWrapper orderModelWrapper) {
-        this.orderModelWrapper = orderModelWrapper;
+    public OrderCellListController(OrderCellListModel orderCellListModel) {
+        this.orderCellListModel = orderCellListModel;
 
         FxmlUtil.loadFXMLInjectController(this, PathFxmlUtil.ORDER_CELL_LIST_WIDGET);
         initialize();
     }
 
     private void initialize() {
-        OrderModel orderModel = orderModelWrapper.getOrderModel();
+        OrderWrapper orderWrapper = orderCellListModel.getOrderWrapper();
+        OrderModel orderModel = orderWrapper.getOrderModel();
 
-        orderModelWrapper.setProgressBar(progressStatus);
+        orderWrapper.setProgressBar(progressStatus);
 
-        produceButton.setVisible(!orderModelWrapper.isLoading());
-        progressStatus.setVisible(orderModelWrapper.isLoading());
-        progressStatus.setProgress(orderModelWrapper.getProgress());
+        produceButton.setVisible(!orderWrapper.isLoading());
+        progressStatus.setVisible(orderWrapper.isLoading());
+        progressStatus.setProgress(orderWrapper.getProgress());
 
         itemsLabel.setText(orderModel.toString());
         pizzaNameLabel.setText(orderModel.getPizzaModel().getName());
         produceButton.setOnMouseClicked(this::produceOrderEvent);
 
-        if (!orderModelWrapper.isAlreadyAnimated()) animate();
+        if (!orderWrapper.isAlreadyAnimated()) animate();
 
         getChildren().add(cellRoot);
         setBottomAnchor(cellRoot, 0.0);
@@ -72,12 +73,12 @@ public class OrderCellListController extends AnchorPane {
 
         ParallelTransition parallelTransition = new ParallelTransition(translateTransition, fadeTransition);
         parallelTransition.play();
-        orderModelWrapper.setAlreadyAnimated(true);
+        orderCellListModel.getOrderWrapper().setAlreadyAnimated(true);
     }
 
     @FXML
     private void produceOrderEvent(MouseEvent event) {
-        if (orderModelWrapper.produceOrder()) {
+        if (orderCellListModel.produceOrder()) {
             produceButton.setVisible(false);
             progressStatus.setVisible(true);
         }

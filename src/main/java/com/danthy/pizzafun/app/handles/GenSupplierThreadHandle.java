@@ -4,7 +4,7 @@ import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.wrappers.implementations.SupplierWrapper;
+import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.application.Platform;
