@@ -13,6 +13,7 @@ import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -33,10 +34,6 @@ public class PizzariaController implements IListener, IController {
 
     @FXML
     public Label tokensLabel;
-
-    // @FXML public HBox tokenShop;
-
-    // @FXML public TokenShopController tokenShopController;
 
     @FXML
     public HBox headerRoomView;
@@ -62,6 +59,18 @@ public class PizzariaController implements IListener, IController {
     @FXML
     public AnchorPane stockWrapperPane;
 
+    @FXML
+    public AnchorPane tokenShop;
+
+    @FXML
+    public TokenShopController tokenShopController;
+
+    @FXML
+    public AnchorPane tokenShopWrapperPane;
+
+    @FXML
+    public AnchorPane rootView;
+
     private double stockViewWidth;
 
     private PizzariaServiceImpl pizzariaService;
@@ -86,6 +95,9 @@ public class PizzariaController implements IListener, IController {
         stock.prefHeightProperty().bind(stockWrapperPane.heightProperty());
         stockController.stockView.prefHeightProperty().bind(stockWrapperPane.heightProperty());
         AnchorPane.setRightAnchor(stockWrapperPane, (-1) * stockViewWidth);
+
+        tokenShopController.rootView.prefWidthProperty().bind(rootView.widthProperty());
+        tokenShopController.rootView.prefHeightProperty().bind(rootView.heightProperty());
 
         orderListView.setItems(null);
         orderListView.setCellFactory(object -> {
@@ -152,10 +164,13 @@ public class PizzariaController implements IListener, IController {
         });
     }
 
-    /*
     @FXML
-    public void openTokenShopViewEvent(MouseEvent mouseEvent) {
-        tokenShop.toFront();
+    public void onTokenShopViewEvent(MouseEvent mouseEvent) {
+        tokenShopWrapperPane.toFront();
     }
-    */
+
+    @FXML
+    public void onCloseTokenShopEvent(MouseEvent mouseEvent) {
+        tokenShopWrapperPane.toBack();
+    }
 }

@@ -12,12 +12,10 @@ public class SupplierCellListFactory extends ListCell<SupplierWrapper> {
         if (empty || item == null) {
             super.setText(null);
             super.setGraphic(null);
-            super.setStyle("-fx-background-color: transparent");
             return;
         }
 
-        super.setStyle("-fx-background-color: white");
-        super.setGraphic(new SupplierCellListController(item));
+        super.setGraphic(new SupplierCellListWrapper().build(item));
     }
 
     @Override

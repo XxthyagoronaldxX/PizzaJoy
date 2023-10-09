@@ -1,45 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="cellRoot" onMouseClicked="#setSupplierEvent" prefHeight="60.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+
+<HBox xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListController">
    <children>
-      <ImageView fitHeight="60.0" fitWidth="53.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="60.0" fitWidth="53.0" pickOnBounds="true">
          <image>
             <Image url="@../assets/imgs/pizza-queijo-icon.png" />
-         </image></ImageView>
-      <TextFlow layoutX="53.0" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="0.0">
+         </image>
+         <HBox.margin>
+            <Insets left="5.0" />
+         </HBox.margin>
+      </ImageView>
+      <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
          <children>
-            <Label fx:id="nameLabel" prefHeight="18.0" prefWidth="181.0" text="Nome">
+            <Label fx:id="nameLabel" prefHeight="18.0" prefWidth="222.0" text="Nome">
                <font>
                   <Font name="Unispace-Bold" size="12.0" />
                </font>
             </Label>
+            <HBox>
+               <children>
+                  <Label fx:id="restockTimeLabel" prefHeight="12.0" prefWidth="105.0" text="Velocidade: 40s">
+                     <font>
+                        <Font name="Unispace-Bold" size="9.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="costLabel" prefHeight="16.0" prefWidth="105.0" text="Custo: R$ 20">
+                     <font>
+                        <Font name="Unispace-Bold" size="9.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label fx:id="bonusChanceLabel" prefHeight="12.0" prefWidth="224.0" text="Bonus Chance: 10%">
+               <font>
+                  <Font name="Unispace-Bold" size="9.0" />
+               </font>
+            </Label>
          </children>
-      </TextFlow>
-      <Label fx:id="restockTimeLabel" layoutX="53.0" layoutY="24.0" prefHeight="12.0" prefWidth="105.0" text="Velocidade: 40s" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="24.0">
-         <font>
-            <Font name="Unispace-Bold" size="9.0" />
-         </font>
-      </Label>
-      <TextFlow layoutX="245.0" textAlignment="JUSTIFY" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Label fx:id="bonusChanceLabel" layoutX="53.0" layoutY="40.0" prefHeight="12.0" prefWidth="105.0" text="Bonus Chance: 10%" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="40.0">
-         <font>
-            <Font name="Unispace-Bold" size="9.0" />
-         </font>
-      </Label>
-      <Label fx:id="costLabel" layoutX="167.0" layoutY="22.0" prefHeight="16.0" prefWidth="105.0" text="Custo: R$ 20" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="167.0" AnchorPane.topAnchor="22.0">
-         <font>
-            <Font name="Unispace-Bold" size="9.0" />
-         </font>
-      </Label>
-      <Label fx:id="buyTokenLabel" alignment="CENTER_RIGHT" layoutX="278.0" prefHeight="60.0" prefWidth="67.0" text="20 TK" textAlignment="JUSTIFY" textOverrun="CLIP" wrapText="true">
+      </VBox>
+      <Label fx:id="buyTokenLabel" alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="67.0" text="20 TK" textAlignment="JUSTIFY" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Unispace-Bold" size="14.0" />
          </font>
+         <HBox.margin>
+            <Insets right="5.0" />
+         </HBox.margin>
       </Label>
    </children>
-</AnchorPane>
+</HBox>

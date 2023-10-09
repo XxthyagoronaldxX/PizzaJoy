@@ -1,14 +1,10 @@
-#header-room-view {
-    -fx-background-image: url("../assets/imgs/pizza-order-thread-background.png");
-}
-
 #order-list-view, #order-list-view:focused {
     -fx-hgap: 10px;
     -fx-border-color: transparent;
     -fx-background-color: transparent;
 }
 
-#order-list-view, .list-cell, .list-cell:odd, .list-cell:selected, .list-cell:filled {
+#order-list-view .list-cell, #order-list-view .list-cell:odd, #order-list-view .list-cell:selected, #order-list-view .list-cell:filled {
     -fx-background-color: transparent;
 }
 
@@ -32,4 +28,12 @@
     -fx-background-color: transparent;
     -fx-opacity: 0;
     -fx-padding: 0;
+}
+
+.pizzaria-footer-button {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
 }

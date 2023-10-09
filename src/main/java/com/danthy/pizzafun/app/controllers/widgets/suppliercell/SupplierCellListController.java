@@ -9,10 +9,14 @@ import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
-public class SupplierCellListController extends AnchorPane {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class SupplierCellListController implements Initializable {
     @FXML
     private AnchorPane cellRoot;
 
@@ -31,37 +35,34 @@ public class SupplierCellListController extends AnchorPane {
     @FXML
     private Label buyTokenLabel;
 
-    private final SupplierWrapper supplierWrapper;
+    private SupplierWrapper supplierWrapper;
 
-    public SupplierCellListController(SupplierWrapper supplierWrapper) {
-        this.supplierWrapper = supplierWrapper;
-
-        FxmlUtil.loadFXMLInjectController(this, PathFxmlUtil.SUPPLIER_CELL_LIST_WIDGET);
-        initialize();
+    public SupplierCellListController() {
     }
 
-    private void initialize() {
-        SupplierModel supplierModel = supplierWrapper.getWrapped();
+    @FXML
+    public void onSetSupplierEvent(Event event) {
+        GetIt.getInstance().find(EventPublisher.class).notifyAll(new SetSupplierEvent(supplierWrapper));
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    public void setSupplierWrapper(SupplierWrapper supplierWrapper) {
+        this.supplierWrapper = supplierWrapper;
+        SupplierModel supplierModel = this.supplierWrapper.getWrapped();
 
         String name = supplierModel.getName();
         String cost = "Custo: R$" + supplierModel.getCost();
         String bonusChance = "Chance de Bonus: " + supplierModel.getBonusChance() + "%";
         String deliveryTimeInSeconds = "Tempo: " + supplierModel.getDeliveryTimeInSeconds() + "s";
-        String buyToken = supplierModel.getBuyToken()  +" TK";
+        String buyToken = supplierModel.getBuyToken() + " TK";
 
         costLabel.setText(cost);
         restockTimeLabel.setText(deliveryTimeInSeconds);
         nameLabel.setText(name);
         bonusChanceLabel.setText(bonusChance);
         buyTokenLabel.setText(buyToken);
-
-        getChildren().add(cellRoot);
-        setBottomAnchor(cellRoot, 0.0);
-        setTopAnchor(cellRoot, 0.0);
-    }
-
-    @FXML
-    public void setSupplierEvent(Event event) {
-        GetIt.getInstance().find(EventPublisher.class).notifyAll(new SetSupplierEvent(supplierWrapper));
     }
 }

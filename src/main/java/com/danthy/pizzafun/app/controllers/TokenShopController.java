@@ -5,9 +5,7 @@ import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
-import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.ITokenShopService;
-import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -20,9 +18,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,9 +26,6 @@ import java.util.ResourceBundle;
 public class TokenShopController extends IEmitter implements IController, IListener {
     @FXML
     public ListView supplierList;
-
-    @FXML
-    public AnchorPane upgradeViewContainer;
 
     @FXML
     public Label supplierNameLabel;
@@ -47,10 +40,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
     public Label supplierCostLabel;
 
     @FXML
-    public AnchorPane tokenShopViewSubRoot;
-
-    @FXML
-    public HBox tokenShopViewRoot;
+    public AnchorPane rootView;
 
     private ITokenShopService tokenShopService;
 
@@ -59,10 +49,6 @@ public class TokenShopController extends IEmitter implements IController, IListe
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initSupplierListView();
-    }
-
-    private void initSupplierListView() {
         supplierList.setCellFactory(object -> new SupplierCellListFactory());
         supplierList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
@@ -91,11 +77,6 @@ public class TokenShopController extends IEmitter implements IController, IListe
         supplierRestockTimeLabel.setText(deliveryTimeInSeconds);
     }
 
-    @FXML
-    public void closeTokenShopViewEvent(MouseEvent mouseEvent) {
-        tokenShopViewRoot.toBack();
-    }
-
     @Override
     public void setEventPublisher(EventPublisher eventPublisher) {
         super.eventPublisher = eventPublisher;
@@ -109,6 +90,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
             TokenShopState tokenShopState = tokenShopService.getTokenShopWrapper();
 
             supplierList.setItems(tokenShopState.getSupplierModelObservableList());
+
             initObservers();
         }
     }
