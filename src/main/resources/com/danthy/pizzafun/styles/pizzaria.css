@@ -1,0 +1,35 @@
+#header-room-view {
+    -fx-background-image: url("../assets/imgs/pizza-order-thread-background.png");
+}
+
+#order-list-view, #order-list-view:focused {
+    -fx-hgap: 10px;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+#order-list-view, .list-cell, .list-cell:odd, .list-cell:selected, .list-cell:filled {
+    -fx-background-color: transparent;
+}
+
+#order-list-view .track {
+    -fx-background-color: white;
+}
+
+#order-list-view .thumb {
+    -fx-background-color: #3498db;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+#order-list-view .increment-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+#order-list-view .decrement-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}

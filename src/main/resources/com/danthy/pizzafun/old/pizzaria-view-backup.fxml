@@ -5,20 +5,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<HBox fx:id="rootView" stylesheets="@styles/room.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.PizzariaController">
+<HBox fx:id="rootView" stylesheets="@../styles/pizzaria.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.PizzariaController">
    <children>
       <StackPane HBox.hgrow="ALWAYS">
          <children>
+            
+            <fx:include fx:id="tokenShop" source="../token-shop-view.fxml" />
+
             <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="690.0" prefWidth="1041.0">
                <children>
                   <AnchorPane id="room-view" fx:id="roomView" prefHeight="641.0" prefWidth="771.0" HBox.hgrow="ALWAYS">
                      <children>
                         <ImageView fx:id="roomImageBg" fitHeight="290.0" fitWidth="771.0" layoutY="465.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <image>
-                              <Image url="@assets/imgs/pizza-info-background.png" />
+                              <Image url="@../assets/imgs/pizza-info-background.png" />
                            </image>
                            <viewport>
                               <Rectangle2D />
@@ -29,7 +31,12 @@
                         </ImageView>
                         <AnchorPane prefHeight="400.0" prefWidth="771.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <ListView id="orders-list" fx:id="ordersList" orientation="HORIZONTAL" prefHeight="400.0" prefWidth="771.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <ImageView fx:id="pizzaOrderThreadBg" fitHeight="400.0" fitWidth="771.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../assets/imgs/pizza-order-thread-background.png" />
+                                 </image>
+                              </ImageView>
+                              <ListView id="orders-list" fx:id="ordersList" orientation="HORIZONTAL" prefHeight="400.0" prefWidth="771.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <opaqueInsets>
                                     <Insets right="20.0" />
                                  </opaqueInsets>
@@ -44,11 +51,11 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Pane styleClass="room-button" layoutX="662.0" layoutY="586.0" onMouseClicked="#stockViewEvent" prefHeight="90.0" prefWidth="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+                        <Pane layoutX="662.0" layoutY="586.0" onMouseClicked="#stockViewEvent" prefHeight="90.0" prefWidth="95.0" styleClass="room-button" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                            <children>
                               <ImageView fitHeight="57.0" fitWidth="73.0" layoutX="19.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@assets/imgs/pizza-box-icon.png" />
+                                    <Image url="@../assets/imgs/pizza-box-icon.png" />
                                  </image>
                                  <viewport>
                                     <Rectangle2D height="100.0" minX="-5.0" minY="-16.0" width="100.0" />
@@ -61,11 +68,11 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Pane styleClass="room-button" layoutX="547.0" layoutY="586.0" onMouseClicked="#openTokenShopViewEvent" prefHeight="90.0" prefWidth="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="129.0">
+                        <Pane layoutX="547.0" layoutY="586.0" onMouseClicked="#openTokenShopViewEvent" prefHeight="90.0" prefWidth="95.0" styleClass="room-button" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="129.0">
                            <children>
                               <ImageView fitHeight="57.0" fitWidth="73.0" layoutX="19.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@assets/imgs/pizza-box-icon.png" />
+                                    <Image url="@../assets/imgs/pizza-box-icon.png" />
                                  </image>
                                  <viewport>
                                     <Rectangle2D height="100.0" minX="-5.0" minY="-16.0" width="100.0" />
@@ -89,13 +96,10 @@
                      </children>
                   </AnchorPane>
 
-                  <fx:include source="stock-view.fxml" fx:id="stock" />
+                  <fx:include fx:id="stock" source="../stock-view.fxml" />
 
                </children>
             </HBox>
-
-            <fx:include fx:id="tokenShop" source="token-shop-view.fxml" />
-
          </children>
       </StackPane>
    </children>

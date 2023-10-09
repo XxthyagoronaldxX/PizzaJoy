@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane stylesheets="@styles/stock.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.StockController">
+<StackPane fx:id="stockView" maxHeight="690.0" maxWidth="295.0" prefHeight="690.0" prefWidth="295.0" stylesheets="@styles/stock.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.StockController">
     <children>
         <AnchorPane fx:id="stockPaneBg">
             <children>
@@ -17,10 +17,10 @@
                 </ImageView>
             </children>
         </AnchorPane>
-        <AnchorPane id="stock-view" fx:id="stockView" prefHeight="690.0" prefWidth="295.0">
+        <AnchorPane id="stock-view"  prefHeight="690.0" prefWidth="295.0">
             <children>
                 <ListView id="item-stock-list" fx:id="itemStockList" layoutY="172.0" prefHeight="538.0" prefWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="152.0" />
-                <Label id="title-stock" onMouseClicked="#boostTimerToNextRestock" alignment="CENTER" layoutX="89.0" layoutY="55.0" prefHeight="26.0" prefWidth="95.0" text="ESTOQUE" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="86.0">
+                <Label id="title-stock" alignment="CENTER" layoutX="89.0" layoutY="55.0" onMouseClicked="#boostTimerToNextRestock" prefHeight="26.0" prefWidth="95.0" text="ESTOQUE" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="86.0">
                     <font>
                         <Font name="Unispace-Bold" size="22.0" />
                     </font>

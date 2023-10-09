@@ -9,25 +9,31 @@ import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.domain.models.SupplierModel;
+import javafx.application.Platform;
 import lombok.Getter;
 
 @Getter
 public class PizzariaServiceImpl implements IPizzariaService, IListener {
     private PizzariaState pizzariaState;
 
-    public PizzariaServiceImpl() {}
+    public PizzariaServiceImpl() {
+    }
 
     @Override
     public void addOrder(OrderWrapper orderWrapper) {
-        this.pizzariaState.getOrderModelObservableList().add(orderWrapper);
+        Platform.runLater(() -> {
+            pizzariaState.getOrderModelObservableList().add(orderWrapper);
+        });
     }
 
     @Override
     public void removeOrder(OrderWrapper orderWrapper) {
-        pizzariaState.getOrderModelObservableList().remove(orderWrapper);
+        Platform.runLater(() -> {
+            pizzariaState.getOrderModelObservableList().remove(orderWrapper);
 
-        pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
-        pizzariaState.incTokens(1);
+            pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
+            pizzariaState.incTokens(1);
+        });
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.danthy.pizzafun.app.handles;
 
+import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.events.GenOrderThreadEndedEvent;
 import com.danthy.pizzafun.app.events.OrderGenerateEvent;
-import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IPizzariaService;
@@ -15,18 +15,17 @@ import com.danthy.pizzafun.domain.models.PizzaModel;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.util.Duration;
 
-import java.util.concurrent.TimeUnit;
-
-public class GenOrderThreadHandle extends Thread {
+public class GenOrderThreadHandleOld extends Thread {
     private final IPizzariaService pizzariaService;
     private final EventPublisher eventPublisher;
 
-    public GenOrderThreadHandle() {
+    public GenOrderThreadHandleOld() {
         pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
         eventPublisher = GetIt.getInstance().find(EventPublisher.class);
+
+        setDaemon(true);
     }
 
     @Override
@@ -50,10 +49,9 @@ public class GenOrderThreadHandle extends Thread {
 
                 OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
 
-                Platform.runLater(() -> {
-                    eventPublisher.notifyAll(new OrderGenerateEvent(orderModel));
-                });
+                eventPublisher.notifyAll(new OrderGenerateEvent(orderModel));
             }
+
         });
 
         timeline.play();

@@ -2,6 +2,7 @@ package com.danthy.pizzafun.app.wrappers;
 
 import com.danthy.pizzafun.app.contracts.IWrapperModel;
 import com.danthy.pizzafun.domain.models.OrderModel;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,8 @@ public class OrderWrapper implements IWrapperModel<OrderModel> {
     private Double progress;
 
     private ProgressBar progressBar;
+
+    private Button button;
 
     private boolean isLoading;
 

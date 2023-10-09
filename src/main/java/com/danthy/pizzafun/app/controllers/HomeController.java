@@ -17,6 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class HomeController extends IEmitter implements IController {
     @FXML
     public AnchorPane pizzaFormNameRoot;
@@ -52,7 +55,7 @@ public class HomeController extends IEmitter implements IController {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         pizzaFormNameRoot.setVisible(false);
 
         pizzaBgContainer.widthProperty().addListener((observable, oldValue, newValue) -> {

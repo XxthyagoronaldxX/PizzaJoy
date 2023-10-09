@@ -2,15 +2,9 @@ package com.danthy.pizzafun;
 
 import com.danthy.pizzafun.app.controllers.HomeController;
 import com.danthy.pizzafun.app.controllers.PizzariaController;
-import com.danthy.pizzafun.app.controllers.StockController;
-import com.danthy.pizzafun.app.controllers.TokenShopController;
 import com.danthy.pizzafun.app.enums.ScreenType;
 import com.danthy.pizzafun.app.handles.GameThreadHandle;
-import com.danthy.pizzafun.app.handles.GenItemStockThreadHandle;
-import com.danthy.pizzafun.app.handles.GenOrderThreadHandle;
-import com.danthy.pizzafun.app.handles.GenSupplierThreadHandle;
 import com.danthy.pizzafun.app.logic.EventPublisher;
-import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
@@ -35,12 +29,12 @@ public class GetItSetup {
 
         PizzariaController pizzariaController = FxmlUtil.controllerFromLoader(roomLoader);
         HomeController homeController = FxmlUtil.controllerFromLoader(homeLoader);
-        TokenShopController tokenShopController = pizzariaController.tokenShopController;
-        StockController stockController = pizzariaController.stockController;
+        // TokenShopController tokenShopController = pizzariaController.tokenShopController;
+        // StockController stockController = pizzariaController.stockController;
 
         homeController.setEventPublisher(eventPublisher);
-        tokenShopController.setEventPublisher(eventPublisher);
-        stockController.setEventPublisher(eventPublisher);
+        // tokenShopController.setEventPublisher(eventPublisher);
+        // stockController.setEventPublisher(eventPublisher);
 
         ScreenManager screenManager = ScreenManager
                 .build(stage)
@@ -53,14 +47,15 @@ public class GetItSetup {
         StockServiceImpl stockService = new StockServiceImpl();
 
         GameThreadHandle gameThreadHandle = new GameThreadHandle();
+        gameThreadHandle.setEventPublisher(eventPublisher);
 
         eventPublisher
                 .addListener(tokenShopService)
                 .addListener(roomService)
                 .addListener(stockService)
                 .addListener(pizzariaController)
-                .addListener(tokenShopController)
-                .addListener(stockController)
+                // .addListener(tokenShopController)
+                // .addListener(stockController)
                 .addListener(gameThreadHandle)
                 .addListener(screenManager);
 

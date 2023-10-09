@@ -1,4 +1,13 @@
 #produce-button {
-    -fx-background-color: rgba(20, 194, 194, 1);
-    -fx-background-radius: 20px 20px 20px 20px;
+    -fx-background-color: #69140E;
+    -fx-background-radius: 10px;
+    -fx-border-color: #FFF94F;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+
+    -fx-padding: 5px;
+}
+
+#cell-root {
+    -fx-background-color: transparent;
 }

@@ -1,9 +1,10 @@
 package com.danthy.pizzafun.app.handles;
 
+import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.events.GenSupplierThreadEndedEvent;
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
-import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
+import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
@@ -11,21 +12,22 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenSupplierThreadHandle extends Task<Void> {
+public class GenSupplierThreadHandleOld extends Thread {
     private final EventPublisher eventPublisher;
 
-    public GenSupplierThreadHandle(EventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
+    public GenSupplierThreadHandleOld() {
+        eventPublisher = GetIt.getInstance().find(EventPublisher.class);
+
+        setDaemon(true);
     }
 
     @Override
-    protected Void call() {
+    public void run() {
         int maxSuppliers = ApplicationProperties.roomInitialMaxSuppliers;
         String[] supplierNames = ApplicationProperties.supplierNames;
         SupplierLevel[] supplierLevels = SupplierLevel.values();
@@ -51,7 +53,7 @@ public class GenSupplierThreadHandle extends Task<Void> {
 
         while (timeline.getStatus() == Animation.Status.RUNNING) Thread.onSpinWait();
 
-        return null;
+        eventPublisher.notifyAll(new GenSupplierThreadEndedEvent());
     }
 }
 

@@ -24,6 +24,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class TokenShopController extends IEmitter implements IController, IListener {
     @FXML
     public ListView supplierList;
@@ -55,7 +58,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
     }
 
     @Override
-    public void initialize() {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         initSupplierListView();
     }
 

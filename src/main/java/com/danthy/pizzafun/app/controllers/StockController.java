@@ -17,13 +17,17 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class StockController extends IEmitter implements IController, IListener {
     @FXML
     public ListView itemStockList;
 
     @FXML
-    public AnchorPane stockView;
+    public StackPane stockView;
 
     @FXML
     public AnchorPane stockPaneBg;
@@ -39,7 +43,7 @@ public class StockController extends IEmitter implements IController, IListener 
     private StockServiceImpl stockService;
 
     @Override
-    public void initialize() {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         initItemStockListView();
         initStockView();
     }

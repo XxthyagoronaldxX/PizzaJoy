@@ -23,6 +23,7 @@ public class FxmlUtil {
         try {
             return new Scene(loader.load(), width, height);
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }

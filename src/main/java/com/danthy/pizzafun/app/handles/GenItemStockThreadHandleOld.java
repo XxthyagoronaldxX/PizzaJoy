@@ -15,17 +15,16 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
-import javafx.concurrent.Task;
 import javafx.util.Duration;
 
-public class GenItemStockThreadHandle extends Task<Void> {
+public class GenItemStockThreadHandleOld extends Thread {
     private final StockServiceImpl stockService;
     private final PizzariaServiceImpl pizzariaService;
     private final TokenShopServiceImpl tokenShopService;
     private final EventPublisher eventPublisher;
     private Timeline timeline;
 
-    public GenItemStockThreadHandle() {
+    public GenItemStockThreadHandleOld() {
         pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
         stockService = GetIt.getInstance().find(StockServiceImpl.class);
         eventPublisher = GetIt.getInstance().find(EventPublisher.class);
@@ -34,10 +33,12 @@ public class GenItemStockThreadHandle extends Task<Void> {
         stockService.getRateSpeedProperty().addListener((observer, oldValue, newValue) -> {
             this.timeline.setRate(newValue);
         });
+
+        setDaemon(true);
     }
 
     @Override
-    protected Void call() {
+    public void run() {
         SupplierModel supplierModel = tokenShopService.getTokenShopWrapper().getCurrentSupplierWrapperObservable().getValue().getWrapped();
         Property<Double> timerToNextRestockProperty = stockService.getTimerToNextRestockProperty();
         Property<Double> rateSpeedProperty = stockService.getRateSpeedProperty();
@@ -60,6 +61,6 @@ public class GenItemStockThreadHandle extends Task<Void> {
 
         while (timeline.getStatus() == Animation.Status.RUNNING) Thread.onSpinWait();
 
-        return null;
+        eventPublisher.notifyAll(new GenItemStockThreadEndedEvent());
     }
 }

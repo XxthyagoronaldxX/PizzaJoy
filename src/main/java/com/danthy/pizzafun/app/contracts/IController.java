@@ -1,5 +1,6 @@
 package com.danthy.pizzafun.app.contracts;
 
-public interface IController {
-    void initialize();
+import javafx.fxml.Initializable;
+
+public interface IController extends Initializable {
 }

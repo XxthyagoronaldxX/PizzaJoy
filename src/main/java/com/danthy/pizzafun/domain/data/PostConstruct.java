@@ -13,15 +13,15 @@ public class PostConstruct {
 
         ItemStockModel queijoStockModel = new ItemStockModel(
                 new ItemModel("Queijo", 2),
-                10
+                80
         );
         ItemStockModel massaStockModel = new ItemStockModel(
                 new ItemModel("Massa", 4),
-                10
+                40
         );
         ItemStockModel molhoDeTomateStockModel = new ItemStockModel(
                 new ItemModel("Molho de tomate", 4),
-                10
+                40
         );
 
         stockModel
