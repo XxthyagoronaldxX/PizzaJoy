@@ -1,52 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
-<StackPane fx:id="stockView" maxHeight="690.0" maxWidth="295.0" prefHeight="690.0" prefWidth="295.0" stylesheets="@styles/stock.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.StockController">
-    <children>
-        <AnchorPane fx:id="stockPaneBg">
-            <children>
-                <ImageView fx:id="stockImageBg" fitHeight="690.0" fitWidth="295.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<VBox fx:id="rootView" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.StockController">
+   <children>
+      <StackPane fx:id="stockView" maxHeight="690.0" maxWidth="295.0" prefHeight="690.0" prefWidth="295.0" stylesheets="@styles/stock.css" VBox.vgrow="ALWAYS">
+          <children>
+                <ImageView fx:id="stockImageBg" fitHeight="690.0" fitWidth="295.0" pickOnBounds="true">
                     <image>
                         <Image url="@assets/imgs/pizza-stock-background02.png" />
                     </image>
                 </ImageView>
-            </children>
-        </AnchorPane>
-        <AnchorPane id="stock-view"  prefHeight="690.0" prefWidth="295.0">
-            <children>
-                <ListView id="item-stock-list" fx:id="itemStockList" layoutY="172.0" prefHeight="538.0" prefWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="152.0" />
-                <Label id="title-stock" alignment="CENTER" layoutX="89.0" layoutY="55.0" onMouseClicked="#boostTimerToNextRestock" prefHeight="26.0" prefWidth="95.0" text="ESTOQUE" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="86.0">
-                    <font>
-                        <Font name="Unispace-Bold" size="22.0" />
-                    </font>
-                    <textFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                            <stops>
-                                <Stop>
-                                    <color>
-                                        <Color red="1.0" green="1.0" blue="1.0" />
-                                    </color>
-                                </Stop>
-                                <Stop offset="1.0">
-                                    <color>
-                                        <Color red="0.9666666388511658" green="1.0" />
-                                    </color>
-                                </Stop>
-                            </stops>
-                        </LinearGradient>
-                    </textFill>
-                </Label>
-            <Label fx:id="timeToNextRestockLabel" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="269.0" text="40s" textFill="#12ff49">
-               <font>
-                  <Font name="Unispace-Bold" size="15.0" />
-               </font>
-            </Label>
-            </children>
-        </AnchorPane>
-    </children>
-</StackPane>
+            <VBox>
+               <children>
+                  <TextFlow>
+                     <children>
+                        <Label fx:id="timeToNextRestockLabel" prefHeight="30.0" prefWidth="286.0" text="40s" textFill="#12ff49">
+                           <font>
+                              <Font name="Unispace-Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </TextFlow>
+                  <FlowPane alignment="TOP_CENTER" prefHeight="120.0" prefWidth="295.0">
+                     <children>
+                            <Label id="title-stock" alignment="CENTER" onMouseClicked="#boostTimerToNextRestock" prefHeight="50.0" prefWidth="127.0" text="ESTOQUE">
+                                <font>
+                                    <Font name="Unispace-Bold" size="22.0" />
+                                </font>
+                                <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                        <stops>
+                                            <Stop>
+                                                <color>
+                                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                                </color>
+                                            </Stop>
+                                            <Stop offset="1.0">
+                                                <color>
+                                                    <Color red="0.9666666388511658" green="1.0" />
+                                                </color>
+                                            </Stop>
+                                        </stops>
+                                    </LinearGradient>
+                                </textFill>
+                            </Label>
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </FlowPane>
+                      <ListView id="item-stock-list" fx:id="itemStockList" prefHeight="535.0" prefWidth="295.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+          </children>
+      </StackPane>
+   </children>
+</VBox>

@@ -1,38 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="cellRoot" prefHeight="54.0" prefWidth="226.0" stylesheets="@../styles/widgets/item-stock-cell-list-widget.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+
+<HBox fx:id="cellRoot" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListController">
    <children>
-      <ImageView fx:id="itemStockBg" fitHeight="54.0" fitWidth="226.0" pickOnBounds="true">
-         <image>
-            <Image url="@../assets/imgs/pizza-stock-item-background.png" />
-         </image>
-      </ImageView>
-      <ImageView id="item-stock-img" fitHeight="54.0" fitWidth="44.0" layoutX="7.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="5.0">
-         <image>
-            <Image url="@../assets/imgs/pizza-queijo-icon.png" />
-         </image>
-         <viewport>
-            <Rectangle2D />
-         </viewport>
-      </ImageView>
-      <Label fx:id="itemStockNameLabel" layoutX="52.0" layoutY="5.0" prefHeight="44.0" prefWidth="132.0" text="Item" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="5.0">
-         <padding>
-            <Insets left="10.0" />
-         </padding>
-         <font>
-            <Font name="Lucida Bright Demibold" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="itemStockQuantityLabel" layoutX="184.0" layoutY="5.0" prefHeight="44.0" prefWidth="44.0" text="0x" AnchorPane.rightAnchor="-2.0">
-         <font>
-            <Font name="Lucida Bright Demibold" size="14.0" />
-         </font>
-      </Label>
+      <AnchorPane prefHeight="54.0" prefWidth="226.0" stylesheets="@../styles/widgets/item-stock-cell-list-widget.css" HBox.hgrow="ALWAYS">
+         <children>
+            <ImageView fx:id="itemStockBg" fitHeight="54.0" fitWidth="227.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../assets/imgs/pizza-stock-item-background.png" />
+               </image>
+            </ImageView>
+            <HBox layoutX="7.0" layoutY="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="5.0">
+               <children>
+                  <ImageView id="item-stock-img" fitHeight="54.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                     <image>
+                        <Image url="@../assets/imgs/pizza-queijo-icon.png" />
+                     </image>
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                  </ImageView>
+                  <Label fx:id="itemStockNameLabel" prefHeight="44.0" prefWidth="132.0" text="Item" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                     <font>
+                        <Font name="Lucida Bright Demibold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="itemStockQuantityLabel" prefHeight="44.0" prefWidth="44.0" text="0x" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="Lucida Bright Demibold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</HBox>

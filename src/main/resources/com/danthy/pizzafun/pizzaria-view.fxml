@@ -1,115 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox fx:id="rootView" prefHeight="445.0" prefWidth="359.0" stylesheets="@styles/pizzaria.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.PizzariaController">
+<AnchorPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.PizzariaController">
    <children>
-      <VBox HBox.hgrow="ALWAYS">
+      <AnchorPane fx:id="roomView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox fx:id="headerRoomView" prefHeight="208.0" prefWidth="693.0" style="-fx-background-color: RED;" VBox.vgrow="ALWAYS">
+            <HBox prefHeight="445.0" prefWidth="359.0" stylesheets="@styles/pizzaria.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <StackPane prefHeight="192.0" prefWidth="693.0" HBox.hgrow="ALWAYS">
+                  <VBox HBox.hgrow="ALWAYS">
                      <children>
-                        <ImageView fx:id="headerRoomImageBg" fitHeight="207.0" fitWidth="693.0" pickOnBounds="true" StackPane.alignment="CENTER">
-                           <image>
-                              <Image url="@assets/imgs/pizza-order-thread-background.png" />
-                           </image>
-                           <viewport>
-                              <Rectangle2D minX="20.0" minY="20.0" />
-                           </viewport>
-                        </ImageView>
-                        <ListView id="order-list-view" fx:id="orderListView" orientation="HORIZONTAL" prefHeight="279.0" prefWidth="693.0" style="-fx-background-color: transparent;" StackPane.alignment="CENTER" />
-                     </children>
-                  </StackPane>
-               </children>
-            </HBox>
-            <HBox prefHeight="245.0" prefWidth="693.0">
-               <children>
-                  <StackPane fx:id="footerRoomView">
-                     <children>
-                        <ImageView fx:id="footerRoomImageBg" fitHeight="240.0" fitWidth="693.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@assets/imgs/pizza-info-background.png" />
-                           </image>
-                        </ImageView>
-                        <VBox prefHeight="273.0" prefWidth="693.0">
+                        <HBox fx:id="headerRoomView" prefHeight="208.0" prefWidth="693.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <VBox prefHeight="118.0" prefWidth="693.0" VBox.vgrow="ALWAYS">
+                              <StackPane prefHeight="192.0" prefWidth="693.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Label fx:id="balanceLabel" prefHeight="30.0" prefWidth="629.0" text="Dinheiro: $20" VBox.vgrow="ALWAYS">
-                                       <font>
-                                          <Font name="Unispace-Bold" size="14.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label fx:id="tokensLabel" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="629.0" text="Token: 10 TK">
-                                       <font>
-                                          <Font name="Unispace-Bold" size="11.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                    </Label>
+                                    <ImageView fx:id="headerRoomImageBg" fitHeight="444.0" fitWidth="693.0" pickOnBounds="true" StackPane.alignment="CENTER">
+                                       <image>
+                                          <Image url="@assets/imgs/pizza-order-thread-background.png" />
+                                       </image>
+                                       <viewport>
+                                          <Rectangle2D minX="20.0" minY="20.0" />
+                                       </viewport>
+                                    </ImageView>
+                                    <ListView id="order-list-view" fx:id="orderListView" orientation="HORIZONTAL" prefHeight="279.0" prefWidth="693.0" style="-fx-background-color: transparent;" StackPane.alignment="CENTER" />
                                  </children>
-                              </VBox>
-                              <FlowPane alignment="BOTTOM_RIGHT" columnHalignment="CENTER" prefHeight="156.0" prefWidth="693.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <HBox prefHeight="84.0" prefWidth="195.0" spacing="20.0">
-                                       <children>
-                                          <VBox alignment="CENTER" prefHeight="84.0" prefWidth="88.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 20px;">
-                                             <children>
-                                                <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@assets/imgs/pizza-box-icon.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D height="80.0" minX="-4.0" width="100.0" />
-                                                   </viewport>
-                                                </ImageView>
-                                                <Label text="Token's">
-                                                   <font>
-                                                      <Font name="Unispace-Bold" size="10.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" prefHeight="84.0" prefWidth="88.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 20px;">
-                                             <children>
-                                                <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@assets/imgs/pizza-box-icon.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D height="80.0" minX="-4.0" width="100.0" />
-                                                   </viewport>
-                                                </ImageView>
-                                                <Label text="Estoque">
-                                                   <font>
-                                                      <Font name="Unispace-Bold" size="10.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="14.0" right="14.0" />
-                                 </padding>
-                              </FlowPane>
+                              </StackPane>
                            </children>
-                        </VBox>
+                        </HBox>
+                        <HBox prefHeight="245.0" prefWidth="693.0">
+                           <children>
+                              <StackPane fx:id="footerRoomView">
+                                 <children>
+                                    <ImageView fx:id="footerRoomImageBg" fitHeight="246.0" fitWidth="693.0" pickOnBounds="true">
+                                       <image>
+                                          <Image url="@assets/imgs/pizza-info-background.png" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox prefHeight="273.0" prefWidth="693.0">
+                                       <children>
+                                          <VBox prefHeight="118.0" prefWidth="693.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="balanceLabel" prefHeight="30.0" prefWidth="629.0" text="Dinheiro: $20" VBox.vgrow="ALWAYS">
+                                                   <font>
+                                                      <Font name="Unispace-Bold" size="14.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="tokensLabel" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="629.0" text="Token: 10 TK">
+                                                   <font>
+                                                      <Font name="Unispace-Bold" size="11.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <FlowPane alignment="BOTTOM_RIGHT" columnHalignment="CENTER" prefHeight="156.0" prefWidth="693.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <HBox prefHeight="84.0" prefWidth="195.0" spacing="20.0">
+                                                   <children>
+                                                      <VBox alignment="CENTER" prefHeight="84.0" prefWidth="88.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 20px;">
+                                                         <children>
+                                                            <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@assets/imgs/pizza-box-icon.png" />
+                                                               </image>
+                                                               <viewport>
+                                                                  <Rectangle2D height="80.0" minX="-4.0" width="100.0" />
+                                                               </viewport>
+                                                            </ImageView>
+                                                            <Label text="Token's">
+                                                               <font>
+                                                                  <Font name="Unispace-Bold" size="10.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox alignment="CENTER" onMouseClicked="#onStockViewEvent" prefHeight="84.0" prefWidth="88.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 20px;">
+                                                         <children>
+                                                            <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@assets/imgs/pizza-box-icon.png" />
+                                                               </image>
+                                                               <viewport>
+                                                                  <Rectangle2D height="80.0" minX="-4.0" width="100.0" />
+                                                               </viewport>
+                                                            </ImageView>
+                                                            <Label text="Estoque">
+                                                               <font>
+                                                                  <Font name="Unispace-Bold" size="10.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="14.0" right="14.0" />
+                                             </padding>
+                                          </FlowPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </HBox>
                      </children>
-                  </StackPane>
+                  </VBox>
                </children>
             </HBox>
          </children>
-      </VBox>
+      </AnchorPane>
+      <AnchorPane fx:id="stockWrapperPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <fx:include fx:id="stock" source="stock-view.fxml" />
+         </children>
+      </AnchorPane>
    </children>
-</HBox>
+</AnchorPane>

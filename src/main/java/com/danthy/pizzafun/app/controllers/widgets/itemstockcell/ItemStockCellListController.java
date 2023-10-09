@@ -1,14 +1,16 @@
 package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
-import com.danthy.pizzafun.app.utils.FxmlUtil;
-import com.danthy.pizzafun.app.utils.PathFxmlUtil;
 import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
-public class ItemStockCellListController extends AnchorPane  {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ItemStockCellListController implements Initializable {
     @FXML
     private Label itemStockNameLabel;
 
@@ -16,30 +18,22 @@ public class ItemStockCellListController extends AnchorPane  {
     private Label itemStockQuantityLabel;
 
     @FXML
-    private AnchorPane cellRoot;
+    private HBox cellRoot;
 
     @FXML
     private ImageView itemStockBg;
 
-    private final ItemStockWrapper itemStockWrapper;
+    public ItemStockCellListController() {}
 
-    public ItemStockCellListController(ItemStockWrapper itemStockWrapper) {
-        this.itemStockWrapper = itemStockWrapper;
-
-        FxmlUtil.loadFXMLInjectController(this, PathFxmlUtil.ITEM_STOCK_CELL_LIST_WIDGET);
-        initialize();
-    }
-
-    private void initialize() {
-        itemStockNameLabel.setText(itemStockWrapper.getName());
-        itemStockQuantityLabel.setText(itemStockWrapper.getQuantityPrint());
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         cellRoot.widthProperty().addListener((observable, oldValue, newValue) -> {
             itemStockBg.setFitWidth(newValue.doubleValue());
-        });;
+        });
+    }
 
-        getChildren().add(cellRoot);
-        setLeftAnchor(cellRoot, 0.0);
-        setRightAnchor(cellRoot, 0.0);
+    public void setItemStockWrapper(ItemStockWrapper itemStockWrapper) {
+        itemStockNameLabel.setText(itemStockWrapper.getName());
+        itemStockQuantityLabel.setText(itemStockWrapper.getQuantityPrint());
     }
 }

@@ -8,6 +8,17 @@
 
 #item-stock-list {
     -fx-background-color: transparent;
+    -fx-padding: 0 7px 0 7px;
+}
+
+#item-stock-list .cell:filled {
+    -fx-border-color: black transparent transparent transparent;
+    -fx-border-width: 2px 0 0 0;
+}
+
+#item-stock-list .list-cell, #item-stock-list .list-cell:odd, #item-stock-list .list-cell:selected, #item-stock-list .list-cell:filled {
+    -fx-background-color: transparent;
+    -fx-padding: 0px;
 }
 
 #title-stock {

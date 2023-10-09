@@ -6,6 +6,7 @@ import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
 import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import javafx.animation.*;
@@ -22,7 +23,6 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 public class PizzariaController implements IListener, IController {
     @FXML
@@ -34,14 +34,9 @@ public class PizzariaController implements IListener, IController {
     @FXML
     public Label tokensLabel;
 
-    @FXML
-    public HBox rootView;
-
     // @FXML public HBox tokenShop;
 
     // @FXML public TokenShopController tokenShopController;
-
-    // @FXML public StockController stockController;
 
     @FXML
     public HBox headerRoomView;
@@ -58,24 +53,39 @@ public class PizzariaController implements IListener, IController {
     @FXML
     public ImageView footerRoomImageBg;
 
-    private PizzariaServiceImpl pizzariaService;
+    @FXML
+    public StockController stockController;
 
-    // private double maxWidth;
+    @FXML
+    public VBox stock;
+
+    @FXML
+    public AnchorPane stockWrapperPane;
+
+    private double stockViewWidth;
+
+    private PizzariaServiceImpl pizzariaService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        rootView.widthProperty().addListener((observable, oldValue, newValue) -> {
+        roomView.widthProperty().addListener((observable, oldValue, newValue) -> {
             double value = newValue.doubleValue();
 
             headerRoomImageBg.setFitWidth(value);
             footerRoomImageBg.setFitWidth(value);
         });
-        rootView.heightProperty().addListener((observable, oldValue, newValue) -> {
+        roomView.heightProperty().addListener((observable, oldValue, newValue) -> {
             double value = newValue.doubleValue();
 
             headerRoomImageBg.setFitHeight(value * 0.6);
             footerRoomImageBg.setFitHeight(value * 0.4);
         });
+
+        stockController.rootView.setPrefWidth(300);
+        stockViewWidth = stockController.rootView.getPrefWidth();
+        stock.prefHeightProperty().bind(stockWrapperPane.heightProperty());
+        stockController.stockView.prefHeightProperty().bind(stockWrapperPane.heightProperty());
+        AnchorPane.setRightAnchor(stockWrapperPane, (-1) * stockViewWidth);
 
         orderListView.setItems(null);
         orderListView.setCellFactory(object -> {
@@ -120,52 +130,32 @@ public class PizzariaController implements IListener, IController {
         tokensLabel.setText(String.format("Tokens: %d TK", tokensProperty.getValue()));
     }
 
+    @FXML
+    public void onStockViewEvent(MouseEvent mouseEvent) {
+        Platform.runLater(() -> {
+            double fromRightAnchor = AnchorPane.getRightAnchor(roomView) == 0 ? 0 : stockViewWidth;
+            double toRightAnchor = AnchorPane.getRightAnchor(roomView) == 0 ? stockViewWidth : 0;
+
+            ObservableValue<Double> rightAnchorObservable = new ObservableValue<>(fromRightAnchor);
+
+            rightAnchorObservable.getProperty().addListener((observable, oldValue, newValue) -> {
+                AnchorPane.setRightAnchor(roomView, newValue);
+                AnchorPane.setRightAnchor(stockWrapperPane, (-1) * stockViewWidth + newValue);
+            });
+
+            Timeline timeline = new Timeline();
+            KeyValue keyValue = new KeyValue(rightAnchorObservable.getProperty(), toRightAnchor);
+
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.4), keyValue);
+            timeline.getKeyFrames().add(keyFrame);
+            timeline.play();
+        });
+    }
+
     /*
     @FXML
     public void openTokenShopViewEvent(MouseEvent mouseEvent) {
         tokenShop.toFront();
     }
-
-    @FXML
-    public void stockViewEvent(MouseEvent mouseEvent) {
-        if (stockController.stockView.getPrefWidth() != stockController.prefWidthStockView) {
-            openStockViewEvent();
-        } else {
-            closeStockViewEvent();
-        }
-    }
-
-    public void openStockViewEvent() {
-        StackPane stockView = stockController.stockView;
-        double prefWidthStockView = stockController.prefWidthStockView;
-
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.3), stockView);
-        translateTransition.setFromX(prefWidthStockView);
-        translateTransition.setToX(0);
-
-        Timeline timelineOpenStock = new Timeline(
-                new KeyFrame(Duration.seconds(0.3), new KeyValue(stockView.prefWidthProperty(), prefWidthStockView))
-                // new KeyFrame(Duration.seconds(0.3), new KeyValue(paneAuxStrectch.prefWidthProperty(), prefWidthStockView))
-        );
-
-        ParallelTransition parallelTransition = new ParallelTransition(translateTransition, timelineOpenStock);
-        parallelTransition.play();
-    }
-
-    public void closeStockViewEvent() {
-        StackPane stockView = stockController.stockView;
-        double prefWidthStockView = stockController.prefWidthStockView;
-
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.3), stockView);
-        translateTransition.setFromX(0);
-        translateTransition.setToX(prefWidthStockView);
-
-        Timeline timelineCloseStock = new Timeline(
-                new KeyFrame(Duration.seconds(0.3), new KeyValue(stockView.prefWidthProperty(), 0))
-                // new KeyFrame(Duration.seconds(0.3), new KeyValue(roomView.prefWidthProperty(), maxWidth))
-        );
-
-        ParallelTransition parallelTransition = new ParallelTransition(translateTransition, timelineCloseStock);
-        parallelTransition.play();
-    }*/
+    */
 }

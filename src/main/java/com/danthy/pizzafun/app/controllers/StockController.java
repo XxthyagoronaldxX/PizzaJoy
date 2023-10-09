@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,7 +31,7 @@ public class StockController extends IEmitter implements IController, IListener 
     public StackPane stockView;
 
     @FXML
-    public AnchorPane stockPaneBg;
+    public VBox rootView;
 
     @FXML
     public ImageView stockImageBg;
@@ -38,33 +39,15 @@ public class StockController extends IEmitter implements IController, IListener 
     @FXML
     public Label timeToNextRestockLabel;
 
-    public double prefWidthStockView;
-
     private StockServiceImpl stockService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initItemStockListView();
-        initStockView();
-    }
-
-    private void initItemStockListView() {
         itemStockList.setCellFactory(object -> new ItemStockCellListFactory());
         itemStockList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
 
-    private void initStockView() {
-        prefWidthStockView = stockView.getPrefWidth();
-
-        stockView.setTranslateX(prefWidthStockView);
-        stockView.setPrefWidth(0);
-
-        stockPaneBg.widthProperty().addListener((observable, oldValue, newValue) -> {
-            stockImageBg.setFitWidth(newValue.doubleValue());
-        });
-        stockPaneBg.heightProperty().addListener((observable, oldValue, newValue) -> {
-            stockImageBg.setFitHeight(newValue.doubleValue());
-        });
+        stockImageBg.fitWidthProperty().bind(rootView.prefWidthProperty());
+        stockImageBg.fitHeightProperty().bind(rootView.prefHeightProperty());
     }
 
     @Override
