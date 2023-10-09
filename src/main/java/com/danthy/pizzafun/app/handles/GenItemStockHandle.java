@@ -1,5 +1,6 @@
 package com.danthy.pizzafun.app.handles;
 
+import com.danthy.pizzafun.app.contracts.IHandle;
 import com.danthy.pizzafun.app.events.GenItemStockThreadEndedEvent;
 import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
@@ -15,16 +16,17 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
+import javafx.concurrent.Task;
 import javafx.util.Duration;
 
-public class GenItemStockThreadHandleOld extends Thread {
+public class GenItemStockHandle implements IHandle {
     private final StockServiceImpl stockService;
     private final PizzariaServiceImpl pizzariaService;
     private final TokenShopServiceImpl tokenShopService;
     private final EventPublisher eventPublisher;
     private Timeline timeline;
 
-    public GenItemStockThreadHandleOld() {
+    public GenItemStockHandle() {
         pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
         stockService = GetIt.getInstance().find(StockServiceImpl.class);
         eventPublisher = GetIt.getInstance().find(EventPublisher.class);
@@ -33,12 +35,10 @@ public class GenItemStockThreadHandleOld extends Thread {
         stockService.getRateSpeedProperty().addListener((observer, oldValue, newValue) -> {
             this.timeline.setRate(newValue);
         });
-
-        setDaemon(true);
     }
 
     @Override
-    public void run() {
+    public void handle() {
         SupplierModel supplierModel = tokenShopService.getTokenShopWrapper().getCurrentSupplierWrapperObservable().getValue().getWrapped();
         Property<Double> timerToNextRestockProperty = stockService.getTimerToNextRestockProperty();
         Property<Double> rateSpeedProperty = stockService.getRateSpeedProperty();
@@ -54,13 +54,11 @@ public class GenItemStockThreadHandleOld extends Thread {
                 if (pizzariaState.getBalanceObservable().getValue() > supplierModel.getCost()) {
                     eventPublisher.notifyAll(new ReStockEvent(supplierModel));
                 }
+
+                eventPublisher.notifyAll(new GenItemStockThreadEndedEvent());
             });
         });
 
         timeline.play();
-
-        while (timeline.getStatus() == Animation.Status.RUNNING) Thread.onSpinWait();
-
-        eventPublisher.notifyAll(new GenItemStockThreadEndedEvent());
     }
 }

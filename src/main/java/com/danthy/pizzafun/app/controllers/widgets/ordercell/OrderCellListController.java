@@ -11,6 +11,7 @@ import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OrderCellListController extends VBox implements IController  {
+public class OrderCellListController implements IController  {
     @FXML
     public ImageView orderImageBg;
 
@@ -48,27 +49,11 @@ public class OrderCellListController extends VBox implements IController  {
     public OrderCellListController() {
     }
 
-    public Node build(OrderWrapper orderWrapper) {
-        FXMLLoader loader = FxmlUtil.loaderFromName(PathFxmlUtil.ORDER_CELL_LIST_WIDGET);
-
-        try {
-            loader.setController(this);
-            loader.load();
-            setOrderWrapper(orderWrapper);
-
-            return this;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        orderImageBg.fitWidthProperty().bind(widthProperty());
-        orderImageBg.fitHeightProperty().bind(heightProperty());
-
-        getChildren().add(cellRoot);
-        setVgrow(cellRoot, Priority.ALWAYS);
+        orderImageBg.fitWidthProperty().bind(cellRoot.prefWidthProperty());
+        orderImageBg.fitHeightProperty().bind(cellRoot.prefHeightProperty());
+        cellRoot.setAlignment(Pos.CENTER);
     }
 
     public void setOrderWrapper(OrderWrapper orderWrapper) {

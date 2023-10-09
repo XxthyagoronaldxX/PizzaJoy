@@ -1,8 +1,9 @@
 package com.danthy.pizzafun.app.handles;
 
-import com.danthy.pizzafun.app.config.ApplicationProperties;
+import com.danthy.pizzafun.app.contracts.IHandle;
 import com.danthy.pizzafun.app.events.GenSupplierThreadEndedEvent;
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
+import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
@@ -17,17 +18,15 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenSupplierThreadHandleOld extends Thread {
+public class GenSupplierHandle implements IHandle {
     private final EventPublisher eventPublisher;
 
-    public GenSupplierThreadHandleOld() {
-        eventPublisher = GetIt.getInstance().find(EventPublisher.class);
-
-        setDaemon(true);
+    public GenSupplierHandle() {
+        this.eventPublisher = GetIt.getInstance().find(EventPublisher.class);
     }
 
     @Override
-    public void run() {
+    public void handle() {
         int maxSuppliers = ApplicationProperties.roomInitialMaxSuppliers;
         String[] supplierNames = ApplicationProperties.supplierNames;
         SupplierLevel[] supplierLevels = SupplierLevel.values();
@@ -46,14 +45,11 @@ public class GenSupplierThreadHandleOld extends Thread {
                 }
 
                 eventPublisher.notifyAll(new SupplierGenerateEvent(supplierModelList));
+                eventPublisher.notifyAll(new GenSupplierThreadEndedEvent());
             });
         });
 
         timeline.play();
-
-        while (timeline.getStatus() == Animation.Status.RUNNING) Thread.onSpinWait();
-
-        eventPublisher.notifyAll(new GenSupplierThreadEndedEvent());
     }
 }
 

@@ -3,7 +3,7 @@ package com.danthy.pizzafun;
 import com.danthy.pizzafun.app.controllers.HomeController;
 import com.danthy.pizzafun.app.controllers.PizzariaController;
 import com.danthy.pizzafun.app.enums.ScreenType;
-import com.danthy.pizzafun.app.handles.GameThreadHandle;
+import com.danthy.pizzafun.app.handles.GameManageHandle;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
@@ -46,8 +46,7 @@ public class GetItSetup {
         PizzariaServiceImpl roomService = new PizzariaServiceImpl();
         StockServiceImpl stockService = new StockServiceImpl();
 
-        GameThreadHandle gameThreadHandle = new GameThreadHandle();
-        gameThreadHandle.setEventPublisher(eventPublisher);
+        GameManageHandle gameManageHandle = new GameManageHandle();
 
         eventPublisher
                 .addListener(tokenShopService)
@@ -56,7 +55,7 @@ public class GetItSetup {
                 .addListener(pizzariaController)
                 // .addListener(tokenShopController)
                 // .addListener(stockController)
-                .addListener(gameThreadHandle)
+                .addListener(gameManageHandle)
                 .addListener(screenManager);
 
         getIt.addSingleton(tokenShopService)

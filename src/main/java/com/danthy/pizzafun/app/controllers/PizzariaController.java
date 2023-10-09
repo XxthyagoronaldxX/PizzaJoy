@@ -69,18 +69,22 @@ public class PizzariaController implements IListener, IController {
 
             headerRoomImageBg.setFitWidth(value);
             footerRoomImageBg.setFitWidth(value);
-            orderListView.setPrefWidth(value);
         });
         rootView.heightProperty().addListener((observable, oldValue, newValue) -> {
             double value = newValue.doubleValue();
 
-            orderListView.setPrefHeight(value * 0.6);
             headerRoomImageBg.setFitHeight(value * 0.6);
             footerRoomImageBg.setFitHeight(value * 0.4);
         });
 
         orderListView.setItems(null);
-        orderListView.setCellFactory(object -> new OrderCellListFactory());
+        orderListView.setCellFactory(object -> {
+            OrderCellListFactory orderCellListFactory = new OrderCellListFactory();
+
+            orderCellListFactory.prefHeightProperty().bind(headerRoomView.heightProperty().subtract(20));
+
+            return orderCellListFactory;
+        });
         orderListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
