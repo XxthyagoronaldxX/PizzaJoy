@@ -2,3 +2,11 @@
     -fx-background-color: white;
     -fx-background-radius: 0px 0px 100px 100px;
 }
+
+#supplier-list {
+    -fx-background-radius: 0px 0px 0px 100px;
+}
+
+#supplier-list .cell {
+    -fx-background-color: transparent;
+}

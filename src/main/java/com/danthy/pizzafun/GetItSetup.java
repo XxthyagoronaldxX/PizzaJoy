@@ -3,6 +3,7 @@ package com.danthy.pizzafun;
 import com.danthy.pizzafun.app.controllers.HomeController;
 import com.danthy.pizzafun.app.controllers.PizzariaController;
 import com.danthy.pizzafun.app.controllers.StockController;
+import com.danthy.pizzafun.app.controllers.TokenShopController;
 import com.danthy.pizzafun.app.enums.ScreenType;
 import com.danthy.pizzafun.app.handles.GameManageHandle;
 import com.danthy.pizzafun.app.logic.EventPublisher;
@@ -30,11 +31,11 @@ public class GetItSetup {
 
         PizzariaController pizzariaController = FxmlUtil.controllerFromLoader(roomLoader);
         HomeController homeController = FxmlUtil.controllerFromLoader(homeLoader);
-        // TokenShopController tokenShopController = pizzariaController.tokenShopController;
+        TokenShopController tokenShopController = pizzariaController.tokenShopController;
         StockController stockController = pizzariaController.stockController;
 
         homeController.setEventPublisher(eventPublisher);
-        // tokenShopController.setEventPublisher(eventPublisher);
+        tokenShopController.setEventPublisher(eventPublisher);
         stockController.setEventPublisher(eventPublisher);
 
         ScreenManager screenManager = ScreenManager
@@ -54,7 +55,7 @@ public class GetItSetup {
                 .addListener(roomService)
                 .addListener(stockService)
                 .addListener(pizzariaController)
-                // .addListener(tokenShopController)
+                .addListener(tokenShopController)
                 .addListener(stockController)
                 .addListener(gameManageHandle)
                 .addListener(screenManager);
