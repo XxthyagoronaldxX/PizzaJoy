@@ -11,7 +11,9 @@ import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.app.states.TokenShopState;
+import com.danthy.pizzafun.domain.data.PizzaDataSingleton;
 import com.danthy.pizzafun.domain.data.PostConstruct;
+import com.danthy.pizzafun.domain.models.PizzaModel;
 import com.danthy.pizzafun.domain.models.RoomModel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.fxml.FXML;
@@ -20,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class HomeController extends IEmitter implements IController {
@@ -44,13 +47,14 @@ public class HomeController extends IEmitter implements IController {
     public void onInitClick() {
         String pizzaName = pizzaNameField.getText();
 
+        List<PizzaModel> pizzaModelList = PizzaDataSingleton.getInstance().getPizzaModels();
         RoomModel roomModel = PostConstruct.genRoomModel(pizzaName);
         RoomWrapper roomWrapper = new RoomWrapper(roomModel);
 
         GetIt.getInstance()
                 .addSingleton(new StockState(roomWrapper))
                 .addSingleton(new PizzariaState(roomWrapper))
-                .addSingleton(new TokenShopState(roomWrapper));
+                .addSingleton(new TokenShopState(roomModel.getSupplierModel(), pizzaModelList));
 
         this.eventPublisher.notifyAll(new StartGameEvent());
     }

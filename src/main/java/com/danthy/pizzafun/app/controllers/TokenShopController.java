@@ -42,6 +42,9 @@ public class TokenShopController extends IEmitter implements IController, IListe
     @FXML
     public AnchorPane rootView;
 
+    @FXML
+    public ListView pizzaRecipeList;
+
     private ITokenShopService tokenShopService;
 
     public TokenShopController() {
@@ -51,6 +54,8 @@ public class TokenShopController extends IEmitter implements IController, IListe
     public void initialize(URL url, ResourceBundle resourceBundle) {
         supplierList.setCellFactory(object -> new SupplierCellListFactory());
         supplierList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        pizzaRecipeList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     public void initObservers() {
@@ -90,6 +95,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
             TokenShopState tokenShopState = tokenShopService.getTokenShopWrapper();
 
             supplierList.setItems(tokenShopState.getSupplierModelObservableList());
+            pizzaRecipeList.setItems(tokenShopState.getPizzaWrapperObservableList());
 
             initObservers();
         }

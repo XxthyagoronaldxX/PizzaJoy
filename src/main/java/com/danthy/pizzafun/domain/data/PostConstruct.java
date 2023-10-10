@@ -3,30 +3,53 @@ package com.danthy.pizzafun.domain.data;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.domain.models.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class PostConstruct {
 
     public static RoomModel genRoomModel(String name) {
+        ItemModel queijoItem = new ItemModel("Queijo", 2);
+        ItemModel calabresaItem = new ItemModel("Calabresa", 2);
+        ItemModel massaItem = new ItemModel("Massa", 4);
+        ItemModel molhoDeTomateItem = new ItemModel("Molho de tomate", 4);
+
+        ItemStockModel queijoStockModel = new ItemStockModel(queijoItem, 80);
+        ItemStockModel massaStockModel = new ItemStockModel(massaItem, 40);
+        ItemStockModel molhoDeTomateStockModel = new ItemStockModel(molhoDeTomateItem,40);
+        ItemStockModel calabresaStockModel = new ItemStockModel(calabresaItem, 40);
+
+        PizzaEdgeModel pizzaNoEdge = PizzaEdgeModel.build();
+
         StockModel stockModel = new StockModel(150);
-
-        ItemStockModel queijoStockModel = new ItemStockModel(
-                new ItemModel("Queijo", 2),
-                80
-        );
-        ItemStockModel massaStockModel = new ItemStockModel(
-                new ItemModel("Massa", 4),
-                40
-        );
-        ItemStockModel molhoDeTomateStockModel = new ItemStockModel(
-                new ItemModel("Molho de tomate", 4),
-                40
-        );
-
         stockModel
                 .addItemStockModel(queijoStockModel)
                 .addItemStockModel(molhoDeTomateStockModel)
-                .addItemStockModel(massaStockModel);
+                .addItemStockModel(massaStockModel)
+                .addItemStockModel(calabresaStockModel);
+
+        PizzaModel calabresaPizza = PizzaModel
+                .build()
+                .setName("Pizza de Calabresa")
+                .setPrice(32.0f)
+                .setEdge(pizzaNoEdge)
+                .addItemPizzaModel(massaItem, 1)
+                .addItemPizzaModel(queijoItem, 2)
+                .addItemPizzaModel(molhoDeTomateItem, 1)
+                .addItemPizzaModel(calabresaItem, 3);
+
+        PizzaModel quatroQueijosPizza = PizzaModel
+                .build()
+                .setName("Pizza de Quatro queijos")
+                .setPrice(40.0f)
+                .setEdge(pizzaNoEdge)
+                .addItemPizzaModel(massaItem, 1)
+                .addItemPizzaModel(molhoDeTomateItem, 1)
+                .addItemPizzaModel(queijoItem, 4);
+
+        List<PizzaModel> pizzaModelList = Arrays.asList(calabresaPizza, quatroQueijosPizza);
 
         SupplierModel supplierModel = SupplierModel
                 .builder()
@@ -45,6 +68,7 @@ public class PostConstruct {
         roomModel.setStockModel(stockModel);
         roomModel.setBalance(ApplicationProperties.roomInitialBalance);
         roomModel.setTokens(ApplicationProperties.roomInitialTokens);
+        roomModel.setPizzaModels(pizzaModelList);
 
         return roomModel;
     }
@@ -78,7 +102,7 @@ public class PostConstruct {
                 .setName("Pizza de Calabresa")
                 .setPrice(32.0f)
                 .setEdge(pizzaNoEdge)
-                .addItemPizzaModel(massaItem, 1) //ERRO TA AQUI
+                .addItemPizzaModel(massaItem, 1)
                 .addItemPizzaModel(queijoItem, 2)
                 .addItemPizzaModel(molhoDeTomateItem, 1)
                 .addItemPizzaModel(calabresaItem, 3);

@@ -70,11 +70,6 @@ public class OrderCellListController implements IController  {
 
         itemsLabel.setText(orderModel.toString());
         pizzaNameLabel.setText(orderModel.getPizzaModel().getName());
-
-        // if (!orderWrapper.isAlreadyAnimated()) {
-        //    this.playEntryAnimation();
-        //    orderWrapper.setAlreadyAnimated(true);
-        //}
     }
 
     @FXML

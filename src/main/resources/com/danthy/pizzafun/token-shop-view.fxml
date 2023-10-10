@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane id="root-view" fx:id="rootView" stylesheets="@styles/token-shop.css" xmlns="http://javafx.com/javafx/20.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.TokenShopController">
+<AnchorPane id="root-view" fx:id="rootView" stylesheets="@styles/token-shop.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.TokenShopController">
     <children>
-        <HBox id="token-show-view" alignment="CENTER" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="60.0"
-              AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+        <HBox id="token-show-view" alignment="CENTER" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
             <children>
                 <VBox HBox.hgrow="ALWAYS">
                     <children>
@@ -23,47 +16,45 @@
                             <children>
                                 <ImageView fitHeight="51.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assets/imgs/pizza-queijo-icon.png"/>
+                                        <Image url="@assets/imgs/pizza-queijo-icon.png" />
                                     </image>
                                 </ImageView>
                                 <VBox>
                                     <children>
-                                        <Label fx:id="supplierNameLabel" prefHeight="16.0" prefWidth="132.0"
-                                               text="Nome">
+                                        <Label fx:id="supplierNameLabel" prefHeight="16.0" prefWidth="132.0" text="Nome">
                                             <font>
-                                                <Font name="Unispace-Bold" size="12.0"/>
+                                                <Font name="Unispace-Bold" size="12.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="supplierRestockTimeLabel" prefHeight="16.0" prefWidth="132.0"
-                                               text="Velocidade: 10s">
+                                        <Label fx:id="supplierRestockTimeLabel" prefHeight="16.0" prefWidth="132.0" text="Velocidade: 10s">
                                             <font>
-                                                <Font name="Unispace-Bold" size="10.0"/>
+                                                <Font name="Unispace-Bold" size="10.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="supplierBonusChanceLabel" prefHeight="16.0" prefWidth="132.0"
-                                               text="Bonus Chance: 40%">
+                                        <Label fx:id="supplierBonusChanceLabel" prefHeight="16.0" prefWidth="132.0" text="Bonus Chance: 40%">
                                             <font>
-                                                <Font name="Unispace-Bold" size="10.0"/>
+                                                <Font name="Unispace-Bold" size="10.0" />
                                             </font>
                                         </Label>
                                     </children>
                                 </VBox>
-                                <Label fx:id="supplierCostLabel" contentDisplay="CENTER" prefHeight="51.0"
-                                       prefWidth="151.0" text="R$ 20">
+                                <Label fx:id="supplierCostLabel" contentDisplay="CENTER" prefHeight="51.0" prefWidth="151.0" text="R$ 20">
                                     <font>
-                                        <Font name="Unispace-Bold" size="14.0"/>
+                                        <Font name="Unispace-Bold" size="14.0" />
                                     </font>
                                 </Label>
                             </children>
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </padding>
                         </HBox>
-                        <ListView id="supplier-list" fx:id="supplierList" prefHeight="500.0" prefWidth="411.0"
-                                  VBox.vgrow="ALWAYS"/>
+                        <ListView id="supplier-list" fx:id="supplierList" prefHeight="500.0" prefWidth="411.0" VBox.vgrow="ALWAYS" />
                     </children>
                 </VBox>
-                <VBox prefHeight="561.0" prefWidth="358.0" HBox.hgrow="ALWAYS"/>
+                <VBox alignment="CENTER" prefHeight="382.0" prefWidth="358.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ListView fx:id="pizzaRecipeList" prefHeight="275.0" prefWidth="358.0" VBox.vgrow="ALWAYS" />
+               </children></VBox>
             </children>
         </HBox>
     </children>
