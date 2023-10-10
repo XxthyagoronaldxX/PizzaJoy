@@ -1,6 +1,8 @@
 package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
 import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
+import com.danthy.pizzafun.domain.models.ItemModel;
+import com.danthy.pizzafun.domain.models.ItemStockModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -33,7 +35,10 @@ public class ItemStockCellListController implements Initializable {
     }
 
     public void setItemStockWrapper(ItemStockWrapper itemStockWrapper) {
-        itemStockNameLabel.setText(itemStockWrapper.getName());
-        itemStockQuantityLabel.setText(itemStockWrapper.getQuantityPrint());
+        ItemStockModel itemStockModel = itemStockWrapper.getWrapped();
+        ItemModel itemModel = itemStockModel.getItemModel();
+
+        itemStockNameLabel.setText(itemModel.getName());
+        itemStockQuantityLabel.setText(itemStockModel.getQuantity() + "x");
     }
 }

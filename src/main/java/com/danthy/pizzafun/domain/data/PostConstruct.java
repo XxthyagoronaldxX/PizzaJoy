@@ -3,7 +3,6 @@ package com.danthy.pizzafun.domain.data;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.domain.models.*;
 
-import java.util.List;
 import java.util.UUID;
 
 public class PostConstruct {
@@ -29,25 +28,25 @@ public class PostConstruct {
                 .addItemStockModel(molhoDeTomateStockModel)
                 .addItemStockModel(massaStockModel);
 
-        RoomModel roomModel = new RoomModel(name, stockModel);
+        SupplierModel supplierModel = SupplierModel
+                .builder()
+                .id(UUID.randomUUID())
+                .deliveryTimeInSeconds(ApplicationProperties.roomInitialSupplierDeliveryTimeInSeconds)
+                .supplierLevel(ApplicationProperties.roomInitialSupplierLevel)
+                .name(ApplicationProperties.roomInitialSupplierName)
+                .cost(ApplicationProperties.roomInitialSupplierCost)
+                .bonus(ApplicationProperties.roomInitialSupplierBonus)
+                .bonusChance(ApplicationProperties.roomInitialSupplierBonusChance)
+                .build();
 
+        RoomModel roomModel = new RoomModel(name);
+
+        roomModel.setSupplierModel(supplierModel);
+        roomModel.setStockModel(stockModel);
         roomModel.setBalance(ApplicationProperties.roomInitialBalance);
         roomModel.setTokens(ApplicationProperties.roomInitialTokens);
 
         return roomModel;
-    }
-
-    public static SupplierModel genSupplierModel() {
-        return SupplierModel
-            .builder()
-            .id(UUID.randomUUID())
-            .deliveryTimeInSeconds(ApplicationProperties.roomInitialSupplierDeliveryTimeInSeconds)
-            .supplierLevel(ApplicationProperties.roomInitialSupplierLevel)
-            .name(ApplicationProperties.roomInitialSupplierName)
-            .cost(ApplicationProperties.roomInitialSupplierCost)
-            .bonus(ApplicationProperties.roomInitialSupplierBonus)
-            .bonusChance(ApplicationProperties.roomInitialSupplierBonusChance)
-            .build();
     }
 
     public static void genModels() {

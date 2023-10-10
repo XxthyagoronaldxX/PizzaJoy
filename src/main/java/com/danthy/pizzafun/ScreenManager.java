@@ -54,10 +54,7 @@ public class ScreenManager implements IListener {
 
     @Override
     public void update(IEvent event) {
-        if (event.getClass() == GotoUpgradeEvent.class) {
-            setCurrentScreen(ScreenType.UPGRADE);
-            refresh();
-        } else if (event.getClass() == GotoRoomEvent.class || event.getClass() == StartGameEvent.class) {
+        if (event.getClass() == GotoRoomEvent.class || event.getClass() == StartGameEvent.class) {
             setCurrentScreen(ScreenType.ROOM);
             refresh();
         }

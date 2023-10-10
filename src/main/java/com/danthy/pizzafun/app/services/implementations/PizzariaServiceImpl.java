@@ -7,7 +7,6 @@ import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
-import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.application.Platform;
 import lombok.Getter;

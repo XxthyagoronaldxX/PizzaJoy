@@ -2,11 +2,13 @@ package com.danthy.pizzafun.domain.data;
 
 
 import com.danthy.pizzafun.domain.models.PizzaModel;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public class PizzaDataSingleton {
 
     private static final PizzaDataSingleton I = new PizzaDataSingleton();
@@ -18,10 +20,6 @@ public class PizzaDataSingleton {
 
     public static PizzaDataSingleton getInstance() {
         return PizzaDataSingleton.I;
-    }
-
-    public List<PizzaModel> getPizzaModels() {
-        return pizzaModels;
     }
 
     public PizzaModel getRandomPizza() {

@@ -12,6 +12,8 @@ import com.danthy.pizzafun.app.wrappers.RoomWrapper;
 import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.domain.data.PostConstruct;
+import com.danthy.pizzafun.domain.models.RoomModel;
+import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -42,14 +44,13 @@ public class HomeController extends IEmitter implements IController {
     public void onInitClick() {
         String pizzaName = pizzaNameField.getText();
 
-        RoomWrapper roomWrapper = new RoomWrapper(PostConstruct.genRoomModel(pizzaName));
+        RoomModel roomModel = PostConstruct.genRoomModel(pizzaName);
+        RoomWrapper roomWrapper = new RoomWrapper(roomModel);
 
         GetIt.getInstance()
-                .addSingleton(new PizzariaState(roomWrapper));
-        GetIt.getInstance()
-                .addSingleton(new TokenShopState(new SupplierWrapper(PostConstruct.genSupplierModel())));
-        GetIt.getInstance()
-                .addSingleton(new StockState(roomWrapper));
+                .addSingleton(new StockState(roomWrapper))
+                .addSingleton(new PizzariaState(roomWrapper))
+                .addSingleton(new TokenShopState(roomWrapper));
 
         this.eventPublisher.notifyAll(new StartGameEvent());
     }

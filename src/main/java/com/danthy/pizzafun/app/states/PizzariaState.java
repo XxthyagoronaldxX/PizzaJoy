@@ -9,8 +9,6 @@ import lombok.Getter;
 
 @Getter
 public class PizzariaState {
-    private final RoomWrapper roomWrapper;
-
     private final ObservableValue<Double> balanceObservable;
 
     private final ObservableValue<Integer> tokensObservable;
@@ -18,8 +16,6 @@ public class PizzariaState {
     private final ObservableList<OrderWrapper> orderModelObservableList;
 
     public PizzariaState(RoomWrapper roomWrapper) {
-        this.roomWrapper = roomWrapper;
-
         balanceObservable = new ObservableValue<>(roomWrapper.getWrapped().getBalance());
         tokensObservable = new ObservableValue<>(roomWrapper.getWrapped().getTokens());
 

@@ -1,7 +1,7 @@
 package com.danthy.pizzafun.app.handles;
 
 import com.danthy.pizzafun.app.contracts.IHandle;
-import com.danthy.pizzafun.app.events.GenSupplierThreadEndedEvent;
+import com.danthy.pizzafun.app.events.GenSupplierHandleEndedEvent;
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
@@ -9,7 +9,6 @@ import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -45,7 +44,7 @@ public class GenSupplierHandle implements IHandle {
                 }
 
                 eventPublisher.notifyAll(new SupplierGenerateEvent(supplierModelList));
-                eventPublisher.notifyAll(new GenSupplierThreadEndedEvent());
+                eventPublisher.notifyAll(new GenSupplierHandleEndedEvent());
             });
         });
 

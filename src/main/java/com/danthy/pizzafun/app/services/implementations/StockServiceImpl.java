@@ -11,10 +11,7 @@ import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
 import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
-import com.danthy.pizzafun.domain.models.ItemModel;
-import com.danthy.pizzafun.domain.models.ItemPizzaModel;
-import com.danthy.pizzafun.domain.models.OrderModel;
-import com.danthy.pizzafun.domain.models.SupplierModel;
+import com.danthy.pizzafun.domain.models.*;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -59,8 +56,9 @@ public class StockServiceImpl implements IStockService, IListener {
 
         for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
             ItemStockWrapper itemStockWrapper = itemStockWrapperObservableList.get(i);
+            ItemStockModel itemStockModel = itemStockWrapper.getWrapped();
 
-            itemStockWrapper.incrementQuantity(itemMaxWeight - itemStockWrapper.getItem().getWeight() + 1);
+            itemStockModel.incrementQuantity(itemMaxWeight - itemStockModel.getItemModel().getWeight() + 1);
 
             itemStockWrapperObservableList.set(i, itemStockWrapper);
         }
@@ -71,13 +69,14 @@ public class StockServiceImpl implements IStockService, IListener {
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
         for (ItemStockWrapper itemStockWrapper : stockState.getItemStockModelObservableList()) {
-            ItemModel itemModel = itemStockWrapper.getItem();
+            ItemStockModel itemStockModel = itemStockWrapper.getWrapped();
+            ItemModel itemModel = itemStockModel.getItemModel();
 
             for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
                 ItemModel itemModelAux = itemPizzaModel.getItem();
 
                 if (itemModel.equals(itemModelAux)) {
-                    if (itemPizzaModel.getQuantity() > itemStockWrapper.getQuantity()) return false;
+                    if (itemPizzaModel.getQuantity() > itemStockModel.getQuantity()) return false;
                 }
             }
         }
@@ -92,13 +91,14 @@ public class StockServiceImpl implements IStockService, IListener {
 
         for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
             ItemStockWrapper itemStockWrapper = itemStockWrapperObservableList.get(i);
-            ItemModel itemModel = itemStockWrapper.getItem();
+            ItemStockModel itemStockModel = itemStockWrapper.getWrapped();
+            ItemModel itemModel = itemStockModel.getItemModel();
 
             for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
                 ItemModel itemModelAux = itemPizzaModel.getItem();
 
                 if (itemModel.equals(itemModelAux)) {
-                    itemStockWrapper.decrementQuantity(itemPizzaModel.getQuantity());
+                    itemStockModel.decrementQuantity(itemPizzaModel.getQuantity());
                     itemStockWrapperObservableList.set(i, itemStockWrapper);
                     break;
                 }

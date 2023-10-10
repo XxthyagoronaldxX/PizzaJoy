@@ -1,7 +1,7 @@
 package com.danthy.pizzafun.app.handles;
 
 import com.danthy.pizzafun.app.contracts.IHandle;
-import com.danthy.pizzafun.app.events.GenOrderThreadEndedEvent;
+import com.danthy.pizzafun.app.events.GenOrderHandleEndedEvent;
 import com.danthy.pizzafun.app.events.OrderGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
@@ -50,7 +50,7 @@ public class GenOrderHandle implements IHandle {
                 eventPublisher.notifyAll(new OrderGenerateEvent(orderModel));
             }
 
-            eventPublisher.notifyAll(new GenOrderThreadEndedEvent());
+            eventPublisher.notifyAll(new GenOrderHandleEndedEvent());
         });
 
         timeline.play();

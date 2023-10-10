@@ -27,34 +27,11 @@ public class RoomModel {
 
     private final List<OrderModel> orderModels;
 
-    public RoomModel(String name, StockModel stockModel) {
+    public RoomModel(String name) {
         this.id = UUID.randomUUID();
         this.pizzaModels = new ArrayList<>();
         this.orderModels = new ArrayList<>();
         this.balance = 0.0;
         this.name = name;
-        this.stockModel = stockModel;
-    }
-
-    public String getOrders() {
-        int cont = 1;
-        StringBuilder sOrders = new StringBuilder();
-
-        for (OrderModel orderModel : this.orderModels)
-            sOrders.append((cont++)).append(" - ").append(orderModel.toString());
-
-        return sOrders.toString();
-    }
-
-    public void addOrder(OrderModel orderModel) {
-        this.orderModels.add(orderModel);
-    }
-
-    public void incBalance(double balance) {
-        this.balance += balance;
-    }
-
-    public void decBalance(double balance) {
-        this.balance -= balance;
     }
 }

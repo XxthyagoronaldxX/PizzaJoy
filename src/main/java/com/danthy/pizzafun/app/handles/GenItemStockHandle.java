@@ -1,7 +1,7 @@
 package com.danthy.pizzafun.app.handles;
 
 import com.danthy.pizzafun.app.contracts.IHandle;
-import com.danthy.pizzafun.app.events.GenItemStockThreadEndedEvent;
+import com.danthy.pizzafun.app.events.GenItemStockHandleEndedEvent;
 import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -10,13 +10,11 @@ import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.domain.models.SupplierModel;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
-import javafx.concurrent.Task;
 import javafx.util.Duration;
 
 public class GenItemStockHandle implements IHandle {
@@ -55,7 +53,7 @@ public class GenItemStockHandle implements IHandle {
                     eventPublisher.notifyAll(new ReStockEvent(supplierModel));
                 }
 
-                eventPublisher.notifyAll(new GenItemStockThreadEndedEvent());
+                eventPublisher.notifyAll(new GenItemStockHandleEndedEvent());
             });
         });
 
