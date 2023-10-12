@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.handles;
+package com.danthy.pizzafun.app.threads;
 
 import com.danthy.pizzafun.app.contracts.IHandle;
 import com.danthy.pizzafun.app.events.GenOrderHandleEndedEvent;
@@ -17,11 +17,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class GenOrderHandle implements IHandle {
+public class GenOrderThread implements IHandle {
     private final IPizzariaService pizzariaService;
     private final EventPublisher eventPublisher;
 
-    public GenOrderHandle() {
+    public GenOrderThread() {
         pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
         eventPublisher = GetIt.getInstance().find(EventPublisher.class);
     }

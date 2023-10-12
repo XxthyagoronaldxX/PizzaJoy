@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.handles;
+package com.danthy.pizzafun.app.threads;
 
 import com.danthy.pizzafun.app.contracts.IHandle;
 import com.danthy.pizzafun.app.events.GenSupplierHandleEndedEvent;
@@ -16,10 +16,10 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenSupplierHandle implements IHandle {
+public class GenSupplierThread implements IHandle {
     private final EventPublisher eventPublisher;
 
-    public GenSupplierHandle() {
+    public GenSupplierThread() {
         this.eventPublisher = GetIt.getInstance().find(EventPublisher.class);
     }
 

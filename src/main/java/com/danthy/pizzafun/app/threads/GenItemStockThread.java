@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.handles;
+package com.danthy.pizzafun.app.threads;
 
 import com.danthy.pizzafun.app.contracts.IHandle;
 import com.danthy.pizzafun.app.events.GenItemStockHandleEndedEvent;
@@ -17,14 +17,14 @@ import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.util.Duration;
 
-public class GenItemStockHandle implements IHandle {
+public class GenItemStockThread implements IHandle {
     private final StockServiceImpl stockService;
     private final PizzariaServiceImpl pizzariaService;
     private final TokenShopServiceImpl tokenShopService;
     private final EventPublisher eventPublisher;
     private Timeline timeline;
 
-    public GenItemStockHandle() {
+    public GenItemStockThread() {
         pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
         stockService = GetIt.getInstance().find(StockServiceImpl.class);
         eventPublisher = GetIt.getInstance().find(EventPublisher.class);

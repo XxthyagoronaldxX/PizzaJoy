@@ -7,10 +7,12 @@ import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeCellGridWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
+import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
 import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.domain.models.SupplierModel;
@@ -54,8 +56,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
 
     private ITokenShopService tokenShopService;
 
-    public TokenShopController() {
-    }
+    private IPizzariaService pizzariaService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -94,7 +95,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
 
         int nColumn = 2;
         for (int i = 0; i < recipeWrapperList.size(); i++) {
-            VBox recipeCellGridWrapper = new RecipeCellGridWrapper().build(recipeWrapperList.get(i));
+            VBox recipeCellGridWrapper = new RecipeCellGridWrapper().build(recipeWrapperList.get(i), pizzariaService);
 
             gridPane.add(recipeCellGridWrapper, i % nColumn, i / nColumn);
         }
@@ -112,6 +113,7 @@ public class TokenShopController extends IEmitter implements IController, IListe
     public void update(IEvent event) {
         if (event.getClass() == StartGameEvent.class) {
             tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
+            pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
 
             TokenShopState tokenShopState = tokenShopService.getTokenShopState();
 

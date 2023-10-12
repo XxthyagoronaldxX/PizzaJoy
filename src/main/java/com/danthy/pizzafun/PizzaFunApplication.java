@@ -10,8 +10,6 @@ public class PizzaFunApplication extends Application {
     @Override
     public void start(Stage stage)  {
         stage.setTitle("PizzaFun");
-        //stage.setResizable(false);
-
         PostConstruct.genModels();
         ApplicationProperties.init();
         GetItSetup.setup(stage);

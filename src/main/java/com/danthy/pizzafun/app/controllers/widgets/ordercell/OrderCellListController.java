@@ -2,9 +2,7 @@ package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.handles.ProduceOrderHandle;
-import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
+import com.danthy.pizzafun.app.handles.OnProduceOrderEvent;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -12,32 +10,34 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OrderCellListController implements IController  {
+public class OrderCellListController implements IController {
     @FXML
     public ImageView orderImageBg;
 
     @FXML
-    private VBox cellRoot;
+    public VBox cellRoot;
 
     @FXML
-    private Label itemsLabel;
+    public Label itemsLabel;
 
     @FXML
-    private Label pizzaNameLabel;
+    public Label pizzaNameLabel;
 
     @FXML
-    private Button produceButton;
+    public Button produceButton;
 
     @FXML
-    private ProgressBar progressStatus;
+    public ProgressBar progressStatus;
 
-    private OrderWrapper orderWrapper;
+    @FXML
+    public ImageView pizzaLoadingBackgroundImg;
+
+    public OrderWrapper orderWrapper;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,15 +55,11 @@ public class OrderCellListController implements IController  {
 
         produceButton.setVisible(!orderWrapper.isLoading());
         progressStatus.setVisible(orderWrapper.isLoading());
+        pizzaLoadingBackgroundImg.setVisible(orderWrapper.isLoading());
         progressStatus.setProgress(orderWrapper.getProgress());
-        produceButton.setOnMouseClicked(this::produceOrderEvent);
+        produceButton.setOnMouseClicked(new OnProduceOrderEvent(this));
 
         itemsLabel.setText(orderModel.toString());
         pizzaNameLabel.setText(orderModel.getPizzaModel().getName());
-    }
-
-    @FXML
-    private void produceOrderEvent(MouseEvent event) {
-        new ProduceOrderHandle(orderWrapper, GetIt.getInstance().find(StockServiceImpl.class)).handle();
     }
 }

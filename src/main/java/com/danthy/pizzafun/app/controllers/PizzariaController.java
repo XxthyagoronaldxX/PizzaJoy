@@ -5,22 +5,18 @@ import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
 import com.danthy.pizzafun.app.events.*;
+import com.danthy.pizzafun.app.handles.OnStockViewEvent;
+import com.danthy.pizzafun.app.handles.OnTokenShopViewEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.states.PizzariaState;
-import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -71,9 +67,13 @@ public class PizzariaController implements IListener, IController {
     @FXML
     public AnchorPane rootView;
 
-    private double stockViewWidth;
+    @FXML
+    public VBox stockViewButton;
 
-    private PizzariaServiceImpl pizzariaService;
+    @FXML
+    public VBox tokenShopViewButton;
+
+    public double stockViewWidth;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -98,6 +98,7 @@ public class PizzariaController implements IListener, IController {
 
         tokenShopController.rootView.prefWidthProperty().bind(rootView.widthProperty());
         tokenShopController.rootView.prefHeightProperty().bind(rootView.heightProperty());
+        tokenShopWrapperPane.setVisible(false);
 
         orderListView.setCellFactory(object -> {
             OrderCellListFactory orderCellListFactory = new OrderCellListFactory();
@@ -107,69 +108,35 @@ public class PizzariaController implements IListener, IController {
             return orderCellListFactory;
         });
         orderListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        stockViewButton.setOnMouseClicked(new OnStockViewEvent(this));
+        tokenShopViewButton.setOnMouseClicked(new OnTokenShopViewEvent(this));
+        tokenShopWrapperPane.setOnMouseClicked(new OnTokenShopViewEvent(this));
     }
 
     @Override
     public void update(IEvent event) {
         if (event.getClass() == StartGameEvent.class) {
-            pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
-            PizzariaState pizzariaState = pizzariaService.getPizzariaState();
+            PizzariaState pizzariaState = GetIt.getInstance().find(PizzariaServiceImpl.class).getPizzariaState();
 
             orderListView.setItems(pizzariaState.getOrderModelObservableList());
 
-            initObservers();
-        }
-    }
+            Property<Double> balanceProperty = pizzariaState.getBalanceObservable().getProperty();
+            Property<Integer> tokensProperty = pizzariaState.getTokensObservable().getProperty();
 
-    private void initObservers() {
-        PizzariaState pizzariaState = pizzariaService.getPizzariaState();
-        Property<Double> balanceProperty = pizzariaState.getBalanceObservable().getProperty();
-        Property<Integer> tokensProperty = pizzariaState.getTokensObservable().getProperty();
+            balanceProperty.addListener((observable, oldValue, newValue) -> {
+                String balance = "Dinheiro: $" + newValue;
 
-        balanceProperty.addListener((observable, oldValue, newValue) -> {
-            String balance = "Dinheiro: $" + newValue;
+                balanceLabel.setText(balance);
+            });
+            tokensProperty.addListener((observable, oldValue, newValue) -> {
+                String tokens = String.format("Tokens: %d TK", newValue);
 
-            balanceLabel.setText(balance);
-        });
-        tokensProperty.addListener((observable, oldValue, newValue) -> {
-            String tokens = String.format("Tokens: %d TK", newValue);
-
-            tokensLabel.setText(tokens);
-        });
-
-        balanceLabel.setText("Dinheiro: $" + balanceProperty.getValue());
-        tokensLabel.setText(String.format("Tokens: %d TK", tokensProperty.getValue()));
-    }
-
-    @FXML
-    public void onStockViewEvent(MouseEvent mouseEvent) {
-        Platform.runLater(() -> {
-            double fromRightAnchor = AnchorPane.getRightAnchor(roomView) == 0 ? 0 : stockViewWidth;
-            double toRightAnchor = AnchorPane.getRightAnchor(roomView) == 0 ? stockViewWidth : 0;
-
-            ObservableValue<Double> rightAnchorObservable = new ObservableValue<>(fromRightAnchor);
-
-            rightAnchorObservable.getProperty().addListener((observable, oldValue, newValue) -> {
-                AnchorPane.setRightAnchor(roomView, newValue);
-                AnchorPane.setRightAnchor(stockWrapperPane, (-1) * stockViewWidth + newValue);
+                tokensLabel.setText(tokens);
             });
 
-            Timeline timeline = new Timeline();
-            KeyValue keyValue = new KeyValue(rightAnchorObservable.getProperty(), toRightAnchor);
-
-            KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.4), keyValue);
-            timeline.getKeyFrames().add(keyFrame);
-            timeline.play();
-        });
-    }
-
-    @FXML
-    public void onTokenShopViewEvent(MouseEvent mouseEvent) {
-        tokenShopWrapperPane.toFront();
-    }
-
-    @FXML
-    public void onCloseTokenShopEvent(MouseEvent mouseEvent) {
-        tokenShopWrapperPane.toBack();
+            balanceLabel.setText("Dinheiro: $" + balanceProperty.getValue());
+            tokensLabel.setText(String.format("Tokens: %d TK", tokensProperty.getValue()));
+        }
     }
 }

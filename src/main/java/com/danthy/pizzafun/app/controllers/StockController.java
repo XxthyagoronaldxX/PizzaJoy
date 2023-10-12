@@ -6,6 +6,7 @@ import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
 import com.danthy.pizzafun.app.events.StartGameEvent;
+import com.danthy.pizzafun.app.handles.OnBoostTimerToNextRestockEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
@@ -37,7 +38,11 @@ public class StockController extends IEmitter implements IController, IListener 
     @FXML
     public Label timeToNextRestockLabel;
 
-    private StockServiceImpl stockService;
+    @FXML
+    public Label boostTimeRateButton;
+
+    public StockServiceImpl stockService;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,6 +51,8 @@ public class StockController extends IEmitter implements IController, IListener 
 
         stockImageBg.fitWidthProperty().bind(rootView.prefWidthProperty());
         stockImageBg.fitHeightProperty().bind(rootView.prefHeightProperty());
+
+        boostTimeRateButton.setOnMouseClicked(new OnBoostTimerToNextRestockEvent(this));
     }
 
     @Override
@@ -64,9 +71,5 @@ public class StockController extends IEmitter implements IController, IListener 
                 timeToNextRestockLabel.setText(String.format("%.0fs", newValue));
             });
         }
-    }
-
-    public void boostTimerToNextRestock(MouseEvent mouseEvent) {
-        stockService.boostRateSpeed();
     }
 }

@@ -1,11 +1,14 @@
 package com.danthy.pizzafun.app.controllers.widgets.recipecell;
 
 import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IListener;
+import com.danthy.pizzafun.app.events.LearnRecipeEvent;
+import com.danthy.pizzafun.app.handles.OnLearnRecipeEvent;
+import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.IPizzariaService;
 import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -38,30 +41,22 @@ public class RecipeCellGridController implements IController {
     @FXML
     public ProgressBar learnProgressBar;
 
+    public RecipeWrapper recipeWrapper;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         learnProgressBar.setVisible(false);
     }
 
-    public void setRecipeModel(RecipeWrapper recipeWrapper) {
+    public void initCell(RecipeWrapper recipeWrapper, IPizzariaService pizzariaService) {
+        this.recipeWrapper = recipeWrapper;
+
         pizzaNameLabel.setText(recipeWrapper.getPizzaModel().getName());
         pizzaPriceLabel.setText(recipeWrapper.getPizzaModel().getPriceToBuyRecipe() + " TK");
 
         confPopupForRecipe(recipeWrapper);
 
-        learnButton.setOnMouseClicked((event) -> {
-            learnButton.setVisible(false);
-            learnProgressBar.setVisible(true);
-
-            int timeInSecondsToLearn = recipeWrapper.getPizzaModel().getTimeInSecondsToLearn();
-            Duration duration = Duration.seconds(timeInSecondsToLearn);
-            KeyValue keyValue = new KeyValue(learnProgressBar.progressProperty(), 1.0);
-            KeyFrame keyFrame = new KeyFrame(duration, keyValue);
-
-            Timeline learnTimeline = new Timeline(keyFrame);
-            learnTimeline.setCycleCount(1);
-            learnTimeline.play();
-        });
+        learnButton.setOnMouseClicked(new OnLearnRecipeEvent(this));
     }
 
     private void confPopupForRecipe(RecipeWrapper recipeWrapper) {

@@ -53,7 +53,12 @@
                               <Font name="Unispace-Bold" size="12.0" />
                            </font>
                         </Button>
-                        <ProgressBar fx:id="progressStatus" prefHeight="38.0" prefWidth="190.0" progress="0.0" StackPane.alignment="CENTER" />
+                        <ImageView fx:id="pizzaLoadingBackgroundImg" fitHeight="114.0" fitWidth="200.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../assets/imgs/pizza-loading-background.png" />
+                           </image>
+                        </ImageView>
+                        <ProgressBar id="progress-status" fx:id="progressStatus" prefHeight="38.0" prefWidth="135.0" progress="0.42" StackPane.alignment="CENTER" />
                      </children>
                   </StackPane>
                </children>

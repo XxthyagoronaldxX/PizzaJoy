@@ -11,3 +11,16 @@
 #cell-root {
     -fx-background-color: transparent;
 }
+
+#progress-status {
+    -fx-padding: 0px;
+}
+
+#progress-status .track {
+    -fx-background-color: white;
+}
+
+#progress-status .bar{
+    -fx-padding: 0px;
+    -fx-background-color: rgb(198, 40, 40);
+}

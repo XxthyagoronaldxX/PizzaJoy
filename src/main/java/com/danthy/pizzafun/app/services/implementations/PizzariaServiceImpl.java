@@ -16,6 +16,11 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
     private PizzariaState pizzariaState;
 
     @Override
+    public int getTokens() {
+        return pizzariaState.getTokensObservable().getValue();
+    }
+
+    @Override
     public void addOrder(OrderWrapper orderWrapper) {
         Platform.runLater(() -> {
             pizzariaState.getOrderModelObservableList().add(orderWrapper);
@@ -59,6 +64,10 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
             int buyToken = setSupplierEvent.supplierModel().getBuyToken();
 
             pizzariaState.decTokens(buyToken);
-        }
+        } else if (event.getClass() == LearnRecipeEvent.class) {
+            LearnRecipeEvent learnRecipeEvent = (LearnRecipeEvent) event;
+
+            pizzariaState.decTokens((int) learnRecipeEvent.recipeWrapper().getPizzaModel().getPriceToBuyRecipe());
+         }
     }
 }

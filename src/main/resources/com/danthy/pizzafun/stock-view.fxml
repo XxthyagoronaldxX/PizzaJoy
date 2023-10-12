@@ -39,7 +39,7 @@
                   </TextFlow>
                   <FlowPane alignment="TOP_CENTER" prefHeight="120.0" prefWidth="295.0">
                      <children>
-                            <Label id="title-stock" alignment="CENTER" onMouseClicked="#boostTimerToNextRestock" prefHeight="50.0" prefWidth="127.0" text="ESTOQUE">
+                            <Label fx:id="boostTimeRateButton" id="title-stock" alignment="CENTER" prefHeight="50.0" prefWidth="127.0" text="ESTOQUE">
                                 <font>
                                     <Font name="Unispace-Bold" size="22.0" />
                                 </font>

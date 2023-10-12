@@ -23,7 +23,7 @@
       </ImageView>
          <FlowPane id="home-container-button" alignment="CENTER" columnHalignment="CENTER" layoutX="14.0" layoutY="374.0" prefHeight="143.0" prefWidth="135.0" vgap="10.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
              <children>
-                 <Button onMouseClicked="#onPlayClick" prefHeight="60.0" prefWidth="180.0" styleClass="home-button" text="Jogar" textFill="WHITE">
+                 <Button fx:id="playGameButton" prefHeight="60.0" prefWidth="180.0" styleClass="home-button" text="Jogar" textFill="WHITE">
                      <graphic>
                          <ImageView fitHeight="50" fitWidth="50">
                              <Image url="@assets/imgs/pizza-button-background.png" />
@@ -54,7 +54,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
                   <TextField fx:id="pizzaNameField" layoutX="26.0" layoutY="65.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0" />
-                  <Button id="home-button-init" layoutX="10.0" layoutY="105.0" onMouseClicked="#onInitClick" prefHeight="60.0" prefWidth="180.0" styleClass="home-button" text="Iniciar" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <Button id="home-button-init" fx:id="startGameButton" layoutX="10.0" layoutY="105.0" prefHeight="60.0" prefWidth="180.0" styleClass="home-button" text="Iniciar" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <graphic>
                         <ImageView fitHeight="50" fitWidth="50">
                            <image>
