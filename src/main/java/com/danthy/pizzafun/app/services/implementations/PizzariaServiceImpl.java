@@ -5,7 +5,7 @@ import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IPizzariaService;
-import com.danthy.pizzafun.app.wrappers.OrderWrapper;
+import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.application.Platform;
@@ -14,9 +14,6 @@ import lombok.Getter;
 @Getter
 public class PizzariaServiceImpl implements IPizzariaService, IListener {
     private PizzariaState pizzariaState;
-
-    public PizzariaServiceImpl() {
-    }
 
     @Override
     public void addOrder(OrderWrapper orderWrapper) {
@@ -30,7 +27,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
         Platform.runLater(() -> {
             pizzariaState.getOrderModelObservableList().remove(orderWrapper);
 
-            pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPrice());
+            pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPriceToSell());
             pizzariaState.incTokens(1);
         });
     }
@@ -59,7 +56,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
         } else if (event.getClass() == SetSupplierEvent.class) {
             SetSupplierEvent setSupplierEvent = (SetSupplierEvent) event;
 
-            int buyToken = setSupplierEvent.supplierWrapper().getWrapped().getBuyToken();
+            int buyToken = setSupplierEvent.supplierModel().getBuyToken();
 
             pizzariaState.decTokens(buyToken);
         }

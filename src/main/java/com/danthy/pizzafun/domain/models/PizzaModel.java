@@ -16,7 +16,11 @@ public class PizzaModel {
 
     private final List<ItemPizzaModel> itemPizzaModels;
 
-    private float price;
+    private float priceToSell;
+
+    private float priceToBuyRecipe;
+
+    private int timeInSecondsToLearn;
 
     private PizzaEdgeModel pizzaEdgeModel;
 
@@ -28,8 +32,20 @@ public class PizzaModel {
         return new PizzaModel();
     }
 
-    public PizzaModel setPrice(float price) {
-        this.price = price;
+    public PizzaModel setPriceToSell(float price) {
+        this.priceToSell = price;
+
+        return this;
+    }
+
+    public PizzaModel setTimeInSecondsToLearn(int seconds) {
+        this.timeInSecondsToLearn = seconds;
+
+        return this;
+    }
+
+    public PizzaModel setPriceToBuyRecipe(float price) {
+        this.priceToBuyRecipe = price;
 
         return this;
     }
@@ -50,20 +66,5 @@ public class PizzaModel {
         this.pizzaEdgeModel = pizzaEdgeModel;
 
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return (
-                "PizzaModel [name=" +
-                        name +
-                        ", itemPizzaModels=" +
-                        itemPizzaModels +
-                        ", price=" +
-                        price +
-                        ", pizzaEdgeModel=" +
-                        pizzaEdgeModel +
-                        "]"
-        );
     }
 }

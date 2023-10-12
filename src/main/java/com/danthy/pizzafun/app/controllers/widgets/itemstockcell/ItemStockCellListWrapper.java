@@ -1,9 +1,8 @@
 package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
-import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListController;
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;
-import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
+import com.danthy.pizzafun.domain.models.ItemStockModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -11,7 +10,7 @@ import javafx.scene.layout.Priority;
 import java.io.IOException;
 
 public class ItemStockCellListWrapper extends HBox {
-    public HBox build (ItemStockWrapper itemStockWrapper) {
+    public HBox build (ItemStockModel itemStockWrapper) {
         FXMLLoader loader = FxmlUtil.loaderFromName(PathFxmlUtil.ITEM_STOCK_CELL_LIST_WIDGET);
 
         try {

@@ -1,8 +1,8 @@
 package com.danthy.pizzafun.app.states;
 
 import com.danthy.pizzafun.app.logic.ObservableValue;
-import com.danthy.pizzafun.app.wrappers.OrderWrapper;
-import com.danthy.pizzafun.app.wrappers.RoomWrapper;
+import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
+import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -15,9 +15,9 @@ public class PizzariaState {
 
     private final ObservableList<OrderWrapper> orderModelObservableList;
 
-    public PizzariaState(RoomWrapper roomWrapper) {
-        balanceObservable = new ObservableValue<>(roomWrapper.getWrapped().getBalance());
-        tokensObservable = new ObservableValue<>(roomWrapper.getWrapped().getTokens());
+    public PizzariaState(RoomModel roomModel) {
+        balanceObservable = new ObservableValue<>(roomModel.getBalance());
+        tokensObservable = new ObservableValue<>(roomModel.getTokens());
 
         this.orderModelObservableList = FXCollections.observableArrayList();
     }

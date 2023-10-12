@@ -1,19 +1,13 @@
 package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
-import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class OrderCellListFactory extends ListCell<OrderWrapper> {
     private final static Duration ANIMATION_DURATION = Duration.millis(300);
-
-    public OrderCellListFactory() {
-    }
 
     @Override
     protected void updateItem(OrderWrapper item, boolean empty) {

@@ -6,11 +6,10 @@ import com.danthy.pizzafun.app.events.ProducedOrderEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
-import com.danthy.pizzafun.app.wrappers.OrderWrapper;
+import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.util.Duration;
 
 public class ProduceOrderHandle implements IHandle {

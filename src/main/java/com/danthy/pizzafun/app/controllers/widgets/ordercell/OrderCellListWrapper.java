@@ -2,7 +2,6 @@ package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;
-import com.danthy.pizzafun.app.wrappers.OrderWrapper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;

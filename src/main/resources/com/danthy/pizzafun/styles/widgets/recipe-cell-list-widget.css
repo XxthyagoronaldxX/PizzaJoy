@@ -1,0 +1,8 @@
+#price-label {
+    -fx-background-color: red;
+    -fx-background-radius: 100px;
+}
+
+#cell-root {
+    -fx-background-color: transparent;
+}

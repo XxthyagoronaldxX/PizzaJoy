@@ -6,7 +6,6 @@ import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.animation.KeyFrame;
@@ -34,13 +33,13 @@ public class GenSupplierHandle implements IHandle {
 
         timeline.setOnFinished((event) -> {
             Platform.runLater(() -> {
-                List<SupplierWrapper> supplierModelList = new ArrayList<>();
+                List<SupplierModel> supplierModelList = new ArrayList<>();
 
                 for (int i = 0; i < maxSuppliers; i++) {
                     String supplierName = supplierNames[(int) Math.floor((supplierNames.length - 1) * Math.random())];
                     SupplierLevel supplierLevel = supplierLevels[(int) Math.floor((supplierLevels.length - 1) * Math.random())];
 
-                    supplierModelList.add(new SupplierWrapper(new SupplierModel(supplierName, supplierLevel)));
+                    supplierModelList.add(new SupplierModel(supplierName, supplierLevel));
                 }
 
                 eventPublisher.notifyAll(new SupplierGenerateEvent(supplierModelList));

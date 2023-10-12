@@ -1,12 +1,11 @@
 package com.danthy.pizzafun.app.controllers.widgets.suppliercell;
 
-import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
+import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.scene.control.ListCell;
 
-public class SupplierCellListFactory extends ListCell<SupplierWrapper> {
+public class SupplierCellListFactory extends ListCell<SupplierModel> {
     @Override
-    protected void updateItem(SupplierWrapper item, boolean empty) {
-        super.updateSelected(false);
+    protected void updateItem(SupplierModel item, boolean empty) {
         super.updateItem(item, empty);
 
         if (empty || item == null) {

@@ -10,4 +10,6 @@ public class PathFxmlUtil {
     public static String ORDER_CELL_LIST_WIDGET = "widgets/order-cell-list-widget";
 
     public static String SUPPLIER_CELL_LIST_WIDGET = "widgets/supplier-cell-list-widget";
+
+    public static String RECIPE_CELL_GRID_WIDGET = "widgets/recipe-cell-grid-widget";
 }

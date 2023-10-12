@@ -1,11 +1,11 @@
 package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
-import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
+import com.danthy.pizzafun.domain.models.ItemStockModel;
 import javafx.scene.control.ListCell;
 
-public class ItemStockCellListFactory extends ListCell<ItemStockWrapper> {
+public class ItemStockCellListFactory extends ListCell<ItemStockModel> {
     @Override
-    protected void updateItem(ItemStockWrapper item, boolean empty) {
+    protected void updateItem(ItemStockModel item, boolean empty) {
         super.updateSelected(false);
         super.updateItem(item, empty);
 

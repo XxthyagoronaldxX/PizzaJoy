@@ -1,6 +1,5 @@
-package com.danthy.pizzafun.app.wrappers;
+package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
-import com.danthy.pizzafun.app.contracts.IWrapperModel;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -9,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderWrapper implements IWrapperModel<OrderModel> {
+public class OrderWrapper {
     private OrderModel orderModel;
 
     private Double progress;
@@ -30,10 +29,5 @@ public class OrderWrapper implements IWrapperModel<OrderModel> {
         this.isLoading = false;
         this.isAlreadyAnimated = false;
         this.isItemStockAlreadyRemoved = false;
-    }
-
-    @Override
-    public OrderModel getWrapped() {
-        return this.orderModel;
     }
 }

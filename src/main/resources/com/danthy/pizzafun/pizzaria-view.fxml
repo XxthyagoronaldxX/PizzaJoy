@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootView" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.PizzariaController">
+<AnchorPane fx:id="rootView" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.PizzariaController">
    <children>
       <AnchorPane id="token-shop-wrapper-pane" fx:id="tokenShopWrapperPane" onMouseClicked="#onCloseTokenShopEvent" prefHeight="690.0" prefWidth="889.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -31,7 +38,7 @@
                                           <Rectangle2D minX="20.0" minY="20.0" />
                                        </viewport>
                                     </ImageView>
-                                    <ListView id="order-list-view" fx:id="orderListView" orientation="HORIZONTAL" prefHeight="279.0" prefWidth="693.0" style="-fx-background-color: transparent;" StackPane.alignment="CENTER" />
+                                    <ListView id="order-list-view" fx:id="orderListView" orientation="HORIZONTAL" prefHeight="279.0" prefWidth="693.0" StackPane.alignment="CENTER" />
                                  </children>
                               </StackPane>
                            </children>

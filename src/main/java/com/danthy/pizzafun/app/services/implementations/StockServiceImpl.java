@@ -10,7 +10,6 @@ import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
-import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
 import com.danthy.pizzafun.domain.models.*;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
@@ -50,17 +49,16 @@ public class StockServiceImpl implements IStockService, IListener {
     public void restockBySupplier(SupplierModel supplierModel) {
         getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
 
-        ObservableList<ItemStockWrapper> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
+        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
 
         int itemMaxWeight = ApplicationProperties.itemMaxWeight;
 
         for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
-            ItemStockWrapper itemStockWrapper = itemStockWrapperObservableList.get(i);
-            ItemStockModel itemStockModel = itemStockWrapper.getWrapped();
+            ItemStockModel itemStockModel = itemStockWrapperObservableList.get(i);
 
             itemStockModel.incrementQuantity(itemMaxWeight - itemStockModel.getItemModel().getWeight() + 1);
 
-            itemStockWrapperObservableList.set(i, itemStockWrapper);
+            itemStockWrapperObservableList.set(i, itemStockModel);
         }
     }
 
@@ -68,8 +66,7 @@ public class StockServiceImpl implements IStockService, IListener {
     public boolean isRemoveOrderValid(OrderModel orderModel) {
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
-        for (ItemStockWrapper itemStockWrapper : stockState.getItemStockModelObservableList()) {
-            ItemStockModel itemStockModel = itemStockWrapper.getWrapped();
+        for (ItemStockModel itemStockModel : stockState.getItemStockModelObservableList()) {
             ItemModel itemModel = itemStockModel.getItemModel();
 
             for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
@@ -86,12 +83,11 @@ public class StockServiceImpl implements IStockService, IListener {
 
     @Override
     public void removeItemStockFromOrder(OrderModel orderModel) {
-        ObservableList<ItemStockWrapper> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
+        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
         for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
-            ItemStockWrapper itemStockWrapper = itemStockWrapperObservableList.get(i);
-            ItemStockModel itemStockModel = itemStockWrapper.getWrapped();
+            ItemStockModel itemStockModel = itemStockWrapperObservableList.get(i);
             ItemModel itemModel = itemStockModel.getItemModel();
 
             for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
@@ -99,7 +95,7 @@ public class StockServiceImpl implements IStockService, IListener {
 
                 if (itemModel.equals(itemModelAux)) {
                     itemStockModel.decrementQuantity(itemPizzaModel.getQuantity());
-                    itemStockWrapperObservableList.set(i, itemStockWrapper);
+                    itemStockWrapperObservableList.set(i, itemStockModel);
                     break;
                 }
             }
@@ -117,7 +113,7 @@ public class StockServiceImpl implements IStockService, IListener {
             stockState = GetIt.getInstance().find(StockState.class);
         } else if (event.getClass() == SetSupplierEvent.class) {
             SetSupplierEvent setSupplierEvent = (SetSupplierEvent) event;
-            SupplierModel supplierModel = setSupplierEvent.supplierWrapper().getWrapped();
+            SupplierModel supplierModel = setSupplierEvent.supplierModel();
 
             getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
         }

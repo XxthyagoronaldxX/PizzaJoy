@@ -7,29 +7,30 @@ import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.ITokenShopService;
-import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.app.states.TokenShopState;
+import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 
 import java.util.List;
 
+
 public class TokenShopServiceImpl implements ITokenShopService, IListener {
     private TokenShopState tokenShopState;
 
     @Override
-    public TokenShopState getTokenShopWrapper() {
+    public TokenShopState getTokenShopState() {
         return this.tokenShopState;
     }
 
     @Override
-    public void setCurrentSupplierWrapper(SupplierWrapper supplierWrapper) {
-        tokenShopState.setCurrentSupplierWrapperObservable(supplierWrapper);
+    public void setCurrentSupplier(SupplierModel supplierModel) {
+        tokenShopState.setCurrentSupplierWrapperObservable(supplierModel);
     }
 
     @Override
-    public Property<SupplierWrapper> supplierWrapperProperty() {
-        return tokenShopState.getCurrentSupplierWrapperObservable().getProperty();
+    public Property<SupplierModel> getCurrentSupplierProperty() {
+        return tokenShopState.getCurrentSupplierObservable().getProperty();
     }
 
     @Override
@@ -38,16 +39,16 @@ public class TokenShopServiceImpl implements ITokenShopService, IListener {
             tokenShopState = GetIt.getInstance().find(TokenShopState.class);
         } else if (event.getClass() == SupplierGenerateEvent.class) {
             SupplierGenerateEvent supplierGenerateEvent = (SupplierGenerateEvent) event;
-            List<SupplierWrapper> supplierWrapperList = supplierGenerateEvent.supplierWrapperList();
+            List<SupplierModel> supplierModelList = supplierGenerateEvent.supplierModelList();
 
-            ObservableList<SupplierWrapper> supplierWrapperObservableList = this.tokenShopState.getSupplierModelObservableList();
+            ObservableList<SupplierModel> supplierWrapperObservableList = this.tokenShopState.getSupplierModelObservableList();
 
             supplierWrapperObservableList.clear();
-            supplierWrapperObservableList.addAll(supplierWrapperList);
+            supplierWrapperObservableList.addAll(supplierModelList);
         } else if (event.getClass() == SetSupplierEvent.class) {
             SetSupplierEvent setSupplierEvent = (SetSupplierEvent) event;
 
-            setCurrentSupplierWrapper(setSupplierEvent.supplierWrapper());
+            setCurrentSupplier(setSupplierEvent.supplierModel());
         }
     }
 }

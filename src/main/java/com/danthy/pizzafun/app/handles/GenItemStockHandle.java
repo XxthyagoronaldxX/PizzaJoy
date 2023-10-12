@@ -37,7 +37,7 @@ public class GenItemStockHandle implements IHandle {
 
     @Override
     public void handle() {
-        SupplierModel supplierModel = tokenShopService.getTokenShopWrapper().getCurrentSupplierWrapperObservable().getValue().getWrapped();
+        SupplierModel supplierModel = tokenShopService.getTokenShopState().getCurrentSupplierObservable().getValue();
         Property<Double> timerToNextRestockProperty = stockService.getTimerToNextRestockProperty();
         Property<Double> rateSpeedProperty = stockService.getRateSpeedProperty();
 

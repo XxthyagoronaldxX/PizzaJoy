@@ -33,7 +33,8 @@ public class PostConstruct {
         PizzaModel calabresaPizza = PizzaModel
                 .build()
                 .setName("Pizza de Calabresa")
-                .setPrice(32.0f)
+                .setPriceToSell(32.0f)
+                .setPriceToBuyRecipe(0f)
                 .setEdge(pizzaNoEdge)
                 .addItemPizzaModel(massaItem, 1)
                 .addItemPizzaModel(queijoItem, 2)
@@ -43,7 +44,8 @@ public class PostConstruct {
         PizzaModel quatroQueijosPizza = PizzaModel
                 .build()
                 .setName("Pizza de Quatro queijos")
-                .setPrice(40.0f)
+                .setPriceToSell(40.0f)
+                .setPriceToBuyRecipe(0f)
                 .setEdge(pizzaNoEdge)
                 .addItemPizzaModel(massaItem, 1)
                 .addItemPizzaModel(molhoDeTomateItem, 1)
@@ -100,7 +102,9 @@ public class PostConstruct {
         PizzaModel calabresaPizza = PizzaModel
                 .build()
                 .setName("Pizza de Calabresa")
-                .setPrice(32.0f)
+                .setPriceToSell(32.0f)
+                .setPriceToBuyRecipe(0f)
+                .setTimeInSecondsToLearn(0)
                 .setEdge(pizzaNoEdge)
                 .addItemPizzaModel(massaItem, 1)
                 .addItemPizzaModel(queijoItem, 2)
@@ -110,7 +114,9 @@ public class PostConstruct {
         PizzaModel quatroQueijosPizza = PizzaModel
                 .build()
                 .setName("Pizza de Quatro queijos")
-                .setPrice(40.0f)
+                .setPriceToSell(40.0f)
+                .setPriceToBuyRecipe(0f)
+                .setTimeInSecondsToLearn(0)
                 .setEdge(pizzaNoEdge)
                 .addItemPizzaModel(massaItem, 1)
                 .addItemPizzaModel(molhoDeTomateItem, 1)
@@ -119,8 +125,11 @@ public class PostConstruct {
         PizzaModel florestaNegraPizza = PizzaModel
                 .build()
                 .setName("Pizza Floresta Negra")
-                .setPrice(45.0f)
+                .setPriceToSell(58.0f)
+                .setPriceToBuyRecipe(15)
+                .setTimeInSecondsToLearn(260)
                 .setEdge(pizzaNoEdge)
+                .addItemPizzaModel(massaItem, 1)
                 .addItemPizzaModel(chocolateItem, 3);
 
         PizzaDataSingleton

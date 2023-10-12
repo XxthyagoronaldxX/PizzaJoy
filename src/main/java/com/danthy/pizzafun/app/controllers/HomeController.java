@@ -7,15 +7,11 @@ import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.app.states.StockState;
-import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
-import com.danthy.pizzafun.app.wrappers.RoomWrapper;
-import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.domain.data.PizzaDataSingleton;
 import com.danthy.pizzafun.domain.data.PostConstruct;
 import com.danthy.pizzafun.domain.models.PizzaModel;
 import com.danthy.pizzafun.domain.models.RoomModel;
-import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -49,12 +45,11 @@ public class HomeController extends IEmitter implements IController {
 
         List<PizzaModel> pizzaModelList = PizzaDataSingleton.getInstance().getPizzaModels();
         RoomModel roomModel = PostConstruct.genRoomModel(pizzaName);
-        RoomWrapper roomWrapper = new RoomWrapper(roomModel);
 
         GetIt.getInstance()
-                .addSingleton(new StockState(roomWrapper))
-                .addSingleton(new PizzariaState(roomWrapper))
-                .addSingleton(new TokenShopState(roomModel.getSupplierModel(), pizzaModelList));
+                .addSingleton(new StockState(roomModel))
+                .addSingleton(new PizzariaState(roomModel))
+                .addSingleton(new TokenShopState(roomModel, pizzaModelList));
 
         this.eventPublisher.notifyAll(new StartGameEvent());
     }

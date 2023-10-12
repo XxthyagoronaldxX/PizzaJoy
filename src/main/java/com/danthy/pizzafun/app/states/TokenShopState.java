@@ -1,10 +1,9 @@
 package com.danthy.pizzafun.app.states;
 
+import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.logic.ObservableValue;
-import com.danthy.pizzafun.app.wrappers.PizzaWrapper;
-import com.danthy.pizzafun.app.wrappers.RoomWrapper;
-import com.danthy.pizzafun.app.wrappers.SupplierWrapper;
 import com.danthy.pizzafun.domain.models.PizzaModel;
+import com.danthy.pizzafun.domain.models.RoomModel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,26 +13,29 @@ import java.util.List;
 
 @Getter
 public class TokenShopState {
-    private final ObservableValue<SupplierWrapper> currentSupplierWrapperObservable;
+    private final ObservableValue<SupplierModel> currentSupplierObservable;
 
-    private final ObservableList<SupplierWrapper> supplierModelObservableList;
+    private final ObservableList<SupplierModel> supplierModelObservableList;
 
-    private final ObservableList<PizzaWrapper> pizzaWrapperObservableList;
+    private final ObservableList<RecipeWrapper> recipeWrapperObservableList;
 
-    public TokenShopState(SupplierModel currentSupplier, List<PizzaModel> pizzaList) {
-        SupplierWrapper supplierWrapper = new SupplierWrapper(currentSupplier);
+    public TokenShopState(RoomModel roomModel, List<PizzaModel> pizzaModelList) {
+        SupplierModel currentSupplierModel = roomModel.getSupplierModel();
 
-        List<PizzaWrapper> pizzaWrapperList = pizzaList
+        for (PizzaModel pizzaModel : roomModel.getPizzaModels())
+            pizzaModelList.remove(pizzaModel);
+
+        List<RecipeWrapper> recipeWrapperList = pizzaModelList
                 .stream()
-                .map(PizzaWrapper::new)
+                .map(RecipeWrapper::new)
                 .toList();
 
-        this.pizzaWrapperObservableList = FXCollections.observableArrayList(pizzaWrapperList);
-        this.currentSupplierWrapperObservable = new ObservableValue<>(supplierWrapper);
+        this.recipeWrapperObservableList = FXCollections.observableArrayList(recipeWrapperList);
+        this.currentSupplierObservable = new ObservableValue<>(currentSupplierModel);
         this.supplierModelObservableList = FXCollections.observableArrayList();
     }
 
-    public void setCurrentSupplierWrapperObservable(SupplierWrapper supplierWrapper) {
-        currentSupplierWrapperObservable.getProperty().setValue(supplierWrapper);
+    public void setCurrentSupplierWrapperObservable(SupplierModel supplierModel) {
+        currentSupplierObservable.getProperty().setValue(supplierModel);
     }
 }

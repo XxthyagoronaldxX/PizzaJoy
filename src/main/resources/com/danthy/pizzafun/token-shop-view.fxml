@@ -51,10 +51,15 @@
                         <ListView id="supplier-list" fx:id="supplierList" prefHeight="500.0" prefWidth="411.0" VBox.vgrow="ALWAYS" />
                     </children>
                 </VBox>
-                <VBox alignment="CENTER" prefHeight="382.0" prefWidth="358.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <ListView fx:id="pizzaRecipeList" prefHeight="275.0" prefWidth="358.0" VBox.vgrow="ALWAYS" />
-               </children></VBox>
+                <VBox id="recipe-vbox" fx:id="recipeVBox" alignment="TOP_CENTER" prefHeight="382.0" prefWidth="358.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="RECIPES" />
+                        <ScrollPane id="recipe-list-scroll" fx:id="recipeListScroll" hbarPolicy="NEVER" prefHeight="342.0" prefWidth="207.0" VBox.vgrow="ALWAYS" />
+                    </children>
+                    <padding>
+                        <Insets top="20.0" />
+                    </padding>
+                </VBox>
             </children>
         </HBox>
     </children>

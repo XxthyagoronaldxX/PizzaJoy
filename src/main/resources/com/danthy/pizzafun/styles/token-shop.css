@@ -3,10 +3,59 @@
     -fx-background-radius: 0px 0px 100px 100px;
 }
 
-#supplier-list {
+#supplier-list, #supplier-list:focused {
     -fx-background-radius: 0px 0px 0px 100px;
+    -fx-border-color: transparent;
 }
 
 #supplier-list .cell {
     -fx-background-color: transparent;
+}
+
+#supplier-list .track {
+    -fx-background-color: white;
+}
+
+#supplier-list .thumb {
+    -fx-background-color: #3498db;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+#supplier-list .increment-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+#supplier-list .decrement-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+#recipe-list-scroll, #recipe-list-scroll .viewport, #recipe-vbox {
+    -fx-background-radius: 0px 0px 100px 0px;
+}
+
+#recipe-list-scroll .track {
+    -fx-background-color: white;
+}
+
+#recipe-list-scroll .thumb {
+    -fx-background-color: #3498db;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+#recipe-list-scroll .increment-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+#recipe-list-scroll .decrement-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
 }

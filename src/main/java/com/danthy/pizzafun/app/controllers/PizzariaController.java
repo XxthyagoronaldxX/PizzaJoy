@@ -99,7 +99,6 @@ public class PizzariaController implements IListener, IController {
         tokenShopController.rootView.prefWidthProperty().bind(rootView.widthProperty());
         tokenShopController.rootView.prefHeightProperty().bind(rootView.heightProperty());
 
-        orderListView.setItems(null);
         orderListView.setCellFactory(object -> {
             OrderCellListFactory orderCellListFactory = new OrderCellListFactory();
 

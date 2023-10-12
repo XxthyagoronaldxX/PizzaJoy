@@ -1,13 +1,11 @@
 package com.danthy.pizzafun.app.states;
 
 import com.danthy.pizzafun.app.logic.ObservableValue;
-import com.danthy.pizzafun.app.wrappers.ItemStockWrapper;
-import com.danthy.pizzafun.app.wrappers.RoomWrapper;
+import com.danthy.pizzafun.domain.models.ItemStockModel;
+import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class StockState {
@@ -15,18 +13,10 @@ public class StockState {
 
     private final ObservableValue<Double> timerToNextRestockObservable;
 
-    private final ObservableList<ItemStockWrapper> itemStockModelObservableList;
+    private final ObservableList<ItemStockModel> itemStockModelObservableList;
 
-    public StockState(RoomWrapper roomWrapper) {
-        List<ItemStockWrapper> itemStockWrapperList = roomWrapper
-                .getWrapped()
-                .getStockModel()
-                .getItemStockModels()
-                .stream()
-                .map(ItemStockWrapper::new)
-                .toList();
-
-        this.itemStockModelObservableList = FXCollections.observableArrayList(itemStockWrapperList);
+    public StockState(RoomModel roomModel) {
+        this.itemStockModelObservableList = FXCollections.observableArrayList(roomModel.getStockModel().getItemStockModels());
         this.timerToNextRestockObservable = new ObservableValue<>(50.0);
         this.rateSpeedObservable = new ObservableValue<>(1.0);
     }
