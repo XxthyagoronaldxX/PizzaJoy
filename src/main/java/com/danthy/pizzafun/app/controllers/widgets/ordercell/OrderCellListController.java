@@ -5,6 +5,7 @@ import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.handles.OnProduceOrderEvent;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

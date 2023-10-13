@@ -8,6 +8,10 @@
     -fx-border-color: transparent;
 }
 
+#pizza-supplier-background {
+    -fx-background-radius: 0px 0px 0px 100px;
+}
+
 #supplier-list .cell {
     -fx-background-color: transparent;
 }

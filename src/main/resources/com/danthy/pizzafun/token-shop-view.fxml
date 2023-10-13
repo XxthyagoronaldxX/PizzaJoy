@@ -48,7 +48,7 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </padding>
                         </HBox>
-                        <ListView id="supplier-list" fx:id="supplierList" prefHeight="500.0" prefWidth="411.0" VBox.vgrow="ALWAYS" />
+                        <ListView id="supplier-list" fx:id="supplierList" prefHeight="500.0" prefWidth="411.0" style="-fx-background-color: transparent;" />
                     </children>
                 </VBox>
                 <VBox id="recipe-vbox" fx:id="recipeVBox" alignment="TOP_CENTER" prefHeight="382.0" prefWidth="358.0" spacing="20.0" HBox.hgrow="ALWAYS">

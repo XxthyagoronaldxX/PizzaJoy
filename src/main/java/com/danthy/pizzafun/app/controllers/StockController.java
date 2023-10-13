@@ -52,7 +52,7 @@ public class StockController extends IEmitter implements IController, IListener 
         stockImageBg.fitWidthProperty().bind(rootView.prefWidthProperty());
         stockImageBg.fitHeightProperty().bind(rootView.prefHeightProperty());
 
-        boostTimeRateButton.setOnMouseClicked(new OnBoostTimerToNextRestockEvent(this));
+        boostTimeRateButton.setOnMouseClicked(new OnBoostTimerToNextRestockEvent());
     }
 
     @Override

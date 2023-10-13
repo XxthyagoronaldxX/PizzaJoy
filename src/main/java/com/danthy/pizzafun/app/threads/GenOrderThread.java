@@ -8,17 +8,19 @@ import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.domain.data.PizzaDataSingleton;
 import com.danthy.pizzafun.domain.enums.NpcLevel;
 import com.danthy.pizzafun.domain.models.NpcModel;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import com.danthy.pizzafun.domain.models.PizzaModel;
+import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public class GenOrderThread implements IHandle {
-    private final IPizzariaService pizzariaService;
+    private final PizzariaServiceImpl pizzariaService;
     private final EventPublisher eventPublisher;
 
     public GenOrderThread() {
@@ -28,10 +30,10 @@ public class GenOrderThread implements IHandle {
 
     @Override
     public void handle() {
+        PizzariaState pizzariaState = pizzariaService.getPizzariaState();
         int maxpizzas = ApplicationProperties.roomInitialMaxPizzas;
         int mintime = ApplicationProperties.pizzaGenerationMinBaseTime;
         int maxtime = ApplicationProperties.pizzaGenerationMaxBaseTime;
-
 
         int time = ((int) Math.floor((maxtime - mintime) * Math.random())) + mintime;
 
@@ -41,9 +43,9 @@ public class GenOrderThread implements IHandle {
             if (maxpizzas > pizzariaService.getOrdersAmount()) {
                 NpcModel npcModel = new NpcModel("Thyago", NpcLevel.EASY);
 
-                PizzaModel pizzaModel = PizzaDataSingleton
-                        .getInstance()
-                        .getRandomPizza();
+                int randomPizza = (int) (pizzariaState.getOwnedPizzaModelObservableList().size() * Math.random());
+
+                PizzaModel pizzaModel = pizzariaState.getOwnedPizzaModelObservableList().get(randomPizza);
 
                 OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
 

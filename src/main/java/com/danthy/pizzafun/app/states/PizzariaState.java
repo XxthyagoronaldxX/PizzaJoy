@@ -2,6 +2,7 @@ package com.danthy.pizzafun.app.states;
 
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
+import com.danthy.pizzafun.domain.models.PizzaModel;
 import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,11 +16,14 @@ public class PizzariaState {
 
     private final ObservableList<OrderWrapper> orderModelObservableList;
 
+    private final ObservableList<PizzaModel> ownedPizzaModelObservableList;
+
     public PizzariaState(RoomModel roomModel) {
         balanceObservable = new ObservableValue<>(roomModel.getBalance());
         tokensObservable = new ObservableValue<>(roomModel.getTokens());
 
-        this.orderModelObservableList = FXCollections.observableArrayList();
+        orderModelObservableList = FXCollections.observableArrayList();
+        ownedPizzaModelObservableList = FXCollections.observableArrayList(roomModel.getPizzaModels());
     }
 
     public void decBalance(double decrement) {

@@ -15,7 +15,9 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OnStartGameEvent implements EventHandler<MouseEvent> {
     private final TextField pizzaNameLabel;
@@ -28,16 +30,18 @@ public class OnStartGameEvent implements EventHandler<MouseEvent> {
     public void handle(MouseEvent event) {
         EventPublisher eventPublisher = GetIt.getInstance().find(EventPublisher.class);
 
-
         String pizzaName = pizzaNameLabel.getText();
 
-        List<PizzaModel> pizzaModelList = PizzaDataSingleton.getInstance().getPizzaModels();
+        List<PizzaModel> pizzaModelList = new ArrayList<>(PizzaDataSingleton
+                .getInstance()
+                .getPizzaModels());
         RoomModel roomModel = PostConstruct.genRoomModel(pizzaName);
 
         GetIt.getInstance()
                 .addSingleton(new StockState(roomModel))
                 .addSingleton(new PizzariaState(roomModel))
-                .addSingleton(new TokenShopState(roomModel, pizzaModelList));
+                .addSingleton(new TokenShopState(roomModel, pizzaModelList))
+                .addSingleton(roomModel);
 
         eventPublisher.notifyAll(new StartGameEvent());
     }

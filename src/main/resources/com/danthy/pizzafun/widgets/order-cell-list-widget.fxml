@@ -58,7 +58,7 @@
                               <Image url="@../assets/imgs/pizza-loading-background.png" />
                            </image>
                         </ImageView>
-                        <ProgressBar id="progress-status" fx:id="progressStatus" prefHeight="38.0" prefWidth="135.0" progress="0.42" StackPane.alignment="CENTER" />
+                        <ProgressBar id="progress-status" fx:id="progressStatus" prefHeight="38.0" prefWidth="135.0" progress="1.0" StackPane.alignment="CENTER" />
                      </children>
                   </StackPane>
                </children>

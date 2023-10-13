@@ -19,10 +19,12 @@ import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.net.URL;
