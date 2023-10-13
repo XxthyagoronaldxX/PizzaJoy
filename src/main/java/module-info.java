@@ -24,6 +24,7 @@ module com.danthy.pizzafun {
     exports com.danthy.pizzafun.app.controllers.widgets.ordercell;
     opens com.danthy.pizzafun.app.controllers.widgets.ordercell to javafx.fxml;
     opens com.danthy.pizzafun.app.controllers.widgets.suppliercell to javafx.fxml;
+    exports com.danthy.pizzafun.app.controllers.widgets.upgradecell to javafx.fxml;
     exports com.danthy.pizzafun.app.controllers.widgets.recipecell;
     exports com.danthy.pizzafun.app.states;
     opens com.danthy.pizzafun.app.states to javafx.fxml;

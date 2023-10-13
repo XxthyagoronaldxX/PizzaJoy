@@ -18,7 +18,7 @@ public class PostConstruct {
 
         ItemStockModel queijoStockModel = new ItemStockModel(queijoItem, 80);
         ItemStockModel massaStockModel = new ItemStockModel(massaItem, 40);
-        ItemStockModel molhoDeTomateStockModel = new ItemStockModel(molhoDeTomateItem,40);
+        ItemStockModel molhoDeTomateStockModel = new ItemStockModel(molhoDeTomateItem, 40);
         ItemStockModel calabresaStockModel = new ItemStockModel(calabresaItem, 40);
 
         PizzaEdgeModel pizzaNoEdge = PizzaEdgeModel.build();
@@ -66,7 +66,18 @@ public class PostConstruct {
 
         RoomModel roomModel = new RoomModel(name);
 
+        UpgradeModel cookUpgradeModel = UpgradeModel
+                .build()
+                .setLevel(0)
+                .setName("Cozinheiro")
+                .setUpgradeCostBase(120)
+                .setUpgradeCostScale(1.2)
+                .setUpgradeCost(120);
+
+        List<UpgradeModel> upgradeModelList = Arrays.asList(cookUpgradeModel);
+
         roomModel.setSupplierModel(supplierModel);
+        roomModel.setUpgradeModelList(upgradeModelList);
         roomModel.setStockModel(stockModel);
         roomModel.setBalance(ApplicationProperties.roomInitialBalance);
         roomModel.setTokens(ApplicationProperties.roomInitialTokens);

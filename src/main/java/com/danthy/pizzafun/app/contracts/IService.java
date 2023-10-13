@@ -1,3 +1,4 @@
 package com.danthy.pizzafun.app.contracts;
 
-public interface IService {}
+public interface IService {
+}

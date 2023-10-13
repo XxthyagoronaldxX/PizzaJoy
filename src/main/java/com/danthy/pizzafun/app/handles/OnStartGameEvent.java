@@ -7,6 +7,7 @@ import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.states.TokenShopState;
+import com.danthy.pizzafun.app.states.UpgradeState;
 import com.danthy.pizzafun.domain.data.PizzaDataSingleton;
 import com.danthy.pizzafun.domain.data.PostConstruct;
 import com.danthy.pizzafun.domain.models.PizzaModel;
@@ -41,6 +42,7 @@ public class OnStartGameEvent implements EventHandler<MouseEvent> {
                 .addSingleton(new StockState(roomModel))
                 .addSingleton(new PizzariaState(roomModel))
                 .addSingleton(new TokenShopState(roomModel, pizzaModelList))
+                .addSingleton(new UpgradeState(roomModel))
                 .addSingleton(roomModel);
 
         eventPublisher.notifyAll(new StartGameEvent());

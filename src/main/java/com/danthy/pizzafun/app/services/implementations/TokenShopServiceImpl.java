@@ -1,11 +1,12 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IListener;
+import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.events.SetSupplierEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.domain.models.SupplierModel;
@@ -14,18 +15,27 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-
-public class TokenShopServiceImpl implements ITokenShopService, IListener {
+public class TokenShopServiceImpl implements ITokenShopService {
     private TokenShopState tokenShopState;
 
     @Override
-    public TokenShopState getTokenShopState() {
-        return this.tokenShopState;
+    public void setCurrentSupplier(SupplierModel supplierModel) {
+        tokenShopState.setCurrentSupplierObservable(supplierModel);
     }
 
     @Override
-    public void setCurrentSupplier(SupplierModel supplierModel) {
-        tokenShopState.setCurrentSupplierWrapperObservable(supplierModel);
+    public ObservableList<RecipeWrapper> getRecipeWrapperObservableList() {
+        return tokenShopState.getRecipeWrapperObservableList();
+    }
+
+    @Override
+    public ObservableList<SupplierModel> getSupplierModelObservableList() {
+        return tokenShopState.getSupplierModelObservableList();
+    }
+
+    @Override
+    public ObservableValue<SupplierModel> getCurrentSupplierObservable() {
+        return tokenShopState.getCurrentSupplierObservable();
     }
 
     @Override

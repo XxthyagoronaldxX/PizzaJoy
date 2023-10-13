@@ -30,6 +30,7 @@ public class SupplierModel {
     private double deliveryTimeInSeconds;
 
     public SupplierModel(String name, SupplierLevel supplierLevel) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.supplierLevel = supplierLevel;
 
@@ -38,17 +39,5 @@ public class SupplierModel {
         this.bonusChance = supplierLevel.getBonusChance();
         this.deliveryTimeInSeconds = supplierLevel.getDeliveryTimeInSeconds();
         this.buyToken = supplierLevel.getBuyToken();
-    }
-
-    @Override
-    public String toString() {
-        return "SupplierModel{" +
-                "supplierLevel=" + supplierLevel +
-                ", name='" + name + '\'' +
-                ", cost=" + cost +
-                ", bonus=" + bonus +
-                ", bonusChance=" + bonusChance +
-                ", deliveryTimeInSeconds=" + deliveryTimeInSeconds +
-                '}';
     }
 }

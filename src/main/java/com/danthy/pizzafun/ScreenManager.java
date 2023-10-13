@@ -4,7 +4,6 @@ import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.enums.ScreenType;
 import com.danthy.pizzafun.app.events.GotoRoomEvent;
-import com.danthy.pizzafun.app.events.GotoUpgradeEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.TextFlow?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<VBox fx:id="rootView" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.StockController">
+<VBox fx:id="rootView" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.StockController">
    <children>
       <StackPane fx:id="stockView" maxHeight="690.0" maxWidth="295.0" prefHeight="690.0" prefWidth="295.0" stylesheets="@styles/stock.css" VBox.vgrow="ALWAYS">
           <children>
@@ -25,21 +18,29 @@
                 </ImageView>
             <VBox>
                <children>
-                  <TextFlow>
+                  <HBox>
                      <children>
-                        <Label fx:id="timeToNextRestockLabel" prefHeight="30.0" prefWidth="286.0" text="40s" textFill="#12ff49">
+                        <Label fx:id="timeToNextRestockLabel" prefHeight="30.0" prefWidth="154.0" text="40s" textFill="#12ff49">
                            <font>
                               <Font name="Unispace-Bold" size="15.0" />
                            </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="stockLimitLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="143.0" text="0/100" textFill="#fff424">
+                           <font>
+                              <Font name="Unispace-Bold" size="15.0" />
+                           </font>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
                         </Label>
                      </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </TextFlow>
+                  </HBox>
                   <FlowPane alignment="TOP_CENTER" prefHeight="120.0" prefWidth="295.0">
                      <children>
-                            <Label fx:id="boostTimeRateButton" id="title-stock" alignment="CENTER" prefHeight="50.0" prefWidth="127.0" text="ESTOQUE">
+                            <Label id="title-stock" fx:id="boostTimeRateButton" alignment="CENTER" prefHeight="50.0" prefWidth="127.0" text="ESTOQUE">
                                 <font>
                                     <Font name="Unispace-Bold" size="22.0" />
                                 </font>

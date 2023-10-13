@@ -1,18 +1,18 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
+import com.danthy.pizzafun.domain.models.PizzaModel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.application.Platform;
-import lombok.Getter;
+import javafx.collections.ObservableList;
 
-@Getter
-public class PizzariaServiceImpl implements IPizzariaService, IListener {
+public class PizzariaServiceImpl implements IPizzariaService {
     private PizzariaState pizzariaState;
 
     @Override
@@ -35,6 +35,26 @@ public class PizzariaServiceImpl implements IPizzariaService, IListener {
             pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPriceToSell());
             pizzariaState.incTokens(1);
         });
+    }
+
+    @Override
+    public ObservableValue<Double> getBalanceObservable() {
+        return pizzariaState.getBalanceObservable();
+    }
+
+    @Override
+    public ObservableValue<Integer> getTokensObservable() {
+        return pizzariaState.getTokensObservable();
+    }
+
+    @Override
+    public ObservableList<OrderWrapper> getOrderModelObservableList() {
+        return pizzariaState.getOrderModelObservableList();
+    }
+
+    @Override
+    public ObservableList<PizzaModel> getOwnedPizzaModelObservableList() {
+        return pizzariaState.getOwnedPizzaModelObservableList();
     }
 
     @Override

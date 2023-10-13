@@ -1,17 +1,16 @@
 package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeCellGridWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
 import com.danthy.pizzafun.app.services.IPizzariaService;
-import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
 import com.danthy.pizzafun.app.states.TokenShopState;
@@ -19,19 +18,17 @@ import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class TokenShopController extends IEmitter implements IController, IListener {
+public class TokenShopController extends IController implements IListener {
     @FXML
     public ListView supplierList;
 
@@ -66,16 +63,6 @@ public class TokenShopController extends IEmitter implements IController, IListe
         supplierList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    public void initObservers() {
-        Property<SupplierModel> currentSupplierProperty = tokenShopService.getCurrentSupplierProperty();
-
-        currentSupplierProperty.addListener((observer, oldValue, newValue) -> {
-            refreshSupplier(newValue);
-        });
-
-        refreshSupplier(currentSupplierProperty.getValue());
-    }
-
     public void refreshSupplier(SupplierModel supplierModel) {
         String name = supplierModel.getName();
         String cost = "Custo: R$" + supplierModel.getCost();
@@ -88,9 +75,23 @@ public class TokenShopController extends IEmitter implements IController, IListe
         supplierRestockTimeLabel.setText(deliveryTimeInSeconds);
     }
 
+    @Override
+    public void update(IEvent event) {
+        if (event.getClass() == StartGameEvent.class) onStartGameEvent(event);
+    }
+
+    public void onStartGameEvent(IEvent event) {
+        tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
+        pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
+
+        supplierList.setItems(tokenShopService.getSupplierModelObservableList());
+
+        initRecipeGridView();
+        initObservers();
+    }
+
     public void initRecipeGridView() {
-        TokenShopState tokenShopState = tokenShopService.getTokenShopState();
-        List<RecipeWrapper> recipeWrapperList = tokenShopState.getRecipeWrapperObservableList();
+        List<RecipeWrapper> recipeWrapperList = tokenShopService.getRecipeWrapperObservableList();
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
@@ -106,23 +107,13 @@ public class TokenShopController extends IEmitter implements IController, IListe
         gridPane.prefWidthProperty().bind(recipeListScroll.widthProperty());
     }
 
-    @Override
-    public void setEventPublisher(EventPublisher eventPublisher) {
-        super.eventPublisher = eventPublisher;
-    }
+    public void initObservers() {
+        Property<SupplierModel> currentSupplierProperty = tokenShopService.getCurrentSupplierProperty();
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) {
-            tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
-            pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
+        currentSupplierProperty.addListener((observer, oldValue, newValue) -> {
+            refreshSupplier(newValue);
+        });
 
-            TokenShopState tokenShopState = tokenShopService.getTokenShopState();
-
-            supplierList.setItems(tokenShopState.getSupplierModelObservableList());
-
-            initRecipeGridView();
-            initObservers();
-        }
+        refreshSupplier(currentSupplierProperty.getValue());
     }
 }

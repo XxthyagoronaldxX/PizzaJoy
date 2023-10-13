@@ -6,22 +6,22 @@ import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
 import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.handles.OnStockViewEvent;
-import com.danthy.pizzafun.app.handles.OnTokenShopViewEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
-import com.danthy.pizzafun.app.states.PizzariaState;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PizzariaController implements IListener, IController {
+public class PizzariaController extends IController implements IListener {
     @FXML
     public Label balanceLabel;
 
@@ -73,7 +73,20 @@ public class PizzariaController implements IListener, IController {
     @FXML
     public VBox tokenShopViewButton;
 
+    @FXML
+    public HBox upgrade;
+
+    @FXML
+    public UpgradeController upgradeController;
+
+    @FXML
+    public AnchorPane upgradeWrapperPane;
+
+    @FXML
+    public VBox upgradeViewButton;
+
     public double stockViewWidth;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -98,7 +111,8 @@ public class PizzariaController implements IListener, IController {
 
         tokenShopController.rootView.prefWidthProperty().bind(rootView.widthProperty());
         tokenShopController.rootView.prefHeightProperty().bind(rootView.heightProperty());
-        tokenShopWrapperPane.setVisible(false);
+        upgradeController.rootView.prefWidthProperty().bind(rootView.widthProperty());
+        upgradeController.rootView.prefHeightProperty().bind(rootView.heightProperty());
 
         orderListView.setCellFactory(object -> {
             OrderCellListFactory orderCellListFactory = new OrderCellListFactory();
@@ -110,33 +124,44 @@ public class PizzariaController implements IListener, IController {
         orderListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         stockViewButton.setOnMouseClicked(new OnStockViewEvent(this));
-        tokenShopViewButton.setOnMouseClicked(new OnTokenShopViewEvent(this));
-        tokenShopWrapperPane.setOnMouseClicked(new OnTokenShopViewEvent(this));
+        tokenShopViewButton.setOnMouseClicked(this::onTokenShopViewEvent);
+        tokenShopWrapperPane.setOnMouseClicked(this::onTokenShopViewEvent);
+        upgradeViewButton.setOnMouseClicked(this::onUpgradeViewEvent);
+    }
+
+    public void onUpgradeViewEvent(MouseEvent event) {
+        upgradeWrapperPane.setVisible(!upgradeWrapperPane.isVisible());
+    }
+
+    public void onTokenShopViewEvent(MouseEvent event) {
+        tokenShopWrapperPane.setVisible(!tokenShopWrapperPane.isVisible());
     }
 
     @Override
     public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) {
-            PizzariaState pizzariaState = GetIt.getInstance().find(PizzariaServiceImpl.class).getPizzariaState();
+        if (event.getClass() == StartGameEvent.class) onStartGameEvent(event);
+    }
 
-            orderListView.setItems(pizzariaState.getOrderModelObservableList());
+    public void onStartGameEvent(IEvent event) {
+        IPizzariaService pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
 
-            Property<Double> balanceProperty = pizzariaState.getBalanceObservable().getProperty();
-            Property<Integer> tokensProperty = pizzariaState.getTokensObservable().getProperty();
+        orderListView.setItems(pizzariaService.getOrderModelObservableList());
 
-            balanceProperty.addListener((observable, oldValue, newValue) -> {
-                String balance = "Dinheiro: $" + newValue;
+        Property<Double> balanceProperty = pizzariaService.getBalanceObservable().getProperty();
+        Property<Integer> tokensProperty = pizzariaService.getTokensObservable().getProperty();
 
-                balanceLabel.setText(balance);
-            });
-            tokensProperty.addListener((observable, oldValue, newValue) -> {
-                String tokens = String.format("Tokens: %d TK", newValue);
+        balanceProperty.addListener((observable, oldValue, newValue) -> {
+            String balance = "Dinheiro: $" + newValue;
 
-                tokensLabel.setText(tokens);
-            });
+            balanceLabel.setText(balance);
+        });
+        tokensProperty.addListener((observable, oldValue, newValue) -> {
+            String tokens = String.format("Tokens: %d TK", newValue);
 
-            balanceLabel.setText("Dinheiro: $" + balanceProperty.getValue());
-            tokensLabel.setText(String.format("Tokens: %d TK", tokensProperty.getValue()));
-        }
+            tokensLabel.setText(tokens);
+        });
+
+        balanceLabel.setText("Dinheiro: $" + balanceProperty.getValue());
+        tokensLabel.setText(String.format("Tokens: %d TK", tokensProperty.getValue()));
     }
 }

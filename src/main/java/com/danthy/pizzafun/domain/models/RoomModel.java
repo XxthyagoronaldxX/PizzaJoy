@@ -25,12 +25,15 @@ public class RoomModel {
 
     private List<PizzaModel> pizzaModels;
 
-    private final List<OrderModel> orderModels;
+    private List<UpgradeModel> upgradeModelList;
+
+    private List<OrderModel> orderModels;
 
     public RoomModel(String name) {
         this.id = UUID.randomUUID();
         this.pizzaModels = new ArrayList<>();
         this.orderModels = new ArrayList<>();
+        this.upgradeModelList = new ArrayList<>();
         this.balance = 0.0;
         this.name = name;
     }

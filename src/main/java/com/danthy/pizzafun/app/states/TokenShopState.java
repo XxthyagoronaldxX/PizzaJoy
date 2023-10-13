@@ -30,12 +30,12 @@ public class TokenShopState {
                 .map(RecipeWrapper::new)
                 .toList();
 
-        this.recipeWrapperObservableList = FXCollections.observableArrayList(recipeWrapperList);
-        this.currentSupplierObservable = new ObservableValue<>(currentSupplierModel);
-        this.supplierModelObservableList = FXCollections.observableArrayList();
+        recipeWrapperObservableList = FXCollections.observableArrayList(recipeWrapperList);
+        currentSupplierObservable = new ObservableValue<>(currentSupplierModel);
+        supplierModelObservableList = FXCollections.observableArrayList();
     }
 
-    public void setCurrentSupplierWrapperObservable(SupplierModel supplierModel) {
+    public void setCurrentSupplierObservable(SupplierModel supplierModel) {
         currentSupplierObservable.getProperty().setValue(supplierModel);
     }
 }

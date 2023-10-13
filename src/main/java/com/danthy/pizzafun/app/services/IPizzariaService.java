@@ -1,12 +1,13 @@
 package com.danthy.pizzafun.app.services;
 
+import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.contracts.IService;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
-import com.danthy.pizzafun.app.states.PizzariaState;
+import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.domain.models.PizzaModel;
 import javafx.collections.ObservableList;
 
-public interface IPizzariaService extends IService {
+public interface IPizzariaService extends IService, IListener {
     int getTokens();
 
     void addOrder(OrderWrapper orderWrapper);
@@ -14,4 +15,12 @@ public interface IPizzariaService extends IService {
     void removeOrder(OrderWrapper orderWrapper);
 
     int getOrdersAmount();
+
+    ObservableValue<Double> getBalanceObservable();
+
+    ObservableValue<Integer> getTokensObservable();
+
+    ObservableList<OrderWrapper> getOrderModelObservableList();
+
+    ObservableList<PizzaModel> getOwnedPizzaModelObservableList();
 }

@@ -30,7 +30,6 @@ public class GenOrderThread implements IHandle {
 
     @Override
     public void handle() {
-        PizzariaState pizzariaState = pizzariaService.getPizzariaState();
         int maxpizzas = ApplicationProperties.roomInitialMaxPizzas;
         int mintime = ApplicationProperties.pizzaGenerationMinBaseTime;
         int maxtime = ApplicationProperties.pizzaGenerationMaxBaseTime;
@@ -43,9 +42,9 @@ public class GenOrderThread implements IHandle {
             if (maxpizzas > pizzariaService.getOrdersAmount()) {
                 NpcModel npcModel = new NpcModel("Thyago", NpcLevel.EASY);
 
-                int randomPizza = (int) (pizzariaState.getOwnedPizzaModelObservableList().size() * Math.random());
+                int randomPizza = (int) (pizzariaService.getOwnedPizzaModelObservableList().size() * Math.random());
 
-                PizzaModel pizzaModel = pizzariaState.getOwnedPizzaModelObservableList().get(randomPizza);
+                PizzaModel pizzaModel = pizzariaService.getOwnedPizzaModelObservableList().get(randomPizza);
 
                 OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
 

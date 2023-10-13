@@ -1,18 +1,18 @@
 package com.danthy.pizzafun.app.controllers.widgets.suppliercell;
 
+import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.events.SetSupplierEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SupplierCellListController implements Initializable {
+public class SupplierCellListController extends IController {
     @FXML
     private Label bonusChanceLabel;
 
@@ -29,9 +29,6 @@ public class SupplierCellListController implements Initializable {
     private Label buyTokenLabel;
 
     private SupplierModel supplierModel;
-
-    public SupplierCellListController() {
-    }
 
     @FXML
     public void onSetSupplierEvent(Event event) {

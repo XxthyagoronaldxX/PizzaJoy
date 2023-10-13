@@ -2,7 +2,6 @@ package com.danthy.pizzafun.app.utils;
 
 import com.danthy.pizzafun.PizzaFunApplication;
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEmitter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 

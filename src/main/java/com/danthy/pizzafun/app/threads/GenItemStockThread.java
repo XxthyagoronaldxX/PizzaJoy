@@ -5,6 +5,9 @@ import com.danthy.pizzafun.app.events.GenItemStockHandleEndedEvent;
 import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.IPizzariaService;
+import com.danthy.pizzafun.app.services.IStockService;
+import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
@@ -18,9 +21,9 @@ import javafx.beans.property.Property;
 import javafx.util.Duration;
 
 public class GenItemStockThread implements IHandle {
-    private final StockServiceImpl stockService;
-    private final PizzariaServiceImpl pizzariaService;
-    private final TokenShopServiceImpl tokenShopService;
+    private final IStockService stockService;
+    private final IPizzariaService pizzariaService;
+    private final ITokenShopService tokenShopService;
     private final EventPublisher eventPublisher;
     private Timeline timeline;
 
@@ -37,7 +40,7 @@ public class GenItemStockThread implements IHandle {
 
     @Override
     public void handle() {
-        SupplierModel supplierModel = tokenShopService.getTokenShopState().getCurrentSupplierObservable().getValue();
+        SupplierModel supplierModel = tokenShopService.getCurrentSupplierObservable().getValue();
         Property<Double> timerToNextRestockProperty = stockService.getTimerToNextRestockProperty();
         Property<Double> rateSpeedProperty = stockService.getRateSpeedProperty();
 
@@ -47,9 +50,7 @@ public class GenItemStockThread implements IHandle {
         timeline.setRate(rateSpeedProperty.getValue());
         timeline.setOnFinished((onFinished) -> {
             Platform.runLater(() -> {
-                PizzariaState pizzariaState = pizzariaService.getPizzariaState();
-
-                if (pizzariaState.getBalanceObservable().getValue() > supplierModel.getCost()) {
+                if (pizzariaService.getBalanceObservable().getValue() > supplierModel.getCost()) {
                     eventPublisher.notifyAll(new ReStockEvent(supplierModel));
                 }
 

@@ -1,10 +1,8 @@
 package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.handles.OnPlayGameEvent;
 import com.danthy.pizzafun.app.handles.OnStartGameEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -14,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomeController extends IEmitter implements IController {
+public class HomeController extends IController {
     @FXML
     public AnchorPane pizzaFormNameRoot;
 
@@ -47,10 +45,5 @@ public class HomeController extends IEmitter implements IController {
 
         startGameButton.setOnMouseClicked(new OnStartGameEvent(this));
         playGameButton.setOnMouseClicked(new OnPlayGameEvent(this));
-    }
-
-    @Override
-    public void setEventPublisher(EventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
     }
 }

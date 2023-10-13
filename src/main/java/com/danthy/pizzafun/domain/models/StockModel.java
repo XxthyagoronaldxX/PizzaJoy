@@ -1,5 +1,6 @@
 package com.danthy.pizzafun.domain.models;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Getter @Setter @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class StockModel {
     @EqualsAndHashCode.Include
     private UUID id;

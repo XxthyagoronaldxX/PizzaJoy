@@ -15,9 +15,21 @@ public class StockState {
 
     private final ObservableList<ItemStockModel> itemStockModelObservableList;
 
+    private final ObservableValue<Integer> currentStockWeight;
+
+    private final ObservableValue<Integer> totalStockWeight;
+
     public StockState(RoomModel roomModel) {
-        this.itemStockModelObservableList = FXCollections.observableArrayList(roomModel.getStockModel().getItemStockModels());
-        this.timerToNextRestockObservable = new ObservableValue<>(50.0);
-        this.rateSpeedObservable = new ObservableValue<>(1.0);
+        itemStockModelObservableList = FXCollections.observableArrayList(roomModel.getStockModel().getItemStockModels());
+        timerToNextRestockObservable = new ObservableValue<>(50.0);
+        rateSpeedObservable = new ObservableValue<>(1.0);
+
+        int sumItemStockListWeight = itemStockModelObservableList
+                .stream()
+                .map(itemStockModel -> itemStockModel.getItemModel().getWeight() * itemStockModel.getQuantity())
+                .reduce(0, Integer::sum);
+
+        currentStockWeight = new ObservableValue<>(sumItemStockListWeight);
+        totalStockWeight = new ObservableValue<>(roomModel.getStockModel().getTotalWeight());
     }
 }

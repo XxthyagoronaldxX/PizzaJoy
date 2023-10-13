@@ -1,28 +1,25 @@
 package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
 import com.danthy.pizzafun.app.events.StartGameEvent;
-import com.danthy.pizzafun.app.handles.OnBoostTimerToNextRestockEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StockController extends IEmitter implements IController, IListener {
+public class StockController extends IController implements IListener {
     @FXML
     public ListView itemStockList;
 
@@ -41,8 +38,10 @@ public class StockController extends IEmitter implements IController, IListener 
     @FXML
     public Label boostTimeRateButton;
 
-    public StockServiceImpl stockService;
+    @FXML
+    public Label stockLimitLabel;
 
+    public IStockService stockService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,25 +50,38 @@ public class StockController extends IEmitter implements IController, IListener 
 
         stockImageBg.fitWidthProperty().bind(rootView.prefWidthProperty());
         stockImageBg.fitHeightProperty().bind(rootView.prefHeightProperty());
-
-        boostTimeRateButton.setOnMouseClicked(new OnBoostTimerToNextRestockEvent());
-    }
-
-    @Override
-    public void setEventPublisher(EventPublisher eventPublisher) {
-        super.eventPublisher = eventPublisher;
     }
 
     @Override
     public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) {
-            stockService = GetIt.getInstance().find(StockServiceImpl.class);
+        if (event.getClass() == StartGameEvent.class) onStartGameEvent(event);
+    }
 
-            itemStockList.setItems(stockService.getStockState().getItemStockModelObservableList());
+    public void onStartGameEvent(IEvent event) {
+        stockService = GetIt.getInstance().find(StockServiceImpl.class);
 
-            stockService.getTimerToNextRestockProperty().addListener((observable, oldValue, newValue) -> {
-                timeToNextRestockLabel.setText(String.format("%.0fs", newValue));
-            });
-        }
+        itemStockList.setItems(stockService.getItemStockModelObservableList());
+
+        stockService.getTimerToNextRestockProperty().addListener((observable, oldValue, newValue) -> {
+            timeToNextRestockLabel.setText(String.format("%.0fs", newValue));
+        });
+
+        stockService.getCurrentStockWeightProperty().addListener((obsevable, oldValue, newValue) -> {
+            int totStockWeight = stockService.getTotalStockWeightProperty().getValue();
+
+            stockLimitLabel.setText(newValue + "/" + totStockWeight);
+        });
+
+        stockService.getTotalStockWeightProperty().addListener((obsevable, oldValue, newValue) -> {
+            int currentStockWeight = stockService.getCurrentStockWeightProperty().getValue();
+
+            stockLimitLabel.setText(currentStockWeight + "/" + newValue);
+        });
+
+        int totStockWeight = stockService.getTotalStockWeightProperty().getValue();
+        int currentStockWeight = stockService.getCurrentStockWeightProperty().getValue();
+
+        stockLimitLabel.setText(currentStockWeight + "/" + totStockWeight);
+        boostTimeRateButton.setOnMouseClicked(stockService::onBoostRateSpeedEvent);
     }
 }

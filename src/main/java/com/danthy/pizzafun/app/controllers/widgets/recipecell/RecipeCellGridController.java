@@ -24,7 +24,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RecipeCellGridController implements IController {
+public class RecipeCellGridController extends IController {
 
     @FXML
     public StackPane cellRoot;

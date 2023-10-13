@@ -1,10 +1,12 @@
 package com.danthy.pizzafun;
 
-import com.danthy.pizzafun.app.controllers.HomeController;
-import com.danthy.pizzafun.app.controllers.PizzariaController;
-import com.danthy.pizzafun.app.controllers.StockController;
-import com.danthy.pizzafun.app.controllers.TokenShopController;
+import com.danthy.pizzafun.app.controllers.*;
 import com.danthy.pizzafun.app.enums.ScreenType;
+import com.danthy.pizzafun.app.services.IPizzariaService;
+import com.danthy.pizzafun.app.services.IStockService;
+import com.danthy.pizzafun.app.services.ITokenShopService;
+import com.danthy.pizzafun.app.services.IUpgradeService;
+import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
 import com.danthy.pizzafun.app.threads.GameManager;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
@@ -19,10 +21,13 @@ import javafx.stage.Stage;
 
 public class GetItSetup {
     public static void setup(Stage stage) {
+        // PRE CONFIGURATION [DON'T CHANGE THIS ORDER!]
         GetIt getIt = GetIt.getInstance();
 
         EventPublisher eventPublisher = new EventPublisher();
+        getIt.addSingleton(eventPublisher);
 
+        // CONFIGURING FXML FILES
         FXMLLoader roomLoader = FxmlUtil.loaderFromName(PathFxmlUtil.ROOM_VIEW, PizzaFunApplication.class);
         FXMLLoader homeLoader = FxmlUtil.loaderFromName(PathFxmlUtil.HOME_VIEW, PizzaFunApplication.class);
 
@@ -33,37 +38,42 @@ public class GetItSetup {
         HomeController homeController = FxmlUtil.controllerFromLoader(homeLoader);
         TokenShopController tokenShopController = pizzariaController.tokenShopController;
         StockController stockController = pizzariaController.stockController;
+        UpgradeController upgradeController = pizzariaController.upgradeController;
 
-        homeController.setEventPublisher(eventPublisher);
-        tokenShopController.setEventPublisher(eventPublisher);
-        stockController.setEventPublisher(eventPublisher);
-
+        // CONFIGURING SCREEN MANAGER
         ScreenManager screenManager = ScreenManager
                 .build(stage)
                 .addScreen(ScreenType.HOME, homeScene)
                 .addScreen(ScreenType.ROOM, roomScene)
                 .setInit(ScreenType.HOME);
 
-        TokenShopServiceImpl tokenShopService = new TokenShopServiceImpl();
-        PizzariaServiceImpl roomService = new PizzariaServiceImpl();
-        StockServiceImpl stockService = new StockServiceImpl();
+        // GETTING SERVICES TO SEND TO GETIT [SINGLETON]
+        ITokenShopService tokenShopService = new TokenShopServiceImpl();
+        IPizzariaService roomService = new PizzariaServiceImpl();
+        IStockService stockService = new StockServiceImpl();
+        IUpgradeService upgradeService = new UpgradeServiceImpl();
 
+        // INITIALIZING GAME MANAGER (CLASS USED TO MANAGE THE CONTINUOUS "THREADS" THAT ARE WORKING ON START GAME)
         GameManager gameManager = new GameManager();
 
+        // INITIALIZING LISTENERS
         eventPublisher
                 .addListener(tokenShopService)
                 .addListener(roomService)
                 .addListener(stockService)
+                .addListener(upgradeService)
+                .addListener(upgradeController)
                 .addListener(pizzariaController)
                 .addListener(tokenShopController)
                 .addListener(stockController)
                 .addListener(gameManager)
                 .addListener(screenManager);
 
+        // INITIALIZING SINGLETONS
         getIt.addSingleton(tokenShopService)
                 .addSingleton(stockService)
                 .addSingleton(roomService)
-                .addSingleton(eventPublisher)
+                .addSingleton(upgradeService)
                 .addSingleton(screenManager)
                 .addSingleton(pizzariaController)
                 .addSingleton(homeController)
