@@ -160,7 +160,7 @@
       </AnchorPane>
       <AnchorPane fx:id="notificationWrapperPane" prefHeight="690.0" prefWidth="889.0" visible="false">
          <children>
-            <fx:include source="notification-view.fxml"  />
+            <fx:include fx:id="notification" source="notification-view.fxml"  />
          </children>
       </AnchorPane>
    </children>

@@ -50,9 +50,7 @@ public class GenItemStockThread implements IHandle {
         timeline.setRate(rateSpeedProperty.getValue());
         timeline.setOnFinished((onFinished) -> {
             Platform.runLater(() -> {
-                if (pizzariaService.getBalanceObservable().getValue() > supplierModel.getCost()) {
-                    eventPublisher.notifyAll(new ReStockEvent(supplierModel));
-                }
+                eventPublisher.notifyAll(new ReStockEvent(supplierModel));
 
                 eventPublisher.notifyAll(new GenItemStockHandleEndedEvent());
             });

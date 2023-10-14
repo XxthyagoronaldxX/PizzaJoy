@@ -98,7 +98,7 @@ public class TokenShopController extends IController implements IListener {
 
         int nColumn = 2;
         for (int i = 0; i < recipeWrapperList.size(); i++) {
-            VBox recipeCellGridWrapper = new RecipeCellGridWrapper().build(recipeWrapperList.get(i), pizzariaService);
+            VBox recipeCellGridWrapper = new RecipeCellGridWrapper().build(recipeWrapperList.get(i));
 
             gridPane.add(recipeCellGridWrapper, i % nColumn, i / nColumn);
         }

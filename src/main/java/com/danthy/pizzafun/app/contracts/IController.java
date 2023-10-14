@@ -4,10 +4,6 @@ import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import javafx.fxml.Initializable;
 
-public abstract class IController implements Initializable {
-    protected final EventPublisher eventPublisher;
+public abstract class IController extends IEmitter implements Initializable {
 
-    protected IController() {
-        eventPublisher = GetIt.getInstance().find(EventPublisher.class);
-    }
 }

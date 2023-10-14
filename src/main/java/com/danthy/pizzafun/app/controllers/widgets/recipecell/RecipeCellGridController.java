@@ -1,19 +1,18 @@
 package com.danthy.pizzafun.app.controllers.widgets.recipecell;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IListener;
-import com.danthy.pizzafun.app.events.LearnRecipeEvent;
-import com.danthy.pizzafun.app.handles.OnLearnRecipeEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
+import com.danthy.pizzafun.app.events.RequestLearnRecipeEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.IPizzariaService;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -48,7 +47,7 @@ public class RecipeCellGridController extends IController {
         learnProgressBar.setVisible(false);
     }
 
-    public void initCell(RecipeWrapper recipeWrapper, IPizzariaService pizzariaService) {
+    public void initCell(RecipeWrapper recipeWrapper) {
         this.recipeWrapper = recipeWrapper;
 
         pizzaNameLabel.setText(recipeWrapper.getPizzaModel().getName());
@@ -56,7 +55,11 @@ public class RecipeCellGridController extends IController {
 
         confPopupForRecipe(recipeWrapper);
 
-        learnButton.setOnMouseClicked(new OnLearnRecipeEvent(this));
+        learnButton.setOnMouseClicked(this::onRequestLearnRecipeEvent);
+    }
+
+    private void onRequestLearnRecipeEvent(MouseEvent event) {
+        eventPublisher.notifyAll(new RequestLearnRecipeEvent(recipeWrapper, this));
     }
 
     private void confPopupForRecipe(RecipeWrapper recipeWrapper) {
@@ -67,9 +70,9 @@ public class RecipeCellGridController extends IController {
         FadeTransition fadeInTransition = popupFadeInTransition(popupContent);
 
         cellRoot.setOnMouseEntered((event) -> {
-            StackPane stackPane =  (StackPane) event.getSource();
+            StackPane stackPane = (StackPane) event.getSource();
 
-            double posX = stackPane.localToScreen(0,0).getX() + stackPane.getWidth();
+            double posX = stackPane.localToScreen(0, 0).getX() + stackPane.getWidth();
             double posY = stackPane.localToScreen(0, 0).getY();
 
             popup.show(stage, posX, posY);
@@ -104,10 +107,24 @@ public class RecipeCellGridController extends IController {
         return vBox;
     }
 
-    public FadeTransition popupFadeInTransition (Node content) {
+    public FadeTransition popupFadeInTransition(Node content) {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), content);
         fadeTransition.setFromValue(0.0);
         fadeTransition.setToValue(1.0);
         return fadeTransition;
+    }
+
+    public void startToLearnTheRecipe() {
+        learnButton.setVisible(false);
+        learnProgressBar.setVisible(true);
+
+        int timeInSecondsToLearn = recipeWrapper.getPizzaModel().getTimeInSecondsToLearn();
+        Duration duration = Duration.seconds(timeInSecondsToLearn);
+        KeyValue keyValue = new KeyValue(learnProgressBar.progressProperty(), 1.0);
+        KeyFrame keyFrame = new KeyFrame(duration, keyValue);
+
+        Timeline learnTimeline = new Timeline(keyFrame);
+        learnTimeline.setCycleCount(1);
+        learnTimeline.play();
     }
 }

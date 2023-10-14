@@ -4,15 +4,19 @@ import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class NotificationController extends IController implements IListener {
+public class NotificationController extends IController {
     @FXML
     public ImageView notificationBackgroundImg;
+
+    @FXML
+    public Label notifyTitleLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -25,10 +29,5 @@ public class NotificationController extends IController implements IListener {
 
         clip.setStyle("-fx-border-width: 24px;-fx-border-color: black;-fx-border-radius: 10px;");
         notificationBackgroundImg.setClip(clip);
-    }
-
-    @Override
-    public void update(IEvent event) {
-
     }
 }

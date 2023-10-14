@@ -1,9 +1,7 @@
 package com.danthy.pizzafun.app.controllers.widgets.suppliercell;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.events.SetSupplierEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
-import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.events.RequestBuySupplierEvent;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -32,7 +30,7 @@ public class SupplierCellListController extends IController {
 
     @FXML
     public void onSetSupplierEvent(Event event) {
-        GetIt.getInstance().find(EventPublisher.class).notifyAll(new SetSupplierEvent(supplierModel));
+        eventPublisher.notifyAll(new RequestBuySupplierEvent(supplierModel));
     }
 
     @Override

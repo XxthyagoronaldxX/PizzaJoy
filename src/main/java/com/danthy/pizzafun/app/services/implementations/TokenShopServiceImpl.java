@@ -2,7 +2,7 @@ package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
-import com.danthy.pizzafun.app.events.SetSupplierEvent;
+import com.danthy.pizzafun.app.events.SuccessBuySupplierEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -55,10 +55,10 @@ public class TokenShopServiceImpl implements ITokenShopService {
 
             supplierWrapperObservableList.clear();
             supplierWrapperObservableList.addAll(supplierModelList);
-        } else if (event.getClass() == SetSupplierEvent.class) {
-            SetSupplierEvent setSupplierEvent = (SetSupplierEvent) event;
+        } else if (event.getClass() == SuccessBuySupplierEvent.class) {
+            SuccessBuySupplierEvent successBuySupplierEvent = (SuccessBuySupplierEvent) event;
 
-            setCurrentSupplier(setSupplierEvent.supplierModel());
+            setCurrentSupplier(successBuySupplierEvent.supplierModel());
         }
     }
 }

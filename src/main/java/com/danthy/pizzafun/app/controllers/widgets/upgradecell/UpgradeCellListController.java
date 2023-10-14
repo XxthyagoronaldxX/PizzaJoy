@@ -1,15 +1,13 @@
 package com.danthy.pizzafun.app.controllers.widgets.upgradecell;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.events.LevelUpEvent;
+import com.danthy.pizzafun.app.events.RequestLevelUpEvent;
 import com.danthy.pizzafun.domain.models.UpgradeModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-import javax.swing.text.Utilities;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,6 +39,6 @@ public class UpgradeCellListController extends IController {
     }
 
     public void onLevelUpEvent(MouseEvent event) {
-        eventPublisher.notifyAll(new LevelUpEvent(upgradeModel));
+        eventPublisher.notifyAll(new RequestLevelUpEvent(upgradeModel));
     }
 }
