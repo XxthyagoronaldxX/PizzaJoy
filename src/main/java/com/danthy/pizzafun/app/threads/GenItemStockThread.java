@@ -22,13 +22,11 @@ import javafx.util.Duration;
 
 public class GenItemStockThread implements IHandle {
     private final IStockService stockService;
-    private final IPizzariaService pizzariaService;
     private final ITokenShopService tokenShopService;
     private final EventPublisher eventPublisher;
     private Timeline timeline;
 
     public GenItemStockThread() {
-        pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
         stockService = GetIt.getInstance().find(StockServiceImpl.class);
         eventPublisher = GetIt.getInstance().find(EventPublisher.class);
         tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);

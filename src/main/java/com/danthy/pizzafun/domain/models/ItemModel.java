@@ -1,19 +1,18 @@
 package com.danthy.pizzafun.domain.models;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.*;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@XmlRootElement
 public class ItemModel {
     @EqualsAndHashCode.Include
+    @XmlAttribute(name = "id")
     private String name;
-    private int weight;
 
-    public ItemModel(String name, int weight) {
-        this.name = name;
-        this.weight = weight;
-    }
+    @XmlAttribute
+    private int weight;
 }

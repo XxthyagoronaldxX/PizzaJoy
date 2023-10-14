@@ -38,7 +38,7 @@ public class StockServiceImpl extends IEmitter implements IStockService  {
             ItemModel itemModel = itemStockModel.getItemModel();
 
             for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
-                ItemModel itemModelAux = itemPizzaModel.getItem();
+                ItemModel itemModelAux = itemPizzaModel.getItemModel();
 
                 if (itemModel.equals(itemModelAux)) {
                     if (itemPizzaModel.getQuantity() > itemStockModel.getQuantity()) return false;
@@ -59,7 +59,7 @@ public class StockServiceImpl extends IEmitter implements IStockService  {
             ItemModel itemModel = itemStockModel.getItemModel();
 
             for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
-                ItemModel itemModelAux = itemPizzaModel.getItem();
+                ItemModel itemModelAux = itemPizzaModel.getItemModel();
 
                 if (itemModel.equals(itemModelAux)) {
                     itemStockModel.decrementQuantity(itemPizzaModel.getQuantity());
@@ -160,7 +160,7 @@ public class StockServiceImpl extends IEmitter implements IStockService  {
                 .getPizzaModel()
                 .getItemPizzaModels()
                 .stream()
-                .map(itemPizzaModel -> itemPizzaModel.getQuantity() * itemPizzaModel.getItem().getWeight())
+                .map(itemPizzaModel -> itemPizzaModel.getQuantity() * itemPizzaModel.getItemModel().getWeight())
                 .reduce(0, Integer::sum);
 
         int currentStockWeight = getCurrentStockWeightProperty().getValue();

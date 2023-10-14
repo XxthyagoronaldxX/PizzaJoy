@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.Properties;
 
 public class ApplicationProperties {
-    public static int pizzaProduceBaseTime;
+    public static double pizzaProduceBaseLevelUp;
     public static int pizzaGenerationMinBaseTime;
     public static int pizzaGenerationMaxBaseTime;
     public static int itemMaxWeight;
@@ -20,6 +20,7 @@ public class ApplicationProperties {
     public static int roomInitialTokens;
     public static String[] supplierNames;
     public static String[] roomInitialStockItems;
+    public static int roomInitialStockAvaible;
     public static int supplierGenerationBasetime;
     public static String roomInitialSupplierName;
     public static double roomInitialSupplierCost;
@@ -47,7 +48,7 @@ public class ApplicationProperties {
             throw new RuntimeException(e);
         }
 
-        pizzaProduceBaseTime = Integer.parseInt((String) properties.get("pizza.produce.basetime"));
+        pizzaProduceBaseLevelUp = Double.parseDouble((String) properties.get("pizza.produce.baselevelup"));
         pizzaGenerationMaxBaseTime = Integer.parseInt((String) properties.get("pizza.generation.maxbasetime"));
         pizzaGenerationMinBaseTime = Integer.parseInt((String) properties.get("pizza.generation.minbasetime"));
         roomInitialMaxPizzas = Integer.parseInt((String) properties.get("room.initial.maxpizzas"));
@@ -58,6 +59,7 @@ public class ApplicationProperties {
         supplierGenerationBasetime = Integer.parseInt((String) properties.get("supplier.generation.basetime"));
 
         roomInitialStockItems = ((String) properties.get("room.initial.stock.items")).split("[|]");
+        roomInitialStockAvaible = Integer.parseInt((String) properties.get("room.initial.stock.avaible"));
         roomInitialSupplierDeliveryTimeInSeconds = Double.parseDouble((String) properties.get("room.initial.supplier.deliveryTimeInSeconds"));
         roomInitialSupplierBonus = Integer.parseInt((String) properties.get("room.initial.supplier.bonus"));
         roomInitialSupplierBonusChance = Double.parseDouble((String) properties.get("room.initial.supplier.bonusChance"));

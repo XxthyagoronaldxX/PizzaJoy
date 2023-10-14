@@ -1,7 +1,11 @@
 package com.danthy.pizzafun.domain.models;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
@@ -9,27 +13,22 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@XmlRootElement
 public class OrderModel {
     @EqualsAndHashCode.Include
+    @XmlAttribute
     private UUID id;
 
+    @XmlElement
     private NpcModel npcModel;
 
+    @XmlElement
     private PizzaModel pizzaModel;
 
     public OrderModel(NpcModel npcModel, PizzaModel pizzaModel) {
         this.id = UUID.randomUUID();
         this.npcModel = npcModel;
         this.pizzaModel = pizzaModel;
-    }
-
-    @Override
-    public String toString() {
-        return this.pizzaModel.getItemPizzaModels()
-                .stream()
-                .map(item
-                        -> item.getItem().getName() + " [" + item.getQuantity() + "x]\n"
-                )
-                .reduce("", (acc, sItem) -> acc + sItem);
     }
 }

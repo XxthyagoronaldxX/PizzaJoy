@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roomXmlAdapter id="1e5f02c8-b6df-4eb9-bdab-ffa0c38b4e6f">
+   <name>test</name>
+   <balance>100.0</balance>
+   <tokens>40</tokens>
+   <stockAdapter id="afd39d89-c665-48f3-ac22-487346788ca1">
+      <itemStockAdapterList>
+         <itemStockAdapter>
+            <itemAdapter id="Queijo" weight="2"/>
+            <quantity>80</quantity>
+         </itemStockAdapter>
+         <itemStockAdapter>
+            <itemAdapter id="Molho de tomate" weight="4"/>
+            <quantity>40</quantity>
+         </itemStockAdapter>
+         <itemStockAdapter>
+            <itemAdapter id="Massa" weight="4"/>
+            <quantity>40</quantity>
+         </itemStockAdapter>
+         <itemStockAdapter>
+            <itemAdapter id="Calabresa" weight="2"/>
+            <quantity>40</quantity>
+         </itemStockAdapter>
+      </itemStockAdapterList>
+      <currentWeight>0</currentWeight>
+      <totalWeight>150</totalWeight>
+   </stockAdapter>
+   <supplierAdapter id="c3d7d0bf-3970-41df-8fb2-1ba21305c600">
+      <supplierLevel>LEVEL01</supplierLevel>
+      <name>Forcenedor Anônimo</name>
+      <cost>25.0</cost>
+      <bonus>10</bonus>
+      <buyToken>0</buyToken>
+      <bonusChance>0.0</bonusChance>
+      <deliveryTimeInSeconds>50.0</deliveryTimeInSeconds>
+   </supplierAdapter>
+   <pizzaAdapterList>
+      <pizzaAdapter id="Pizza de Calabresa">
+         <itemPizzaAdapterList>
+            <itemPizzaAdapter>
+               <item id="Massa" weight="4"/>
+               <quantity>4</quantity>
+            </itemPizzaAdapter>
+            <itemPizzaAdapter>
+               <item id="Queijo" weight="2"/>
+               <quantity>2</quantity>
+            </itemPizzaAdapter>
+            <itemPizzaAdapter>
+               <item id="Molho de tomate" weight="4"/>
+               <quantity>4</quantity>
+            </itemPizzaAdapter>
+            <itemPizzaAdapter>
+               <item id="Calabresa" weight="2"/>
+               <quantity>2</quantity>
+            </itemPizzaAdapter>
+         </itemPizzaAdapterList>
+         <priceToSell>32.0</priceToSell>
+         <priceToBuyRecipe>0.0</priceToBuyRecipe>
+         <priceToGetRecipe>0.0</priceToGetRecipe>
+         <timeInSecondsToLearn>5</timeInSecondsToLearn>
+         <timeInSecondsToProduce>5</timeInSecondsToProduce>
+         <pizzaEdgeModel>
+            <itemPizzaModelList/>
+         </pizzaEdgeModel>
+      </pizzaAdapter>
+      <pizzaAdapter id="Pizza de Quatro queijos">
+         <itemPizzaAdapterList>
+            <itemPizzaAdapter>
+               <item id="Massa" weight="4"/>
+               <quantity>4</quantity>
+            </itemPizzaAdapter>
+            <itemPizzaAdapter>
+               <item id="Molho de tomate" weight="4"/>
+               <quantity>4</quantity>
+            </itemPizzaAdapter>
+            <itemPizzaAdapter>
+               <item id="Queijo" weight="2"/>
+               <quantity>2</quantity>
+            </itemPizzaAdapter>
+         </itemPizzaAdapterList>
+         <priceToSell>40.0</priceToSell>
+         <priceToBuyRecipe>0.0</priceToBuyRecipe>
+         <timeInSecondsToLearn>5</timeInSecondsToLearn>
+         <priceToGetRecipe>0.0</priceToGetRecipe>
+         <timeInSecondsToProduce>8</timeInSecondsToProduce>
+         <pizzaEdgeAdapter>
+            <itemPizzaAdapterList/>
+         </pizzaEdgeAdapter>
+      </pizzaAdapter>
+   </pizzaAdapterList>
+   <upgradeAdapterList>
+      <upgradeAdapter id="c808b253-f6ad-4c80-9f0e-612f03336990">
+         <level>0</level>
+         <name>Cozinheiro</name>
+         <upgradeCost>120.0</upgradeCost>
+         <upgradeCostBase>120.0</upgradeCostBase>
+         <upgradeCostScale>0.35</upgradeCostScale>
+         <upgradeType>COOK</upgradeType>
+      </upgradeAdapter>
+   </upgradeAdapterList>
+   <orderAdapterList/>
+</roomXmlAdapter>

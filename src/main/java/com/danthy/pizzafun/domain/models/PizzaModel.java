@@ -1,8 +1,13 @@
 package com.danthy.pizzafun.domain.models;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,61 +15,32 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
+@XmlRootElement
 public class PizzaModel {
     @EqualsAndHashCode.Include
+    @XmlAttribute(name = "id")
     private String name;
 
-    private final List<ItemPizzaModel> itemPizzaModels;
+    @XmlElementWrapper(name = "itemPizzaModelList")
+    @XmlElement(name = "itemPizzaModel")
+    private List<ItemPizzaModel> itemPizzaModels;
 
+    @XmlElement
     private float priceToSell;
 
+    @XmlElement
     private float priceToBuyRecipe;
 
+    @XmlElement
+    private float priceToGetRecipe;
+
+    @XmlElement
     private int timeInSecondsToLearn;
 
+    @XmlElement
+    private int timeInSecondsToProduce;
+
+    @XmlElement
     private PizzaEdgeModel pizzaEdgeModel;
-
-    public PizzaModel() {
-        this.itemPizzaModels = new ArrayList<>();
-    }
-
-    public static PizzaModel build() {
-        return new PizzaModel();
-    }
-
-    public PizzaModel setPriceToSell(float price) {
-        this.priceToSell = price;
-
-        return this;
-    }
-
-    public PizzaModel setTimeInSecondsToLearn(int seconds) {
-        this.timeInSecondsToLearn = seconds;
-
-        return this;
-    }
-
-    public PizzaModel setPriceToBuyRecipe(float price) {
-        this.priceToBuyRecipe = price;
-
-        return this;
-    }
-
-    public PizzaModel setName(String name) {
-        this.name = name;
-
-        return this;
-    }
-
-    public PizzaModel addItemPizzaModel(ItemModel itemModel, int quantity) {
-        this.itemPizzaModels.add(new ItemPizzaModel(itemModel, quantity));
-
-        return this;
-    }
-
-    public PizzaModel setEdge(PizzaEdgeModel pizzaEdgeModel) {
-        this.pizzaEdgeModel = pizzaEdgeModel;
-
-        return this;
-    }
 }

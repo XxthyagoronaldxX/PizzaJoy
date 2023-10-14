@@ -1,35 +1,22 @@
 package com.danthy.pizzafun.domain.models;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@XmlRootElement
 public class PizzaEdgeModel {
     @EqualsAndHashCode.Include
-    private UUID id;
-
-    private final List<ItemPizzaModel> itemPizzaModels;
-
+    @XmlAttribute(name = "id")
     private String name;
 
-    public PizzaEdgeModel() {
-        this.itemPizzaModels = new ArrayList<>();
-    }
-
-    public static PizzaEdgeModel build() {
-        return new PizzaEdgeModel();
-    }
-
-    public PizzaEdgeModel addItem(ItemPizzaModel itemPizzaModel) {
-        this.itemPizzaModels.add(itemPizzaModel);
-
-        return this;
-    }
+    @XmlElementWrapper(name = "itemPizzaModelList")
+    @XmlElement(name = "itemPizzaModel")
+    private List<ItemPizzaModel> itemPizzaModels;
 }

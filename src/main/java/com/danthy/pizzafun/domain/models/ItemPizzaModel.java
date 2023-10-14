@@ -1,25 +1,19 @@
 package com.danthy.pizzafun.domain.models;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@XmlRootElement
 public class ItemPizzaModel {
-    @EqualsAndHashCode.Include
-    private UUID id;
+    @XmlElement
+    private ItemModel itemModel;
 
-    private ItemModel item;
-
+    @XmlElement
     private int quantity;
-
-    public ItemPizzaModel(ItemModel item, int quantity) {
-        this.id = UUID.randomUUID();
-        this.item = item;
-        this.quantity = quantity;
-    }
 }

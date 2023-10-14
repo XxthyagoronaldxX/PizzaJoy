@@ -9,5 +9,7 @@ import javafx.collections.ObservableList;
 public interface IUpgradeService extends IService, IListener {
     void upgrade(UpgradeType upgradeType);
 
+    int getLevel(UpgradeType upgradeType);
+
     ObservableList<UpgradeModel> getUpgradeModelObservableList();
 }

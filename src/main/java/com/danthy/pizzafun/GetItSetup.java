@@ -7,7 +7,6 @@ import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.services.IUpgradeService;
 import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
-import com.danthy.pizzafun.app.threads.GameManager;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
@@ -15,6 +14,9 @@ import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;
+import com.danthy.pizzafun.domain.data.ItemXmlData;
+import com.danthy.pizzafun.domain.data.PizzaXmlData;
+import com.danthy.pizzafun.domain.data.RoomSavesXmlData;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -26,6 +28,9 @@ public class GetItSetup {
 
         EventPublisher eventPublisher = new EventPublisher();
         getIt.addSingleton(eventPublisher);
+        getIt.addSingleton(PizzaXmlData.getFromXml());
+        getIt.addSingleton(ItemXmlData.getFromXml());
+        getIt.addSingleton(RoomSavesXmlData.getFromXml());
 
         // CONFIGURING FXML FILES
         FXMLLoader roomLoader = FxmlUtil.loaderFromName(PathFxmlUtil.ROOM_VIEW, PizzaFunApplication.class);

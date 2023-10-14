@@ -7,8 +7,8 @@ import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.app.states.UpgradeState;
-import com.danthy.pizzafun.domain.data.PizzaDataSingleton;
-import com.danthy.pizzafun.domain.data.PostConstruct;
+import com.danthy.pizzafun.app.utils.JaxbUtil;
+import com.danthy.pizzafun.domain.data.PizzaXmlData;
 import com.danthy.pizzafun.domain.models.PizzaModel;
 import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.fxml.FXML;
@@ -65,10 +65,9 @@ public class HomeController extends IController {
     public void onStartGameEvent(MouseEvent event) {
         String pizzaName = pizzaNameField.getText();
 
-        List<PizzaModel> pizzaModelList = new ArrayList<>(PizzaDataSingleton
-                .getInstance()
-                .getPizzaModels());
-        RoomModel roomModel = PostConstruct.genRoomModel(pizzaName);
+        List<PizzaModel> pizzaModelList = new ArrayList<>(PizzaXmlData.getFromXml().getPizzaModelList());
+        RoomModel roomModel = JaxbUtil.unmarshaller(RoomModel.class, "FirstGameRoomConfig");
+        roomModel.setName(pizzaName);
 
         GetIt.getInstance()
                 .addSingleton(new StockState(roomModel))

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pizzaXmlData>
+    <pizzaModelList>
+        <pizzaModel id="Pizza de Chocolate">
+            <itemPizzaModelList>
+                <itemPizzaModel>
+                    <itemModel id="Massa" weight="4"/>
+                    <quantity>1</quantity>
+                </itemPizzaModel>
+                <itemPizzaModel>
+                    <itemModel id="Chocolate" weight="2"/>
+                    <quantity>2</quantity>
+                </itemPizzaModel>
+            </itemPizzaModelList>
+            <priceToSell>42.0</priceToSell>
+            <priceToBuyRecipe>25.0</priceToBuyRecipe>
+            <timeInSecondsToLearn>5</timeInSecondsToLearn>
+            <priceToGetRecipe>450.0</priceToGetRecipe>
+            <timeInSecondsToProduce>5</timeInSecondsToProduce>
+            <pizzaEdgeModel id="Sem Borda">
+                <itemPizzaModelList/>
+            </pizzaEdgeModel>
+        </pizzaModel>
+    </pizzaModelList>
+</pizzaXmlData>

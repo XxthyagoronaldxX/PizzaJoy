@@ -90,7 +90,7 @@ public class RecipeCellGridController extends IController {
                 .getPizzaModel()
                 .getItemPizzaModels()
                 .stream()
-                .map((item) -> item.getItem().getName() + " [" + item.getQuantity() + "x]")
+                .map((item) -> item.getItemModel().getName() + " [" + item.getQuantity() + "x]")
                 .reduce("", (acc, value) -> acc + value + "\n");
 
         Label titleLabel = new Label("Ingredientes");

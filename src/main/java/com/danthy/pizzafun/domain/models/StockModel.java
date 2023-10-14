@@ -1,37 +1,31 @@
 package com.danthy.pizzafun.domain.models;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@XmlRootElement
 public class StockModel {
     @EqualsAndHashCode.Include
+    @XmlAttribute(name = "id")
     private UUID id;
 
-    private final List<ItemStockModel> itemStockModels;
+    @XmlElementWrapper(name = "itemStockModelList")
+    @XmlElement(name = "itemStockModel")
+    private List<ItemStockModel> itemStockModels;
 
+    @XmlElement
     private int currentWeight;
 
+    @XmlElement
     private int totalWeight;
-
-    public StockModel(int totalWeight) {
-        this.id = UUID.randomUUID();
-        itemStockModels = new ArrayList<>();
-        this.totalWeight = totalWeight;
-        this.currentWeight = 0;
-    }
-
-    public StockModel addItemStockModel(ItemStockModel itemStockModel) {
-        this.itemStockModels.add(itemStockModel);
-
-        return this;
-    }
 }

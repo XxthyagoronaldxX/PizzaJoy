@@ -1,32 +1,39 @@
 package com.danthy.pizzafun.domain.models;
 
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@Builder
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class SupplierModel {
     @EqualsAndHashCode.Include
+    @XmlAttribute(name = "id")
     private UUID id;
 
-    private final SupplierLevel supplierLevel;
+    @XmlElement
+    private SupplierLevel supplierLevel;
 
+    @XmlElement
     private String name;
 
+    @XmlElement
     private double cost;
 
+    @XmlElement
     private int bonus;
 
+    @XmlElement
     private int buyToken;
 
+    @XmlElement
     private double bonusChance;
 
+    @XmlElement
     private double deliveryTimeInSeconds;
 
     public SupplierModel(String name, SupplierLevel supplierLevel) {

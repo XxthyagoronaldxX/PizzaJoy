@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itemXmlData>
+    <itemModelList>
+        <itemModel id="Massa" weight="4"/>
+        <itemModel id="Molho de Tomate" weight="4"/>
+        <itemModel id="Chocolate" weight="2"/>
+        <itemModel id="Queijo" weight="2"/>
+        <itemModel id="Calabresa" weight="1"/>
+    </itemModelList>
+</itemXmlData>

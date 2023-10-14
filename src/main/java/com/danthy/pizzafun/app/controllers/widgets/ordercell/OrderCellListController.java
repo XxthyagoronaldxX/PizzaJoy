@@ -5,6 +5,10 @@ import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.events.RequestProduceOrderEvent;
 import com.danthy.pizzafun.app.events.SuccessProduceOrderEvent;
+import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.services.IUpgradeService;
+import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
+import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -43,6 +47,8 @@ public class OrderCellListController extends IController {
     @FXML
     public ImageView pizzaLoadingBackgroundImg;
 
+    public IUpgradeService upgradeService;
+
     public OrderWrapper orderWrapper;
 
     @Override
@@ -53,6 +59,7 @@ public class OrderCellListController extends IController {
     }
 
     public void setOrderWrapper(OrderWrapper orderWrapper) {
+        this.upgradeService = GetIt.getInstance().find(UpgradeServiceImpl.class);
         this.orderWrapper = orderWrapper;
         OrderModel orderModel = orderWrapper.getOrderModel();
 
@@ -78,9 +85,12 @@ public class OrderCellListController extends IController {
             pizzaLoadingBackgroundImg.setVisible(true);
             orderWrapper.setLoading(true);
 
+            int cookLevel = upgradeService.getLevel(UpgradeType.COOK);
+            int timeInSecondsToProduce = orderWrapper.getOrderModel().getPizzaModel().getTimeInSecondsToProduce();
+            double produceBaseLevelUp = ApplicationProperties.pizzaProduceBaseLevelUp;
+            double totDurationSeconds = timeInSecondsToProduce - (cookLevel * produceBaseLevelUp);
 
-            int totDurationSeconds = ApplicationProperties.pizzaProduceBaseTime;
-            Timeline produceTimeline = new Timeline(new KeyFrame(Duration.seconds(1), timeEvent -> {
+            KeyFrame produceKeyFrame = new KeyFrame(Duration.seconds(1), timeEvent -> {
                 double progress = orderWrapper.getProgress();
 
                 if (progress < 1.0) {
@@ -88,8 +98,10 @@ public class OrderCellListController extends IController {
 
                     orderWrapper.getProgressBar().setProgress(orderWrapper.getProgress());
                 }
-            }));
-            produceTimeline.setCycleCount(totDurationSeconds + 1);
+            });
+
+            Timeline produceTimeline = new Timeline(produceKeyFrame);
+            produceTimeline.setCycleCount((int) totDurationSeconds + 1);
             produceTimeline.setOnFinished(onFinish -> {
                 eventPublisher.notifyAll(new SuccessProduceOrderEvent(orderWrapper));
             });

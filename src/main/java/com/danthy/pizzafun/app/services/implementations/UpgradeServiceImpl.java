@@ -3,6 +3,7 @@ package com.danthy.pizzafun.app.services.implementations;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.events.RequestLevelUpEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
+import com.danthy.pizzafun.app.events.SuccessLevelUpEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IUpgradeService;
 import com.danthy.pizzafun.app.states.UpgradeState;
@@ -27,6 +28,14 @@ public class UpgradeServiceImpl implements IUpgradeService {
     }
 
     @Override
+    public int getLevel(UpgradeType upgradeType) {
+        for (UpgradeModel upgradeModel : upgradeState.getUpgradeModelObservableList())
+            if (upgradeModel.getUpgradeType() == upgradeType) return upgradeModel.getLevel();
+
+        return 0;
+    }
+
+    @Override
     public ObservableList<UpgradeModel> getUpgradeModelObservableList() {
         return upgradeState.getUpgradeModelObservableList();
     }
@@ -35,11 +44,10 @@ public class UpgradeServiceImpl implements IUpgradeService {
     public void update(IEvent event) {
         if (event.getClass() == StartGameEvent.class) {
             upgradeState = GetIt.getInstance().find(UpgradeState.class);
-        } else if (event.getClass() == RequestLevelUpEvent.class) {
-            // TODO: Aumentar o valor do próximo upgrade
-            RequestLevelUpEvent requestLevelUpEvent = (RequestLevelUpEvent) event;
+        } else if (event.getClass() == SuccessLevelUpEvent.class) {
+            SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
 
-            upgrade(requestLevelUpEvent.upgradeModel().getUpgradeType());
+            upgrade(successLevelUpEvent.upgradeModel().getUpgradeType());
         }
     }
 }
