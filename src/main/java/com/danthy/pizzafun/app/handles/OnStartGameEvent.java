@@ -29,22 +29,6 @@ public class OnStartGameEvent implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-        EventPublisher eventPublisher = GetIt.getInstance().find(EventPublisher.class);
 
-        String pizzaName = pizzaNameLabel.getText();
-
-        List<PizzaModel> pizzaModelList = new ArrayList<>(PizzaDataSingleton
-                .getInstance()
-                .getPizzaModels());
-        RoomModel roomModel = PostConstruct.genRoomModel(pizzaName);
-
-        GetIt.getInstance()
-                .addSingleton(new StockState(roomModel))
-                .addSingleton(new PizzariaState(roomModel))
-                .addSingleton(new TokenShopState(roomModel, pizzaModelList))
-                .addSingleton(new UpgradeState(roomModel))
-                .addSingleton(roomModel);
-
-        eventPublisher.notifyAll(new StartGameEvent());
     }
 }

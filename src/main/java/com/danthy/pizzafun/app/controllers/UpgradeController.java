@@ -11,6 +11,7 @@ import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
@@ -22,6 +23,9 @@ public class UpgradeController extends  IController implements IListener {
 
     @FXML
     public HBox rootView;
+
+    @FXML
+    public FlowPane closeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

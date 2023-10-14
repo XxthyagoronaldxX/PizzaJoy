@@ -9,6 +9,8 @@ import com.danthy.pizzafun.app.handles.OnStockViewEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.utils.TimelineUtil;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -17,6 +19,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -85,8 +88,10 @@ public class PizzariaController extends IController implements IListener {
     @FXML
     public VBox upgradeViewButton;
 
-    public double stockViewWidth;
+    @FXML
+    public AnchorPane notificationWrapperPane;
 
+    public double stockViewWidth;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -103,17 +108,6 @@ public class PizzariaController extends IController implements IListener {
             footerRoomImageBg.setFitHeight(value * 0.4);
         });
 
-        stockController.rootView.setPrefWidth(300);
-        stockViewWidth = stockController.rootView.getPrefWidth();
-        stock.prefHeightProperty().bind(stockWrapperPane.heightProperty());
-        stockController.stockView.prefHeightProperty().bind(stockWrapperPane.heightProperty());
-        AnchorPane.setRightAnchor(stockWrapperPane, (-1) * stockViewWidth);
-
-        tokenShopController.rootView.prefWidthProperty().bind(rootView.widthProperty());
-        tokenShopController.rootView.prefHeightProperty().bind(rootView.heightProperty());
-        upgradeController.rootView.prefWidthProperty().bind(rootView.widthProperty());
-        upgradeController.rootView.prefHeightProperty().bind(rootView.heightProperty());
-
         orderListView.setCellFactory(object -> {
             OrderCellListFactory orderCellListFactory = new OrderCellListFactory();
 
@@ -123,13 +117,53 @@ public class PizzariaController extends IController implements IListener {
         });
         orderListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        stockViewButton.setOnMouseClicked(new OnStockViewEvent(this));
+        initializeStock();
+        initializeTokenShop();
+        initializeUpgrade();
+    }
+
+    public void initializeUpgrade() {
+        upgradeController.rootView.prefWidthProperty().bind(rootView.widthProperty());
+        upgradeController.rootView.prefHeightProperty().bind(rootView.heightProperty());
+
+        upgradeViewButton.setOnMouseClicked(this::onUpgradeViewEvent);
+        upgradeController.closeButton.setOnMouseClicked(this::onUpgradeViewEvent);
+    }
+
+    public void initializeTokenShop() {
+        tokenShopController.rootView.prefWidthProperty().bind(rootView.widthProperty());
+        tokenShopController.rootView.prefHeightProperty().bind(rootView.heightProperty());
         tokenShopViewButton.setOnMouseClicked(this::onTokenShopViewEvent);
         tokenShopWrapperPane.setOnMouseClicked(this::onTokenShopViewEvent);
-        upgradeViewButton.setOnMouseClicked(this::onUpgradeViewEvent);
+    }
+
+    public void initializeStock() {
+        stockController.rootView.setPrefWidth(300);
+        stockViewWidth = stockController.rootView.getPrefWidth();
+
+        stock.prefHeightProperty().bind(stockWrapperPane.heightProperty());
+        stockController.stockView.prefHeightProperty().bind(stockWrapperPane.heightProperty());
+        AnchorPane.setRightAnchor(stockWrapperPane, (-1) * stockViewWidth);
+
+        stockViewButton.setOnMouseClicked(new OnStockViewEvent(this));
+    }
+
+    public void onNotificationViewEvent(MouseEvent event) {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), notificationWrapperPane);
+        translateTransition.setFromX(-300);
+        translateTransition.setToX(0);
+        translateTransition.setCycleCount(1);
+        translateTransition.play();
+
+        notificationWrapperPane.setVisible(!notificationWrapperPane.isVisible());
+
+        TimelineUtil.runFunctionAfterTimeInSeconds(3, (timelineEvent) -> {
+            notificationWrapperPane.setVisible(!notificationWrapperPane.isVisible());
+        });
     }
 
     public void onUpgradeViewEvent(MouseEvent event) {
+        onNotificationViewEvent(event);
         upgradeWrapperPane.setVisible(!upgradeWrapperPane.isVisible());
     }
 

@@ -1,0 +1,11 @@
+#close-button {
+    -fx-background-color: rgba(172, 50, 50, 1);
+    -fx-background-radius: 0 0 0 20px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 0 0 0 20px;
+    -fx-border-color:  transparent transparent #FFF94F #FFF94F;
+}
+
+#root-upgrade-view {
+    -fx-background-color: white;
+}

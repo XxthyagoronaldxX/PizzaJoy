@@ -1,0 +1,34 @@
+package com.danthy.pizzafun.app.controllers;
+
+import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IListener;
+import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class NotificationController extends IController implements IListener {
+    @FXML
+    public ImageView notificationBackgroundImg;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Rectangle clip = new Rectangle();
+        clip.setArcWidth(10);
+        clip.setArcHeight(10);
+
+        clip.heightProperty().bind(notificationBackgroundImg.fitHeightProperty());
+        clip.widthProperty().bind(notificationBackgroundImg.fitWidthProperty().subtract(15));
+
+        clip.setStyle("-fx-border-width: 24px;-fx-border-color: black;-fx-border-radius: 10px;");
+        notificationBackgroundImg.setClip(clip);
+    }
+
+    @Override
+    public void update(IEvent event) {
+
+    }
+}

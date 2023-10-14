@@ -88,6 +88,10 @@ public class PizzariaServiceImpl implements IPizzariaService {
             LearnRecipeEvent learnRecipeEvent = (LearnRecipeEvent) event;
 
             pizzariaState.decTokens((int) learnRecipeEvent.recipeWrapper().getPizzaModel().getPriceToBuyRecipe());
-         }
+        } else if (event.getClass() == LevelUpEvent.class) {
+            LevelUpEvent levelUpEvent = (LevelUpEvent) event;
+
+            pizzariaState.decBalance(levelUpEvent.upgradeModel().getUpgradeCost());
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.events.LevelUpEvent;
 import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IUpgradeService;
@@ -34,6 +35,11 @@ public class UpgradeServiceImpl implements IUpgradeService {
     public void update(IEvent event) {
         if (event.getClass() == StartGameEvent.class) {
             upgradeState = GetIt.getInstance().find(UpgradeState.class);
+        } else if (event.getClass() == LevelUpEvent.class) {
+            // TODO: Aumentar o valor do próximo upgrade
+            LevelUpEvent levelUpEvent = (LevelUpEvent) event;
+
+            upgrade(levelUpEvent.upgradeModel().getUpgradeType());
         }
     }
 }
