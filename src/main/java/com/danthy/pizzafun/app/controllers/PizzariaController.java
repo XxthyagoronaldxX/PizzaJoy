@@ -10,19 +10,19 @@ import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.web.WebView;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -46,9 +46,6 @@ public class PizzariaController extends IController implements IListener {
 
     @FXML
     public ListView orderListView;
-
-    @FXML
-    public StackPane footerRoomView;
 
     @FXML
     public ImageView footerRoomImageBg;
@@ -101,10 +98,39 @@ public class PizzariaController extends IController implements IListener {
     @FXML
     public NotificationController notificationController;
 
+    @FXML
+    public HBox footerRoomView;
+
+    @FXML
+    public FlowPane footerButtonsPane;
+
     public double stockViewWidth;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        DropShadow shadow = new DropShadow();
+        //upgradeViewButton.setEffect(shadow);
+
+        // Crie uma transição de escala para a sombra
+        shadow.radiusProperty().set(10);
+        shadow.setColor(Color.YELLOW);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(shadow.radiusProperty(), 50)));
+
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(1), upgradeViewButton);
+        scaleTransition.setFromX(1); // Escala inicial no eixo X
+        scaleTransition.setFromY(1); // Escala inicial no eixo Y
+        scaleTransition.setToX(2);   // Escala final no eixo X (zoom de 2x)
+        scaleTransition.setToY(2);   // Escala final no eixo Y (zoom de 2x)
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.setCycleCount(ScaleTransition.INDEFINITE);
+        scaleTransition.play();
+
+        // Inverta a transição para criar uma animação de ida e volta
+        timeline.setAutoReverse(true);
+        timeline.setCycleCount(ScaleTransition.INDEFINITE);
+        //timeline.play();
+
         roomView.widthProperty().addListener((observable, oldValue, newValue) -> {
             double value = newValue.doubleValue();
 
@@ -115,7 +141,10 @@ public class PizzariaController extends IController implements IListener {
             double value = newValue.doubleValue();
 
             headerRoomImageBg.setFitHeight(value * 0.6);
-            footerRoomImageBg.setFitHeight(value * 0.4);
+            headerRoomView.setPrefHeight(value * 0.6);
+            footerRoomView.setPrefHeight(value * 0.4);
+            footerButtonsPane.setPrefHeight(value * 0.2);
+            footerRoomImageBg.setFitHeight(value * 0.2);
         });
 
         orderListView.setCellFactory(object -> {

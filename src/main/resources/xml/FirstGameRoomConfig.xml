@@ -7,19 +7,19 @@
         <itemStockModelList>
             <itemStockModel>
                 <itemModel id="Queijo" weight="2"/>
-                <quantity>80</quantity>
+                <quantity>20</quantity>
             </itemStockModel>
             <itemStockModel>
                 <itemModel id="Molho de tomate" weight="4"/>
-                <quantity>40</quantity>
+                <quantity>8</quantity>
             </itemStockModel>
             <itemStockModel>
                 <itemModel id="Massa" weight="4"/>
-                <quantity>40</quantity>
+                <quantity>8</quantity>
             </itemStockModel>
             <itemStockModel>
                 <itemModel id="Calabresa" weight="2"/>
-                <quantity>40</quantity>
+                <quantity>14</quantity>
             </itemStockModel>
         </itemStockModelList>
         <currentWeight>0</currentWeight>
@@ -39,7 +39,7 @@
             <itemPizzaModelList>
                 <itemPizzaModel>
                     <itemModel id="Massa" weight="4"/>
-                    <quantity>4</quantity>
+                    <quantity>1</quantity>
                 </itemPizzaModel>
                 <itemPizzaModel>
                     <itemModel id="Queijo" weight="2"/>
@@ -47,7 +47,7 @@
                 </itemPizzaModel>
                 <itemPizzaModel>
                     <itemModel id="Molho de tomate" weight="4"/>
-                    <quantity>4</quantity>
+                    <quantity>1</quantity>
                 </itemPizzaModel>
                 <itemPizzaModel>
                     <itemModel id="Calabresa" weight="2"/>
@@ -67,15 +67,15 @@
             <itemPizzaModelList>
                 <itemPizzaModel>
                     <itemModel id="Massa" weight="4"/>
-                    <quantity>4</quantity>
+                    <quantity>1</quantity>
                 </itemPizzaModel>
                 <itemPizzaModel>
                     <itemModel id="Molho de tomate" weight="4"/>
-                    <quantity>4</quantity>
+                    <quantity>1</quantity>
                 </itemPizzaModel>
                 <itemPizzaModel>
                     <itemModel id="Queijo" weight="2"/>
-                    <quantity>2</quantity>
+                    <quantity>4</quantity>
                 </itemPizzaModel>
             </itemPizzaModelList>
             <priceToSell>40.0</priceToSell>
@@ -97,6 +97,14 @@
             <upgradeCostScale>0.35</upgradeCostScale>
             <upgradeType>COOK</upgradeType>
         </upgradeModel>
+        <upgradeModel id="37d90860-0885-4164-9679-2fbe0fe5d044">
+            <level>0</level>
+            <name>Repositor</name>
+            <upgradeCost>130.0</upgradeCost>
+            <upgradeCostBase>130.0</upgradeCostBase>
+            <upgradeCostScale>0.32</upgradeCostScale>
+            <upgradeType>REPLACER</upgradeType>
+        </upgradeModel>
     </upgradeModelList>
-    <orderAdapterList/>
+    <orderModelList/>
 </roomModel>

@@ -19,8 +19,8 @@ public class ApplicationProperties {
     public static double roomInitialBalance;
     public static int roomInitialTokens;
     public static String[] supplierNames;
-    public static String[] roomInitialStockItems;
     public static int roomInitialStockAvaible;
+    public static int roomAutoSaveTimeInSeconds;
     public static int supplierGenerationBasetime;
     public static String roomInitialSupplierName;
     public static double roomInitialSupplierCost;
@@ -58,7 +58,7 @@ public class ApplicationProperties {
         supplierNames = ((String) properties.get("supplier.names")).split(";");
         supplierGenerationBasetime = Integer.parseInt((String) properties.get("supplier.generation.basetime"));
 
-        roomInitialStockItems = ((String) properties.get("room.initial.stock.items")).split("[|]");
+        roomAutoSaveTimeInSeconds = Integer.parseInt((String) properties.get("room.autoSave.timeInSeconds"));
         roomInitialStockAvaible = Integer.parseInt((String) properties.get("room.initial.stock.avaible"));
         roomInitialSupplierDeliveryTimeInSeconds = Double.parseDouble((String) properties.get("room.initial.supplier.deliveryTimeInSeconds"));
         roomInitialSupplierBonus = Integer.parseInt((String) properties.get("room.initial.supplier.bonus"));

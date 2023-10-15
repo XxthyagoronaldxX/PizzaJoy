@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
 <HBox fx:id="cellRoot" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListController">
    <children>
       <AnchorPane prefHeight="54.0" prefWidth="226.0" stylesheets="@../styles/widgets/item-stock-cell-list-widget.css" HBox.hgrow="ALWAYS">
@@ -19,9 +18,9 @@
                   <Image url="@../assets/imgs/pizza-stock-item-background.png" />
                </image>
             </ImageView>
-            <HBox layoutX="7.0" layoutY="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="5.0">
+            <HBox alignment="CENTER" layoutX="7.0" layoutY="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="5.0">
                <children>
-                  <ImageView id="item-stock-img" fitHeight="54.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                  <ImageView id="item-stock-img" fitHeight="54.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../assets/imgs/pizza-queijo-icon.png" />
                      </image>
@@ -37,10 +36,13 @@
                         <Font name="Lucida Bright Demibold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="itemStockQuantityLabel" prefHeight="44.0" prefWidth="44.0" text="0x" HBox.hgrow="ALWAYS">
+                  <Label fx:id="itemStockQuantityLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="44.0" prefWidth="44.0" text="0x">
                      <font>
                         <Font name="Lucida Bright Demibold" size="14.0" />
                      </font>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
                   </Label>
                </children>
             </HBox>
