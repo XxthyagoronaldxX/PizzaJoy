@@ -55,8 +55,6 @@ public class TokenShopController extends IController implements IListener {
 
     private ITokenShopService tokenShopService;
 
-    private IPizzariaService pizzariaService;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         supplierList.setCellFactory(object -> new SupplierCellListFactory());
@@ -82,7 +80,6 @@ public class TokenShopController extends IController implements IListener {
 
     public void onStartGameEvent(IEvent event) {
         tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
-        pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
 
         supplierList.setItems(tokenShopService.getSupplierModelObservableList());
 

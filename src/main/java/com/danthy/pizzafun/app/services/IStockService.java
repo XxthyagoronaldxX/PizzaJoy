@@ -1,14 +1,13 @@
 package com.danthy.pizzafun.app.services;
 
 import com.danthy.pizzafun.app.contracts.IListener;
-import com.danthy.pizzafun.app.contracts.IService;
 import com.danthy.pizzafun.domain.models.ItemStockModel;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.scene.input.MouseEvent;
 
-public interface IStockService extends IService, IListener {
+public interface IStockService extends IListener {
     void onBoostRateSpeedEvent(MouseEvent event);
 
     boolean isRemoveOrderValid(OrderModel orderModel);

@@ -1,5 +1,8 @@
 package com.danthy.pizzafun.app.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum NotifyType {
     INSUFFICIENTMONEY("DINHEIRO INSUFICIENTE"), INSUFFICIENTTOKEN("TOKEN INSUFICIENTE"), INSUFFICIENTSTOCK("SEM ESTOQUE");
 
@@ -7,9 +10,5 @@ public enum NotifyType {
 
     NotifyType(String message) {
         this.message = message;
-    }
-
-    public String getMessage() {
-        return this.message;
     }
 }
