@@ -3,10 +3,12 @@ package com.danthy.pizzafun.app.services.implementations;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.Emitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
@@ -17,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
-public class StockServiceImpl extends Emitter implements IStockService {
+public class StockServiceImpl extends Emitter implements IStockService, IMediatorEmitter {
     private StockState stockState;
 
     public StockServiceImpl(EventPublisher eventPublisher) {
@@ -112,7 +114,7 @@ public class StockServiceImpl extends Emitter implements IStockService {
 
             removeItemStockFromOrder(requestProduceOrderEvent.orderWrapper().getOrderModel());
         } else {
-            eventPublisher.notifyAll(new NotifyEvent(NotifyType.INSUFFICIENTSTOCK));
+            this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTSTOCK));
         }
     }
 
@@ -166,5 +168,10 @@ public class StockServiceImpl extends Emitter implements IStockService {
         SupplierModel supplierModel = successBuySupplierEvent.supplierModel();
 
         getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
+    }
+
+    @Override
+    public void sendEvent(IEvent event) {
+        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }

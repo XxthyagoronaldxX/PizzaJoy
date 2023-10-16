@@ -90,7 +90,7 @@ public class PizzariaServiceImpl extends Emitter implements IPizzariaService, IM
         if (pizzariaState.getTokensObservable().getValue() >= requestBuySupplierEvent.supplierModel().getBuyToken()) {
             eventPublisher.notifyAll(new SuccessBuySupplierEvent(requestBuySupplierEvent.supplierModel()));
         } else {
-            eventPublisher.notifyAll(new NotifyEvent(NotifyType.INSUFFICIENTTOKEN));
+            this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTTOKEN));
         }
     }
 

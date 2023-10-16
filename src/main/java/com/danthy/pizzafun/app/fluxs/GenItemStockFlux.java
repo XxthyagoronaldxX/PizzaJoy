@@ -6,8 +6,8 @@ import com.danthy.pizzafun.app.contracts.Flux;
 import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
-import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
-import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
+import com.danthy.pizzafun.app.services.IStockService;
+import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -17,10 +17,10 @@ import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
 public class GenItemStockFlux extends Flux implements IMediatorEmitter {
-    private final StockServiceImpl stockService;
-    private final TokenShopServiceImpl tokenShopService;
+    private final IStockService stockService;
+    private final ITokenShopService tokenShopService;
 
-    public GenItemStockFlux(StockServiceImpl stockService, TokenShopServiceImpl tokenShopService) {
+    public GenItemStockFlux(IStockService stockService, ITokenShopService tokenShopService) {
         this.stockService = stockService;
         this.tokenShopService = tokenShopService;
     }

@@ -6,6 +6,10 @@ import com.danthy.pizzafun.app.logic.*;
 import com.danthy.pizzafun.app.logic.mediator.*;
 import com.danthy.pizzafun.app.managers.GameManager;
 import com.danthy.pizzafun.app.managers.ScreenManager;
+import com.danthy.pizzafun.app.services.IPizzariaService;
+import com.danthy.pizzafun.app.services.IStockService;
+import com.danthy.pizzafun.app.services.ITokenShopService;
+import com.danthy.pizzafun.app.services.IUpgradeService;
 import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
@@ -35,10 +39,10 @@ public class GetItSetup {
         getIt.addSingleton(RoomSavesXmlData.getFromXml());
 
         // GETTING SERVICES TO SEND TO GETIT [SINGLETON]
-        TokenShopServiceImpl tokenShopService = new TokenShopServiceImpl(eventPublisher);
-        PizzariaServiceImpl pizzariaService = new PizzariaServiceImpl(eventPublisher);
-        StockServiceImpl stockService = new StockServiceImpl(eventPublisher);
-        UpgradeServiceImpl upgradeService = new UpgradeServiceImpl(eventPublisher);
+        ITokenShopService tokenShopService = new TokenShopServiceImpl(eventPublisher);
+        IPizzariaService pizzariaService = new PizzariaServiceImpl(eventPublisher);
+        IStockService stockService = new StockServiceImpl(eventPublisher);
+        IUpgradeService upgradeService = new UpgradeServiceImpl(eventPublisher);
 
         // CONFIGURING FXML FILES
         FXMLLoader roomLoader = FxmlUtil.loaderFromName(PathFxmlUtil.ROOM_VIEW, PizzaFunApplication.class);
