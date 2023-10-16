@@ -16,10 +16,10 @@ import com.danthy.pizzafun.domain.models.PizzaModel;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
-public class IPizzariaServiceImpl extends Emitter implements IPizzariaService, IMediatorEmitter {
+public class PizzariaServiceImpl extends Emitter implements IPizzariaService, IMediatorEmitter {
     private PizzariaState pizzariaState;
 
-    public IPizzariaServiceImpl(EventPublisher eventPublisher) {
+    public PizzariaServiceImpl(EventPublisher eventPublisher) {
         super(eventPublisher);
     }
 

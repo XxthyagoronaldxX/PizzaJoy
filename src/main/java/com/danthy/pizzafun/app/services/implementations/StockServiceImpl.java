@@ -17,10 +17,10 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
-public class IStockServiceImpl extends Emitter implements IStockService {
+public class StockServiceImpl extends Emitter implements IStockService {
     private StockState stockState;
 
-    public IStockServiceImpl(EventPublisher eventPublisher) {
+    public StockServiceImpl(EventPublisher eventPublisher) {
         super(eventPublisher);
     }
 

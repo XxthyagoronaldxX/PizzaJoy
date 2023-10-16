@@ -6,10 +6,10 @@ import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediator;
 import com.danthy.pizzafun.app.controllers.*;
 import com.danthy.pizzafun.app.events.*;
-import com.danthy.pizzafun.app.services.implementations.IPizzariaServiceImpl;
-import com.danthy.pizzafun.app.services.implementations.IStockServiceImpl;
-import com.danthy.pizzafun.app.services.implementations.ITokenShopServiceImpl;
-import com.danthy.pizzafun.app.services.implementations.IUpgradeServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
 import com.danthy.pizzafun.app.fluxs.AutoSaveFlux;
 import com.danthy.pizzafun.app.fluxs.GenItemStockFlux;
 import com.danthy.pizzafun.app.fluxs.GenOrderFlux;
@@ -62,10 +62,10 @@ public class ActionsMediator implements IMediator {
         screenManager.reactOnStartGameEvent(event);
         gameManager.reactOnStartGameEvent(event);
 
-        IPizzariaServiceImpl pizzariaService = serviceFacade.getService(IPizzariaServiceImpl.class);
-        IStockServiceImpl stockService = serviceFacade.getService(IStockServiceImpl.class);
-        ITokenShopServiceImpl tokenShopService = serviceFacade.getService(ITokenShopServiceImpl.class);
-        IUpgradeServiceImpl upgradeService = serviceFacade.getService(IUpgradeServiceImpl.class);
+        PizzariaServiceImpl pizzariaService = serviceFacade.getService(PizzariaServiceImpl.class);
+        StockServiceImpl stockService = serviceFacade.getService(StockServiceImpl.class);
+        TokenShopServiceImpl tokenShopService = serviceFacade.getService(TokenShopServiceImpl.class);
+        UpgradeServiceImpl upgradeService = serviceFacade.getService(UpgradeServiceImpl.class);
 
         pizzariaService.reactOnStartGameEvent(event);
         stockService.reactOnStartGameEvent(event);
@@ -94,28 +94,28 @@ public class ActionsMediator implements IMediator {
     }
 
     private void reactOnRequestProduceOrderEvent(IEvent event) {
-        IStockServiceImpl stockService = serviceFacade.getService(IStockServiceImpl.class);
+        StockServiceImpl stockService = serviceFacade.getService(StockServiceImpl.class);
         stockService.reactOnRequestProduceOrderEvent(event);
     }
 
     private void reactOnRequestLevelUpEvent(IEvent event) {
-        IPizzariaServiceImpl pizzariaService = serviceFacade.getService(IPizzariaServiceImpl.class);
+        PizzariaServiceImpl pizzariaService = serviceFacade.getService(PizzariaServiceImpl.class);
         pizzariaService.reactOnRequestLevelUpEvent(event);
     }
 
     private void reactOnRequestBuySupplierEvent(IEvent event) {
-        IPizzariaServiceImpl pizzariaService = serviceFacade.getService(IPizzariaServiceImpl.class);
+        PizzariaServiceImpl pizzariaService = serviceFacade.getService(PizzariaServiceImpl.class);
         pizzariaService.reactOnRequestBuySupplierEvent(event);
     }
 
     private void reactOnRequestLearnRecipeEvent(IEvent event) {
-        IPizzariaServiceImpl pizzariaService = serviceFacade.getService(IPizzariaServiceImpl.class);
+        PizzariaServiceImpl pizzariaService = serviceFacade.getService(PizzariaServiceImpl.class);
         pizzariaService.reactOnRequestLearnRecipeEvent(event);
     }
 
     private void reactOnSuccessProduceOrderEvent(IEvent event) {
-        IStockServiceImpl stockService = serviceFacade.getService(IStockServiceImpl.class);
-        IPizzariaServiceImpl pizzariaService = serviceFacade.getService(IPizzariaServiceImpl.class);
+        StockServiceImpl stockService = serviceFacade.getService(StockServiceImpl.class);
+        PizzariaServiceImpl pizzariaService = serviceFacade.getService(PizzariaServiceImpl.class);
 
         pizzariaService.reactOnSuccessProduceOrderEvent(event);
         stockService.reactOnSuccessProduceOrderEvent(event);
@@ -138,14 +138,14 @@ public class ActionsMediator implements IMediator {
     }
 
     private void reactOnReStockEvent(IEvent event) {
-        IStockServiceImpl stockService = serviceFacade.getService(IStockServiceImpl.class);
+        StockServiceImpl stockService = serviceFacade.getService(StockServiceImpl.class);
         stockService.reactOnRestockEvent(event);
 
         GenItemStockFlux genItemStockFlux = fluxFacade.getFlux(GenItemStockFlux.class);
         genItemStockFlux.reactOnRestockEvent(event);
     }
     private void reactOnOrderGenerateEvent(IEvent event) {
-        IPizzariaServiceImpl pizzariaService = serviceFacade.getService(IPizzariaServiceImpl.class);
+        PizzariaServiceImpl pizzariaService = serviceFacade.getService(PizzariaServiceImpl.class);
         pizzariaService.reactOnOrderGenerateEvent(event);
 
         GenOrderFlux genOrderFlux = fluxFacade.getFlux(GenOrderFlux.class);
@@ -153,7 +153,7 @@ public class ActionsMediator implements IMediator {
     }
 
     private void reactOnSupplierGenerateEvent(IEvent event) {
-        ITokenShopServiceImpl tokenShopService = serviceFacade.getService(ITokenShopServiceImpl.class);
+        TokenShopServiceImpl tokenShopService = serviceFacade.getService(TokenShopServiceImpl.class);
         tokenShopService.reactOnSupplierGenerateEvent(event);
 
         GenSupplierFlux genSupplierFlux = fluxFacade.getFlux(GenSupplierFlux.class);

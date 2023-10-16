@@ -11,10 +11,10 @@ import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.UpgradeModel;
 import javafx.collections.ObservableList;
 
-public class IUpgradeServiceImpl extends Emitter implements IUpgradeService {
+public class UpgradeServiceImpl extends Emitter implements IUpgradeService {
     private UpgradeState upgradeState;
 
-    public IUpgradeServiceImpl(EventPublisher eventPublisher) {
+    public UpgradeServiceImpl(EventPublisher eventPublisher) {
         super(eventPublisher);
     }
 

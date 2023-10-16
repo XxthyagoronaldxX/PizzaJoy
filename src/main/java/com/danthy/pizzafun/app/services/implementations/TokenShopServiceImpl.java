@@ -16,10 +16,10 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class ITokenShopServiceImpl extends Emitter implements ITokenShopService {
+public class TokenShopServiceImpl extends Emitter implements ITokenShopService {
     private TokenShopState tokenShopState;
 
-    public ITokenShopServiceImpl(EventPublisher eventPublisher) {
+    public TokenShopServiceImpl(EventPublisher eventPublisher) {
         super(eventPublisher);
     }
 
