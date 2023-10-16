@@ -2,11 +2,9 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
-import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.IStockService;
+import com.danthy.pizzafun.app.services.StockService;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -19,7 +17,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StockController extends IController implements IListener {
+public class StockController implements IController {
     @FXML
     public ListView itemStockList;
 
@@ -41,7 +39,7 @@ public class StockController extends IController implements IListener {
     @FXML
     public Label stockLimitLabel;
 
-    public IStockService stockService;
+    public StockService stockService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,12 +50,7 @@ public class StockController extends IController implements IListener {
         stockImageBg.fitHeightProperty().bind(rootView.prefHeightProperty());
     }
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) onStartGameEvent(event);
-    }
-
-    public void onStartGameEvent(IEvent event) {
+    public void reactOnStartGameEvent(IEvent event) {
         stockService = GetIt.getInstance().find(StockServiceImpl.class);
 
         itemStockList.setItems(stockService.getItemStockModelObservableList());
@@ -84,4 +77,5 @@ public class StockController extends IController implements IListener {
         stockLimitLabel.setText(currentStockWeight + "/" + totStockWeight);
         boostTimeRateButton.setOnMouseClicked(stockService::onBoostRateSpeedEvent);
     }
+
 }

@@ -1,7 +1,11 @@
 package com.danthy.pizzafun.app.controllers.widgets.suppliercell;
 
 import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.RequestBuySupplierEvent;
+import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
+import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -10,7 +14,7 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SupplierCellListController extends IController {
+public class SupplierCellListController implements IController, IMediatorEmitter {
     @FXML
     private Label bonusChanceLabel;
 
@@ -30,7 +34,7 @@ public class SupplierCellListController extends IController {
 
     @FXML
     public void onSetSupplierEvent(Event event) {
-        eventPublisher.notifyAll(new RequestBuySupplierEvent(supplierModel));
+        sendEvent(new RequestBuySupplierEvent(supplierModel));
     }
 
     @Override
@@ -51,5 +55,10 @@ public class SupplierCellListController extends IController {
         nameLabel.setText(name);
         bonusChanceLabel.setText(bonusChance);
         buyTokenLabel.setText(buyToken);
+    }
+
+    @Override
+    public void sendEvent(IEvent event) {
+        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }

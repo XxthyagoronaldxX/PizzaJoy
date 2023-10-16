@@ -3,10 +3,13 @@ package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.RequestProduceOrderEvent;
 import com.danthy.pizzafun.app.events.SuccessProduceOrderEvent;
+import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.IUpgradeService;
+import com.danthy.pizzafun.app.services.UpgradeService;
 import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
 import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.OrderModel;
@@ -25,7 +28,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OrderCellListController extends IController {
+public class OrderCellListController implements IController, IMediatorEmitter {
     @FXML
     public ImageView orderImageBg;
 
@@ -47,7 +50,7 @@ public class OrderCellListController extends IController {
     @FXML
     public ImageView pizzaLoadingBackgroundImg;
 
-    public IUpgradeService upgradeService;
+    public UpgradeService upgradeService;
 
     public OrderWrapper orderWrapper;
 
@@ -103,7 +106,7 @@ public class OrderCellListController extends IController {
             Timeline produceTimeline = new Timeline(produceKeyFrame);
             produceTimeline.setCycleCount((int) totDurationSeconds + 1);
             produceTimeline.setOnFinished(onFinish -> {
-                eventPublisher.notifyAll(new SuccessProduceOrderEvent(orderWrapper));
+                this.sendEvent(new SuccessProduceOrderEvent(orderWrapper));
             });
             produceTimeline.play();
         }
@@ -116,6 +119,11 @@ public class OrderCellListController extends IController {
     }
 
     public void onRequestProduceOrderEvent(MouseEvent event) {
-        eventPublisher.notifyAll(new RequestProduceOrderEvent(orderWrapper, this));
+        this.sendEvent(new RequestProduceOrderEvent(orderWrapper, this));
+    }
+
+    @Override
+    public void sendEvent(IEvent event) {
+        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }

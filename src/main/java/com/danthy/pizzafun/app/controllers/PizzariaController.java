@@ -2,12 +2,10 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
-import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
-import com.danthy.pizzafun.app.services.IPizzariaService;
+import com.danthy.pizzafun.app.services.PizzariaService;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
 import javafx.animation.*;
@@ -22,13 +20,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.web.WebView;
 import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PizzariaController extends IController implements IListener {
+public class PizzariaController implements IController {
     @FXML
     public Label balanceLabel;
 
@@ -216,14 +213,8 @@ public class PizzariaController extends IController implements IListener {
         });
     }
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) onStartGameEvent(event);
-        else if (event.getClass() == NotifyEvent.class) onNotifyEvent(event);
-    }
-
-    private void onStartGameEvent(IEvent event) {
-        IPizzariaService pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
+    public void reactOnStartGameEvent(IEvent event) {
+        PizzariaService pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
 
         orderListView.setItems(pizzariaService.getOrderModelObservableList());
 
@@ -245,12 +236,9 @@ public class PizzariaController extends IController implements IListener {
         tokensLabel.setText(String.format("Tokens: %d TK", tokensProperty.getValue()));
     }
 
-    private void onNotifyEvent(IEvent event) {
-        NotifyEvent notifyEvent = (NotifyEvent) event;
-
+    public void reactOnNotifyEvent(IEvent event) {
         if (notificationWrapperPane.isVisible()) return;
 
-        notificationController.notifyTitleLabel.setText(notifyEvent.notifyType().getMessage());
 
         TranslateTransition translateTransitionStart = new TranslateTransition(Duration.seconds(0.3), notificationWrapperPane);
         translateTransitionStart.setFromX(-300);

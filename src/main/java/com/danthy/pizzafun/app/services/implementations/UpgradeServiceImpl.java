@@ -1,18 +1,21 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.events.RequestLevelUpEvent;
-import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.events.SuccessLevelUpEvent;
+import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.IUpgradeService;
+import com.danthy.pizzafun.app.services.UpgradeService;
 import com.danthy.pizzafun.app.states.UpgradeState;
 import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.UpgradeModel;
 import javafx.collections.ObservableList;
 
-public class UpgradeServiceImpl implements IUpgradeService {
+public class UpgradeServiceImpl extends UpgradeService {
     private UpgradeState upgradeState;
+
+    public UpgradeServiceImpl(EventPublisher eventPublisher) {
+        super(eventPublisher);
+    }
 
     @Override
     public void upgrade(UpgradeType upgradeType) {
@@ -40,14 +43,18 @@ public class UpgradeServiceImpl implements IUpgradeService {
         return upgradeState.getUpgradeModelObservableList();
     }
 
+    public void reactOnStartGameEvent(IEvent event) {
+        upgradeState = GetIt.getInstance().find(UpgradeState.class);
+    }
+
     @Override
     public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) {
-            upgradeState = GetIt.getInstance().find(UpgradeState.class);
-        } else if (event.getClass() == SuccessLevelUpEvent.class) {
-            SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
+        if (event.getClass() == SuccessLevelUpEvent.class) onSuccessLevelUpEvent(event);
+    }
 
-            upgrade(successLevelUpEvent.upgradeModel().getUpgradeType());
-        }
+    public void onSuccessLevelUpEvent(IEvent event) {
+        SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
+
+        upgrade(successLevelUpEvent.upgradeModel().getUpgradeType());
     }
 }

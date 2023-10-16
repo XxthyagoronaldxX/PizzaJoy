@@ -2,18 +2,12 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IListener;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeCellGridWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
-import com.danthy.pizzafun.app.services.IPizzariaService;
-import com.danthy.pizzafun.app.events.StartGameEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.ITokenShopService;
-import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.services.TokenShopService;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
-import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
@@ -28,7 +22,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class TokenShopController extends IController implements IListener {
+public class TokenShopController implements IController {
     @FXML
     public ListView supplierList;
 
@@ -53,7 +47,7 @@ public class TokenShopController extends IController implements IListener {
     @FXML
     public ScrollPane recipeListScroll;
 
-    private ITokenShopService tokenShopService;
+    private TokenShopService tokenShopService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,12 +67,7 @@ public class TokenShopController extends IController implements IListener {
         supplierRestockTimeLabel.setText(deliveryTimeInSeconds);
     }
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == StartGameEvent.class) onStartGameEvent(event);
-    }
-
-    public void onStartGameEvent(IEvent event) {
+    public void reactOnStartGameEvent(IEvent event) {
         tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
 
         supplierList.setItems(tokenShopService.getSupplierModelObservableList());

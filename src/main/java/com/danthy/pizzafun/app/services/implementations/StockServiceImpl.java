@@ -1,12 +1,12 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.config.ApplicationProperties;
-import com.danthy.pizzafun.app.contracts.IEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.*;
+import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.IStockService;
+import com.danthy.pizzafun.app.services.StockService;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
 import com.danthy.pizzafun.domain.models.*;
@@ -16,8 +16,12 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
-public class StockServiceImpl extends IEmitter implements IStockService  {
+public class StockServiceImpl extends StockService {
     private StockState stockState;
+
+    public StockServiceImpl(EventPublisher eventPublisher) {
+        super(eventPublisher);
+    }
 
     @Override
     public void onBoostRateSpeedEvent(MouseEvent event) {
@@ -95,16 +99,38 @@ public class StockServiceImpl extends IEmitter implements IStockService  {
         return stockState.getRateSpeedObservable().getProperty();
     }
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == ReStockEvent.class) onRestockEvent(event);
-        else if (event.getClass() == StartGameEvent.class) onStartGameEvent(event);
-        else if (event.getClass() == SuccessBuySupplierEvent.class) onSetSupplierEvent(event);
-        else if (event.getClass() == RequestProduceOrderEvent.class) onRequestProduceOrderEvent(event);
-        else if (event.getClass() == SuccessProduceOrderEvent.class) onSuccessProduceOrderEvent(event);
+    public void reactOnStartGameEvent(IEvent event) {
+        stockState = GetIt.getInstance().find(StockState.class);
     }
 
-    private void onRestockEvent(IEvent event) {
+    public void reactOnRequestProduceOrderEvent(IEvent event) {
+        RequestProduceOrderEvent requestProduceOrderEvent = (RequestProduceOrderEvent) event;
+
+        if (isRemoveOrderValid(requestProduceOrderEvent.orderWrapper().getOrderModel())) {
+            requestProduceOrderEvent.cellController().startToProduceOrder();
+
+            removeItemStockFromOrder(requestProduceOrderEvent.orderWrapper().getOrderModel());
+        } else {
+            eventPublisher.notifyAll(new NotifyEvent(NotifyType.INSUFFICIENTSTOCK));
+        }
+    }
+
+    public void reactOnSuccessProduceOrderEvent(IEvent event) {
+        SuccessProduceOrderEvent successProduceOrderEvent = (SuccessProduceOrderEvent) event;
+
+        int stockWeightLosted = successProduceOrderEvent.orderWrapper()
+                .getOrderModel()
+                .getPizzaModel()
+                .getItemPizzaModels()
+                .stream()
+                .map(itemPizzaModel -> itemPizzaModel.getQuantity() * itemPizzaModel.getItemModel().getWeight())
+                .reduce(0, Integer::sum);
+
+        int currentStockWeight = getCurrentStockWeightProperty().getValue();
+        getCurrentStockWeightProperty().setValue(currentStockWeight - stockWeightLosted);
+    }
+
+    public void reactOnRestockEvent(IEvent event) {
         ReStockEvent reStockEvent = (ReStockEvent) event;
         SupplierModel supplierModel = reStockEvent.supplierModel();
 
@@ -129,8 +155,9 @@ public class StockServiceImpl extends IEmitter implements IStockService  {
         getCurrentStockWeightProperty().setValue(currentStockWeight + stockWeightGained);
     }
 
-    private void onStartGameEvent(IEvent event) {
-        stockState = GetIt.getInstance().find(StockState.class);
+    @Override
+    public void update(IEvent event) {
+        if (event.getClass() == SuccessBuySupplierEvent.class) onSetSupplierEvent(event);
     }
 
     private void onSetSupplierEvent(IEvent event) {
@@ -138,32 +165,5 @@ public class StockServiceImpl extends IEmitter implements IStockService  {
         SupplierModel supplierModel = successBuySupplierEvent.supplierModel();
 
         getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
-    }
-
-    private void onRequestProduceOrderEvent(IEvent event) {
-        RequestProduceOrderEvent requestProduceOrderEvent = (RequestProduceOrderEvent) event;
-
-        if (isRemoveOrderValid(requestProduceOrderEvent.orderWrapper().getOrderModel())) {
-            requestProduceOrderEvent.cellController().startToProduceOrder();
-
-            removeItemStockFromOrder(requestProduceOrderEvent.orderWrapper().getOrderModel());
-        } else {
-            eventPublisher.notifyAll(new NotifyEvent(NotifyType.INSUFFICIENTSTOCK));
-        }
-    }
-
-    private void onSuccessProduceOrderEvent(IEvent event) {
-        SuccessProduceOrderEvent successProduceOrderEvent = (SuccessProduceOrderEvent) event;
-
-        int stockWeightLosted = successProduceOrderEvent.orderWrapper()
-                .getOrderModel()
-                .getPizzaModel()
-                .getItemPizzaModels()
-                .stream()
-                .map(itemPizzaModel -> itemPizzaModel.getQuantity() * itemPizzaModel.getItemModel().getWeight())
-                .reduce(0, Integer::sum);
-
-        int currentStockWeight = getCurrentStockWeightProperty().getValue();
-        getCurrentStockWeightProperty().setValue(currentStockWeight - stockWeightLosted);
     }
 }

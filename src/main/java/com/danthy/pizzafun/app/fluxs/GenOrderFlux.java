@@ -1,27 +1,25 @@
-package com.danthy.pizzafun.app.threads;
+package com.danthy.pizzafun.app.fluxs;
 
-import com.danthy.pizzafun.app.contracts.IHandle;
-import com.danthy.pizzafun.app.events.GenOrderHandleEndedEvent;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
+import com.danthy.pizzafun.app.contracts.IFlux;
 import com.danthy.pizzafun.app.events.OrderGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
+import com.danthy.pizzafun.app.services.PizzariaService;
 import com.danthy.pizzafun.domain.enums.NpcLevel;
 import com.danthy.pizzafun.domain.models.NpcModel;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import com.danthy.pizzafun.domain.models.PizzaModel;
 import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class GenOrderThread implements IHandle {
-    private final PizzariaServiceImpl pizzariaService;
-    private final EventPublisher eventPublisher;
+public class GenOrderFlux extends IFlux implements IMediatorEmitter {
+    private final PizzariaService pizzariaService;
 
-    public GenOrderThread() {
-        pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
-        eventPublisher = GetIt.getInstance().find(EventPublisher.class);
+    public GenOrderFlux(PizzariaService pizzariaService) {
+        this.pizzariaService = pizzariaService;
     }
 
     @Override
@@ -32,8 +30,7 @@ public class GenOrderThread implements IHandle {
 
         int time = ((int) Math.floor((maxtime - mintime) * Math.random())) + mintime;
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(time)));
-
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time)));
         timeline.setOnFinished((event) -> {
             if (maxpizzas > pizzariaService.getOrdersAmount()) {
                 NpcModel npcModel = new NpcModel("Thyago", NpcLevel.EASY);
@@ -44,12 +41,21 @@ public class GenOrderThread implements IHandle {
 
                 OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
 
-                eventPublisher.notifyAll(new OrderGenerateEvent(orderModel));
+                System.out.println(orderModel);
+                this.sendEvent(new OrderGenerateEvent(orderModel));
             }
 
-            eventPublisher.notifyAll(new GenOrderHandleEndedEvent());
+            timeline.playFromStart();
         });
+    }
 
-        timeline.play();
+    public void reactOnStartGameEvent(IEvent event) {
+        handle();
+        play();
+    }
+
+    @Override
+    public void sendEvent(IEvent event) {
+        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }

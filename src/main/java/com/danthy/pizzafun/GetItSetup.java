@@ -2,17 +2,19 @@ package com.danthy.pizzafun;
 
 import com.danthy.pizzafun.app.controllers.*;
 import com.danthy.pizzafun.app.enums.ScreenType;
-import com.danthy.pizzafun.app.services.IPizzariaService;
-import com.danthy.pizzafun.app.services.IStockService;
-import com.danthy.pizzafun.app.services.ITokenShopService;
-import com.danthy.pizzafun.app.services.IUpgradeService;
+import com.danthy.pizzafun.app.logic.*;
+import com.danthy.pizzafun.app.logic.mediator.*;
+import com.danthy.pizzafun.app.managers.GameManager;
+import com.danthy.pizzafun.app.managers.ScreenManager;
 import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
+import com.danthy.pizzafun.app.fluxs.AutoSaveFlux;
+import com.danthy.pizzafun.app.fluxs.GenItemStockFlux;
+import com.danthy.pizzafun.app.fluxs.GenOrderFlux;
+import com.danthy.pizzafun.app.fluxs.GenSupplierFlux;
 import com.danthy.pizzafun.app.utils.FxmlUtil;
-import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;
 import com.danthy.pizzafun.domain.data.ItemXmlData;
 import com.danthy.pizzafun.domain.data.PizzaXmlData;
@@ -32,6 +34,12 @@ public class GetItSetup {
         getIt.addSingleton(ItemXmlData.getFromXml());
         getIt.addSingleton(RoomSavesXmlData.getFromXml());
 
+        // GETTING SERVICES TO SEND TO GETIT [SINGLETON]
+        TokenShopServiceImpl tokenShopService = new TokenShopServiceImpl(eventPublisher);
+        PizzariaServiceImpl pizzariaService = new PizzariaServiceImpl(eventPublisher);
+        StockServiceImpl stockService = new StockServiceImpl(eventPublisher);
+        UpgradeServiceImpl upgradeService = new UpgradeServiceImpl(eventPublisher);
+
         // CONFIGURING FXML FILES
         FXMLLoader roomLoader = FxmlUtil.loaderFromName(PathFxmlUtil.ROOM_VIEW, PizzaFunApplication.class);
         FXMLLoader homeLoader = FxmlUtil.loaderFromName(PathFxmlUtil.HOME_VIEW, PizzaFunApplication.class);
@@ -44,6 +52,7 @@ public class GetItSetup {
         TokenShopController tokenShopController = pizzariaController.tokenShopController;
         StockController stockController = pizzariaController.stockController;
         UpgradeController upgradeController = pizzariaController.upgradeController;
+        NotificationController notificationController = pizzariaController.notificationController;
 
         // CONFIGURING SCREEN MANAGER
         ScreenManager screenManager = ScreenManager
@@ -52,32 +61,57 @@ public class GetItSetup {
                 .addScreen(ScreenType.ROOM, roomScene)
                 .setInit(ScreenType.HOME);
 
-        // GETTING SERVICES TO SEND TO GETIT [SINGLETON]
-        ITokenShopService tokenShopService = new TokenShopServiceImpl();
-        IPizzariaService roomService = new PizzariaServiceImpl();
-        IStockService stockService = new StockServiceImpl();
-        IUpgradeService upgradeService = new UpgradeServiceImpl();
-
         // INITIALIZING GAME MANAGER (CLASS USED TO MANAGE THE CONTINUOUS "THREADS" THAT ARE WORKING ON START GAME)
         GameManager gameManager = new GameManager();
+
+        // INITIALIZING MEDIATOR
+        ControllerFacade controllerFacade = ControllerFacade
+                .build()
+                .addController(pizzariaController)
+                .addController(homeController)
+                .addController(tokenShopController)
+                .addController(stockController)
+                .addController(upgradeController)
+                .addController(notificationController);
+
+        ServiceFacade serviceFacade = ServiceFacade
+                .build()
+                .addService(stockService)
+                .addService(tokenShopService)
+                .addService(pizzariaService)
+                .addService(upgradeService);
+
+        ManagerFacade managerFacade = ManagerFacade
+                .build()
+                .addManager(gameManager)
+                .addManager(screenManager);
+
+        AutoSaveFlux autoSaveFlux = new AutoSaveFlux();
+        GenSupplierFlux genSupplierFlux = new GenSupplierFlux();
+        GenOrderFlux genOrderFlux = new GenOrderFlux(pizzariaService);
+        GenItemStockFlux genItemStockFlux = new GenItemStockFlux(stockService, tokenShopService);
+
+        FluxFacade fluxFacade = FluxFacade
+                .build()
+                .addTimeHandle(autoSaveFlux)
+                .addTimeHandle(genSupplierFlux)
+                .addTimeHandle(genOrderFlux)
+                .addTimeHandle(genItemStockFlux);
+
+        ActionsMediator actionsMediator = new ActionsMediator(controllerFacade,serviceFacade, managerFacade, fluxFacade);
 
         // INITIALIZING LISTENERS
         eventPublisher
                 .addListener(tokenShopService)
-                .addListener(roomService)
+                .addListener(pizzariaService)
                 .addListener(stockService)
-                .addListener(upgradeService)
-                .addListener(upgradeController)
-                .addListener(pizzariaController)
-                .addListener(tokenShopController)
-                .addListener(stockController)
-                .addListener(gameManager)
-                .addListener(screenManager);
+                .addListener(upgradeService);
 
         // INITIALIZING SINGLETONS
-        getIt.addSingleton(tokenShopService)
+        getIt.addSingleton(actionsMediator)
+                .addSingleton(tokenShopService)
                 .addSingleton(stockService)
-                .addSingleton(roomService)
+                .addSingleton(pizzariaService)
                 .addSingleton(upgradeService)
                 .addSingleton(screenManager)
                 .addSingleton(pizzariaController)

@@ -1,16 +1,11 @@
 package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.StartGameEvent;
+import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.states.PizzariaState;
-import com.danthy.pizzafun.app.states.StockState;
-import com.danthy.pizzafun.app.states.TokenShopState;
-import com.danthy.pizzafun.app.states.UpgradeState;
-import com.danthy.pizzafun.app.utils.JaxbUtil;
-import com.danthy.pizzafun.domain.data.PizzaXmlData;
-import com.danthy.pizzafun.domain.models.PizzaModel;
-import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -19,11 +14,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class HomeController extends IController {
+public class HomeController implements IController, IMediatorEmitter {
     @FXML
     public AnchorPane pizzaFormNameRoot;
 
@@ -65,17 +58,11 @@ public class HomeController extends IController {
     public void onStartGameEvent(MouseEvent event) {
         String pizzaName = pizzaNameField.getText();
 
-        List<PizzaModel> pizzaModelList = new ArrayList<>(PizzaXmlData.getFromXml().getPizzaModelList());
-        RoomModel roomModel = JaxbUtil.unmarshaller(RoomModel.class, "FirstGameRoomConfig");
-        roomModel.setName(pizzaName);
+        sendEvent(new StartGameEvent(pizzaName));
+    }
 
-        GetIt.getInstance()
-                .addSingleton(new StockState(roomModel))
-                .addSingleton(new PizzariaState(roomModel))
-                .addSingleton(new TokenShopState(roomModel, pizzaModelList))
-                .addSingleton(new UpgradeState(roomModel))
-                .addSingleton(roomModel);
-
-        eventPublisher.notifyAll(new StartGameEvent());
+    @Override
+    public void sendEvent(IEvent event) {
+        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }

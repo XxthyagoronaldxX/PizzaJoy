@@ -1,10 +1,10 @@
 package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
 import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.domain.models.ItemModel;
 import com.danthy.pizzafun.domain.models.ItemStockModel;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ItemStockCellListController extends IController {
+public class ItemStockCellListController implements IController {
     @FXML
     private Label itemStockNameLabel;
 

@@ -1,17 +1,15 @@
-package com.danthy.pizzafun;
+package com.danthy.pizzafun.app.managers;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IListener;
+import com.danthy.pizzafun.app.contracts.IManager;
 import com.danthy.pizzafun.app.enums.ScreenType;
-import com.danthy.pizzafun.app.events.GotoRoomEvent;
-import com.danthy.pizzafun.app.events.StartGameEvent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScreenManager implements IListener {
+public class ScreenManager implements IManager {
 
     private final Map<ScreenType, Scene> screens;
     private final Stage stage;
@@ -51,12 +49,9 @@ public class ScreenManager implements IListener {
         return this;
     }
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == GotoRoomEvent.class || event.getClass() == StartGameEvent.class) {
-            setCurrentScreen(ScreenType.ROOM);
-            refresh();
-        }
+    public void reactOnStartGameEvent(IEvent event) {
+        setCurrentScreen(ScreenType.ROOM);
+        refresh();
     }
 }
 

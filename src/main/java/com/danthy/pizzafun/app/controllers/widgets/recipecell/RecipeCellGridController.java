@@ -1,7 +1,10 @@
 package com.danthy.pizzafun.app.controllers.widgets.recipecell;
 
 import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.RequestLearnRecipeEvent;
+import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -23,7 +26,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RecipeCellGridController extends IController {
+public class RecipeCellGridController implements IController, IMediatorEmitter {
 
     @FXML
     public StackPane cellRoot;
@@ -59,7 +62,7 @@ public class RecipeCellGridController extends IController {
     }
 
     private void onRequestLearnRecipeEvent(MouseEvent event) {
-        eventPublisher.notifyAll(new RequestLearnRecipeEvent(recipeWrapper, this));
+        this.sendEvent(new RequestLearnRecipeEvent(recipeWrapper, this));
     }
 
     private void confPopupForRecipe(RecipeWrapper recipeWrapper) {
@@ -126,5 +129,10 @@ public class RecipeCellGridController extends IController {
         Timeline learnTimeline = new Timeline(keyFrame);
         learnTimeline.setCycleCount(1);
         learnTimeline.play();
+    }
+
+    @Override
+    public void sendEvent(IEvent event) {
+        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }

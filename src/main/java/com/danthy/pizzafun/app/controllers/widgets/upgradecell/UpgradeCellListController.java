@@ -1,7 +1,11 @@
 package com.danthy.pizzafun.app.controllers.widgets.upgradecell;
 
 import com.danthy.pizzafun.app.contracts.IController;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.RequestLevelUpEvent;
+import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
+import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.domain.models.UpgradeModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -11,7 +15,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UpgradeCellListController extends IController {
+public class UpgradeCellListController implements IController, IMediatorEmitter {
     @FXML
     public Label upgradeTitleLabel;
 
@@ -23,12 +27,8 @@ public class UpgradeCellListController extends IController {
 
     public UpgradeModel upgradeModel;
 
-
-
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     public void setUpgradeModel(UpgradeModel upgradeModel) {
         this.upgradeModel = upgradeModel;
@@ -39,6 +39,11 @@ public class UpgradeCellListController extends IController {
     }
 
     public void onLevelUpEvent(MouseEvent event) {
-        eventPublisher.notifyAll(new RequestLevelUpEvent(upgradeModel));
+        this.sendEvent(new RequestLevelUpEvent(upgradeModel));
+    }
+
+    @Override
+    public void sendEvent(IEvent event) {
+        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }

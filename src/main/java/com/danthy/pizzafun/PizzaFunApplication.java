@@ -2,6 +2,7 @@ package com.danthy.pizzafun;
 
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.managers.ScreenManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

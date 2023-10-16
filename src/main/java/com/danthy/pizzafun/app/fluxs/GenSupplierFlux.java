@@ -1,36 +1,29 @@
-package com.danthy.pizzafun.app.threads;
+package com.danthy.pizzafun.app.fluxs;
 
-import com.danthy.pizzafun.app.contracts.IHandle;
-import com.danthy.pizzafun.app.events.GenSupplierHandleEndedEvent;
+import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
+import com.danthy.pizzafun.app.contracts.IFlux;
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
+import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenSupplierThread implements IHandle {
-    private final EventPublisher eventPublisher;
-
-    public GenSupplierThread() {
-        this.eventPublisher = GetIt.getInstance().find(EventPublisher.class);
-    }
-
+public class GenSupplierFlux extends IFlux implements IMediatorEmitter {
     @Override
     public void handle() {
         int maxSuppliers = ApplicationProperties.roomInitialMaxSuppliers;
         String[] supplierNames = ApplicationProperties.supplierNames;
         SupplierLevel[] supplierLevels = SupplierLevel.values();
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(ApplicationProperties.supplierGenerationBasetime)));
-
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(ApplicationProperties.supplierGenerationBasetime)));
         timeline.setOnFinished((event) -> {
             Platform.runLater(() -> {
                 List<SupplierModel> supplierModelList = new ArrayList<>();
@@ -42,12 +35,21 @@ public class GenSupplierThread implements IHandle {
                     supplierModelList.add(new SupplierModel(supplierName, supplierLevel));
                 }
 
-                eventPublisher.notifyAll(new SupplierGenerateEvent(supplierModelList));
-                eventPublisher.notifyAll(new GenSupplierHandleEndedEvent());
+                this.sendEvent(new SupplierGenerateEvent(supplierModelList));
             });
-        });
 
-        timeline.play();
+            timeline.playFromStart();
+        });
+    }
+
+    public void reactOnStartGameEvent(IEvent event) {
+        handle();
+        play();
+    }
+
+    @Override
+    public void sendEvent(IEvent event) {
+        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }
 
