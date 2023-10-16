@@ -1,12 +1,13 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.config.ApplicationProperties;
+import com.danthy.pizzafun.app.contracts.Emitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.*;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.StockService;
+import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
 import com.danthy.pizzafun.domain.models.*;
@@ -16,10 +17,10 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
-public class StockServiceImpl extends StockService {
+public class IStockServiceImpl extends Emitter implements IStockService {
     private StockState stockState;
 
-    public StockServiceImpl(EventPublisher eventPublisher) {
+    public IStockServiceImpl(EventPublisher eventPublisher) {
         super(eventPublisher);
     }
 

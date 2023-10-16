@@ -1,5 +1,6 @@
 package com.danthy.pizzafun.app.services.implementations;
 
+import com.danthy.pizzafun.app.contracts.Emitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.enums.NotifyType;
@@ -8,17 +9,17 @@ import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
-import com.danthy.pizzafun.app.services.PizzariaService;
+import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.domain.models.PizzaModel;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
-public class PizzariaServiceImpl extends PizzariaService implements IMediatorEmitter {
+public class IPizzariaServiceImpl extends Emitter implements IPizzariaService, IMediatorEmitter {
     private PizzariaState pizzariaState;
 
-    public PizzariaServiceImpl(EventPublisher eventPublisher) {
+    public IPizzariaServiceImpl(EventPublisher eventPublisher) {
         super(eventPublisher);
     }
 

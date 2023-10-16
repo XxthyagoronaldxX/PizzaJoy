@@ -6,10 +6,10 @@ import com.danthy.pizzafun.app.logic.*;
 import com.danthy.pizzafun.app.logic.mediator.*;
 import com.danthy.pizzafun.app.managers.GameManager;
 import com.danthy.pizzafun.app.managers.ScreenManager;
-import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
-import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
-import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
-import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.IUpgradeServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.IPizzariaServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.IStockServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.ITokenShopServiceImpl;
 import com.danthy.pizzafun.app.fluxs.AutoSaveFlux;
 import com.danthy.pizzafun.app.fluxs.GenItemStockFlux;
 import com.danthy.pizzafun.app.fluxs.GenOrderFlux;
@@ -35,10 +35,10 @@ public class GetItSetup {
         getIt.addSingleton(RoomSavesXmlData.getFromXml());
 
         // GETTING SERVICES TO SEND TO GETIT [SINGLETON]
-        TokenShopServiceImpl tokenShopService = new TokenShopServiceImpl(eventPublisher);
-        PizzariaServiceImpl pizzariaService = new PizzariaServiceImpl(eventPublisher);
-        StockServiceImpl stockService = new StockServiceImpl(eventPublisher);
-        UpgradeServiceImpl upgradeService = new UpgradeServiceImpl(eventPublisher);
+        ITokenShopServiceImpl tokenShopService = new ITokenShopServiceImpl(eventPublisher);
+        IPizzariaServiceImpl pizzariaService = new IPizzariaServiceImpl(eventPublisher);
+        IStockServiceImpl stockService = new IStockServiceImpl(eventPublisher);
+        IUpgradeServiceImpl upgradeService = new IUpgradeServiceImpl(eventPublisher);
 
         // CONFIGURING FXML FILES
         FXMLLoader roomLoader = FxmlUtil.loaderFromName(PathFxmlUtil.ROOM_VIEW, PizzaFunApplication.class);
@@ -93,10 +93,10 @@ public class GetItSetup {
 
         FluxFacade fluxFacade = FluxFacade
                 .build()
-                .addTimeHandle(autoSaveFlux)
-                .addTimeHandle(genSupplierFlux)
-                .addTimeHandle(genOrderFlux)
-                .addTimeHandle(genItemStockFlux);
+                .addFlux(autoSaveFlux)
+                .addFlux(genSupplierFlux)
+                .addFlux(genOrderFlux)
+                .addFlux(genItemStockFlux);
 
         ActionsMediator actionsMediator = new ActionsMediator(controllerFacade,serviceFacade, managerFacade, fluxFacade);
 

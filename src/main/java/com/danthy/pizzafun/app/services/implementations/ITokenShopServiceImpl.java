@@ -1,14 +1,14 @@
 package com.danthy.pizzafun.app.services.implementations;
 
+import com.danthy.pizzafun.app.contracts.Emitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.events.SuccessBuySupplierEvent;
-import com.danthy.pizzafun.app.events.StartGameEvent;
 import com.danthy.pizzafun.app.events.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
-import com.danthy.pizzafun.app.services.TokenShopService;
+import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.states.TokenShopState;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.beans.property.Property;
@@ -16,10 +16,10 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class TokenShopServiceImpl extends TokenShopService {
+public class ITokenShopServiceImpl extends Emitter implements ITokenShopService {
     private TokenShopState tokenShopState;
 
-    public TokenShopServiceImpl(EventPublisher eventPublisher) {
+    public ITokenShopServiceImpl(EventPublisher eventPublisher) {
         super(eventPublisher);
     }
 

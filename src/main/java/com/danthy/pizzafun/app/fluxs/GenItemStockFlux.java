@@ -2,34 +2,39 @@ package com.danthy.pizzafun.app.fluxs;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
-import com.danthy.pizzafun.app.contracts.IFlux;
+import com.danthy.pizzafun.app.contracts.Flux;
 import com.danthy.pizzafun.app.events.ReStockEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
-import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
-import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.IStockServiceImpl;
+import com.danthy.pizzafun.app.services.implementations.ITokenShopServiceImpl;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
+import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
-public class GenItemStockFlux extends IFlux implements IMediatorEmitter {
-    private final StockServiceImpl stockService;
-    private final TokenShopServiceImpl tokenShopService;
+public class GenItemStockFlux extends Flux implements IMediatorEmitter {
+    private final IStockServiceImpl stockService;
+    private final ITokenShopServiceImpl tokenShopService;
 
-    public GenItemStockFlux(StockServiceImpl stockService, TokenShopServiceImpl tokenShopService) {
+    public GenItemStockFlux(IStockServiceImpl stockService, ITokenShopServiceImpl tokenShopService) {
         this.stockService = stockService;
         this.tokenShopService = tokenShopService;
     }
 
     @Override
-    public void handle() {
+    public void initOneTimeFlux() {
         stockService.getRateSpeedProperty().addListener((observer, oldValue, newValue) -> {
-            this.timeline.setRate(newValue);
+            timeline.setRate(newValue);
         });
+        super.initOneTimeFlux();
+    }
 
+    @Override
+    public void initFlux() {
         SupplierModel supplierModel = tokenShopService.getCurrentSupplierObservable().getValue();
         Property<Double> timerToNextRestockProperty = stockService.getTimerToNextRestockProperty();
         Property<Double> rateSpeedProperty = stockService.getRateSpeedProperty();
@@ -38,15 +43,20 @@ public class GenItemStockFlux extends IFlux implements IMediatorEmitter {
 
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time), new KeyValue(timerToNextRestockProperty, 0.0)));
         timeline.setRate(rateSpeedProperty.getValue());
-        timeline.setOnFinished((onFinished) -> {
-            Platform.runLater(() -> {this.sendEvent(new ReStockEvent(supplierModel));});
+    }
 
-            timeline.playFromStart();
-        });
+    @Override
+    public void onFinished(ActionEvent event) {
+        SupplierModel supplierModel = tokenShopService.getCurrentSupplierObservable().getValue();
+
+        Platform.runLater(() -> {this.sendEvent(new ReStockEvent(supplierModel));});
+    }
+
+    public void reactOnRestockEvent(IEvent event) {
+        replay();
     }
 
     public void reactOnStartGameEvent(IEvent event) {
-        handle();
         play();
     }
 

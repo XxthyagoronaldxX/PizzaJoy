@@ -4,8 +4,8 @@ import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.controllers.widgets.upgradecell.UpgradeCellListFactory;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.UpgradeService;
-import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
+import com.danthy.pizzafun.app.services.IUpgradeService;
+import com.danthy.pizzafun.app.services.implementations.IUpgradeServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -32,7 +32,7 @@ public class UpgradeController implements IController {
     }
 
     public void reactOnStartGameEvent(IEvent event) {
-        UpgradeService upgradeService = GetIt.getInstance().find(UpgradeServiceImpl.class);
+        IUpgradeService upgradeService = GetIt.getInstance().find(IUpgradeServiceImpl.class);
 
         upgradeList.setItems(upgradeService.getUpgradeModelObservableList());
     }

@@ -9,8 +9,8 @@ import com.danthy.pizzafun.app.events.RequestProduceOrderEvent;
 import com.danthy.pizzafun.app.events.SuccessProduceOrderEvent;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.UpgradeService;
-import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
+import com.danthy.pizzafun.app.services.IUpgradeService;
+import com.danthy.pizzafun.app.services.implementations.IUpgradeServiceImpl;
 import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.animation.KeyFrame;
@@ -50,7 +50,7 @@ public class OrderCellListController implements IController, IMediatorEmitter {
     @FXML
     public ImageView pizzaLoadingBackgroundImg;
 
-    public UpgradeService upgradeService;
+    public IUpgradeService upgradeService;
 
     public OrderWrapper orderWrapper;
 
@@ -62,7 +62,7 @@ public class OrderCellListController implements IController, IMediatorEmitter {
     }
 
     public void setOrderWrapper(OrderWrapper orderWrapper) {
-        this.upgradeService = GetIt.getInstance().find(UpgradeServiceImpl.class);
+        this.upgradeService = GetIt.getInstance().find(IUpgradeServiceImpl.class);
         this.orderWrapper = orderWrapper;
         OrderModel orderModel = orderWrapper.getOrderModel();
 

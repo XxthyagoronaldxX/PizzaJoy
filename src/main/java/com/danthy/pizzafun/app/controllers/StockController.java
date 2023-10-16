@@ -4,8 +4,8 @@ import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.StockService;
-import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
+import com.danthy.pizzafun.app.services.IStockService;
+import com.danthy.pizzafun.app.services.implementations.IStockServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -39,7 +39,7 @@ public class StockController implements IController {
     @FXML
     public Label stockLimitLabel;
 
-    public StockService stockService;
+    public IStockService stockService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,7 +51,7 @@ public class StockController implements IController {
     }
 
     public void reactOnStartGameEvent(IEvent event) {
-        stockService = GetIt.getInstance().find(StockServiceImpl.class);
+        stockService = GetIt.getInstance().find(IStockServiceImpl.class);
 
         itemStockList.setItems(stockService.getItemStockModelObservableList());
 

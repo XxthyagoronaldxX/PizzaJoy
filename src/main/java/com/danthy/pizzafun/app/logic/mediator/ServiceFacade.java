@@ -1,12 +1,12 @@
 package com.danthy.pizzafun.app.logic.mediator;
 
-import com.danthy.pizzafun.app.contracts.Service;
+import com.danthy.pizzafun.app.contracts.IService;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceFacade {
-    private final Map<Class, Service> serviceMap;
+    private final Map<Class, IService> serviceMap;
 
     private ServiceFacade() {
         this.serviceMap = new HashMap<>();
@@ -16,13 +16,13 @@ public class ServiceFacade {
         return new ServiceFacade();
     }
 
-    public ServiceFacade addService(Service service) {
-        this.serviceMap.put(service.getClass(), service);
+    public ServiceFacade addService(IService IService) {
+        this.serviceMap.put(IService.getClass(), IService);
 
         return this;
     }
 
-    public <T extends Service> T getService(Class clazz) {
+    public <T extends IService> T getService(Class clazz) {
         return (T) this.serviceMap.get(clazz);
     }
 }

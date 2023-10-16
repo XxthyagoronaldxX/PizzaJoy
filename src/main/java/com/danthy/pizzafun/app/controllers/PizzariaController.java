@@ -5,8 +5,8 @@ import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
-import com.danthy.pizzafun.app.services.PizzariaService;
-import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.services.IPizzariaService;
+import com.danthy.pizzafun.app.services.implementations.IPizzariaServiceImpl;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -214,7 +214,7 @@ public class PizzariaController implements IController {
     }
 
     public void reactOnStartGameEvent(IEvent event) {
-        PizzariaService pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
+        IPizzariaService pizzariaService = GetIt.getInstance().find(IPizzariaServiceImpl.class);
 
         orderListView.setItems(pizzariaService.getOrderModelObservableList());
 

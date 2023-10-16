@@ -6,8 +6,8 @@ import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeCellGridWrap
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.services.TokenShopService;
-import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
+import com.danthy.pizzafun.app.services.ITokenShopService;
+import com.danthy.pizzafun.app.services.implementations.ITokenShopServiceImpl;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
@@ -47,7 +47,7 @@ public class TokenShopController implements IController {
     @FXML
     public ScrollPane recipeListScroll;
 
-    private TokenShopService tokenShopService;
+    private ITokenShopService tokenShopService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -68,7 +68,7 @@ public class TokenShopController implements IController {
     }
 
     public void reactOnStartGameEvent(IEvent event) {
-        tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
+        tokenShopService = GetIt.getInstance().find(ITokenShopServiceImpl.class);
 
         supplierList.setItems(tokenShopService.getSupplierModelObservableList());
 
