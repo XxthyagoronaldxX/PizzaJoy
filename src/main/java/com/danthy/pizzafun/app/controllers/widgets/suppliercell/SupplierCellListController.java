@@ -3,7 +3,7 @@ package com.danthy.pizzafun.app.controllers.widgets.suppliercell;
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
-import com.danthy.pizzafun.app.events.RequestBuySupplierEvent;
+import com.danthy.pizzafun.app.events.mediator.RequestBuySupplierEvent;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.domain.models.SupplierModel;

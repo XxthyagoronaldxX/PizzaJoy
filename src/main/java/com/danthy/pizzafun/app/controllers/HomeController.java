@@ -3,7 +3,7 @@ package com.danthy.pizzafun.app.controllers;
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
-import com.danthy.pizzafun.app.events.StartGameEvent;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
 import javafx.fxml.FXML;

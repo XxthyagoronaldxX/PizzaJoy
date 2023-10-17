@@ -2,7 +2,7 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.events.NotifyEvent;
+import com.danthy.pizzafun.app.events.mediator.NotifyEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;

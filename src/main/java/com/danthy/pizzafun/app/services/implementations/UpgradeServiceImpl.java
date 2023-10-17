@@ -2,7 +2,7 @@ package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.Emitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.events.SuccessLevelUpEvent;
+import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IUpgradeService;

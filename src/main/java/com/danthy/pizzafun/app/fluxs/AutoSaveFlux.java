@@ -4,7 +4,7 @@ import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.contracts.Flux;
-import com.danthy.pizzafun.app.events.SaveSnapshotRoomEvent;
+import com.danthy.pizzafun.app.events.mediator.SaveSnapshotRoomEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import javafx.animation.KeyFrame;

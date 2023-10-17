@@ -3,7 +3,7 @@ package com.danthy.pizzafun.app.fluxs;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.contracts.Flux;
-import com.danthy.pizzafun.app.events.ReStockEvent;
+import com.danthy.pizzafun.app.events.mediator.ReStockEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.services.IStockService;
