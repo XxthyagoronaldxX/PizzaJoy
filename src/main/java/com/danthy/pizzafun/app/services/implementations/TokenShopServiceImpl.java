@@ -1,11 +1,13 @@
 package com.danthy.pizzafun.app.services.implementations;
 
-import com.danthy.pizzafun.app.contracts.Emitter;
+import com.danthy.pizzafun.app.contracts.EventMap;
+import com.danthy.pizzafun.app.contracts.IObserverEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.events.services.SuccessBuySupplierEvent;
 import com.danthy.pizzafun.app.events.mediator.SupplierGenerateEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.ITokenShopService;
@@ -16,12 +18,8 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class TokenShopServiceImpl extends Emitter implements ITokenShopService {
+public class TokenShopServiceImpl  implements ITokenShopService, IObserverEmitter {
     private TokenShopState tokenShopState;
-
-    public TokenShopServiceImpl(EventPublisher eventPublisher) {
-        super(eventPublisher);
-    }
 
     @Override
     public void setCurrentSupplier(SupplierModel supplierModel) {
@@ -48,10 +46,12 @@ public class TokenShopServiceImpl extends Emitter implements ITokenShopService {
         return tokenShopState.getCurrentSupplierObservable().getProperty();
     }
 
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         tokenShopState = GetIt.getInstance().find(TokenShopState.class);
     }
 
+    @ReactOn(SupplierGenerateEvent.class)
     public void reactOnSupplierGenerateEvent(IEvent event) {
         SupplierGenerateEvent supplierGenerateEvent = (SupplierGenerateEvent) event;
         List<SupplierModel> supplierModelList = supplierGenerateEvent.supplierModelList();
@@ -62,11 +62,7 @@ public class TokenShopServiceImpl extends Emitter implements ITokenShopService {
         supplierWrapperObservableList.addAll(supplierModelList);
     }
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == SuccessBuySupplierEvent.class) onSuccessBuySupplierEvent(event);
-    }
-
+    @EventMap(SuccessBuySupplierEvent.class)
     public void onSuccessBuySupplierEvent(IEvent event) {
         SuccessBuySupplierEvent successBuySupplierEvent = (SuccessBuySupplierEvent) event;
 

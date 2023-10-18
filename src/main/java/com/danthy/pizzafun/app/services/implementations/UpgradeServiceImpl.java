@@ -1,7 +1,9 @@
 package com.danthy.pizzafun.app.services.implementations;
 
-import com.danthy.pizzafun.app.contracts.Emitter;
+import com.danthy.pizzafun.app.contracts.EventMap;
+import com.danthy.pizzafun.app.contracts.IObserverEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
 import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -11,12 +13,8 @@ import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.UpgradeModel;
 import javafx.collections.ObservableList;
 
-public class UpgradeServiceImpl extends Emitter implements IUpgradeService {
+public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
     private UpgradeState upgradeState;
-
-    public UpgradeServiceImpl(EventPublisher eventPublisher) {
-        super(eventPublisher);
-    }
 
     @Override
     public void upgrade(UpgradeType upgradeType) {
@@ -44,15 +42,12 @@ public class UpgradeServiceImpl extends Emitter implements IUpgradeService {
         return upgradeState.getUpgradeModelObservableList();
     }
 
+    @ReactOn(UpgradeState.class)
     public void reactOnStartGameEvent(IEvent event) {
         upgradeState = GetIt.getInstance().find(UpgradeState.class);
     }
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == SuccessLevelUpEvent.class) onSuccessLevelUpEvent(event);
-    }
-
+    @EventMap(SuccessLevelUpEvent.class)
     public void onSuccessLevelUpEvent(IEvent event) {
         SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
 

@@ -1,19 +1,14 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.config.ApplicationProperties;
-import com.danthy.pizzafun.app.contracts.Emitter;
-import com.danthy.pizzafun.app.contracts.IEvent;
-import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
-import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
+import com.danthy.pizzafun.app.contracts.*;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.mediator.NotifyEvent;
 import com.danthy.pizzafun.app.events.mediator.ReStockEvent;
 import com.danthy.pizzafun.app.events.mediator.RequestProduceOrderEvent;
-import com.danthy.pizzafun.app.events.mediator.SuccessProduceOrderEvent;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.events.services.SuccessBuySupplierEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
@@ -24,12 +19,8 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
-public class StockServiceImpl extends Emitter implements IStockService, IMediatorEmitter {
+public class StockServiceImpl  implements IStockService, IMediatorEmitter, IObserverEmitter {
     private StockState stockState;
-
-    public StockServiceImpl(EventPublisher eventPublisher) {
-        super(eventPublisher);
-    }
 
     @Override
     public void onBoostRateSpeedEvent(MouseEvent event) {
@@ -67,10 +58,20 @@ public class StockServiceImpl extends Emitter implements IStockService, IMediato
         return stockState.getRateSpeedObservable().getProperty();
     }
 
+    @EventMap(SuccessBuySupplierEvent.class)
+    public void onSuccessBuySupplierEvent(IEvent event) {
+        SuccessBuySupplierEvent successBuySupplierEvent = (SuccessBuySupplierEvent) event;
+        SupplierModel supplierModel = successBuySupplierEvent.supplierModel();
+
+        getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
+    }
+
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         stockState = GetIt.getInstance().find(StockState.class);
     }
 
+    @ReactOn(RequestProduceOrderEvent.class)
     public void reactOnRequestProduceOrderEvent(IEvent event) {
         RequestProduceOrderEvent requestProduceOrderEvent = (RequestProduceOrderEvent) event;
 
@@ -85,6 +86,33 @@ public class StockServiceImpl extends Emitter implements IStockService, IMediato
             this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTSTOCK));
         }
     }
+
+    @ReactOn(ReStockEvent.class)
+    public void reactOnRestockEvent(IEvent event) {
+        ReStockEvent reStockEvent = (ReStockEvent) event;
+        SupplierModel supplierModel = reStockEvent.supplierModel();
+
+        getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
+
+        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
+
+        int itemMaxWeight = ApplicationProperties.itemMaxWeight;
+        int stockWeightGained = 0;
+        for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
+            ItemStockModel itemStockModel = itemStockWrapperObservableList.get(i);
+
+            int weight = itemStockModel.getItemModel().getWeight();
+            int quantity = itemMaxWeight - weight + 1;
+            itemStockModel.incrementQuantity(quantity);
+            stockWeightGained += quantity * weight;
+
+            itemStockWrapperObservableList.set(i, itemStockModel);
+        }
+
+        int currentStockWeight = getCurrentStockWeightProperty().getValue();
+        getCurrentStockWeightProperty().setValue(currentStockWeight + stockWeightGained);
+    }
+
 
     private boolean isRemoveOrderValid(OrderModel orderModel) {
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
@@ -133,45 +161,5 @@ public class StockServiceImpl extends Emitter implements IStockService, IMediato
 
         int currentStockWeight = getCurrentStockWeightProperty().getValue();
         getCurrentStockWeightProperty().setValue(currentStockWeight - stockWeightLosted);
-    }
-
-    public void reactOnRestockEvent(IEvent event) {
-        ReStockEvent reStockEvent = (ReStockEvent) event;
-        SupplierModel supplierModel = reStockEvent.supplierModel();
-
-        getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
-
-        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
-
-        int itemMaxWeight = ApplicationProperties.itemMaxWeight;
-        int stockWeightGained = 0;
-        for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
-            ItemStockModel itemStockModel = itemStockWrapperObservableList.get(i);
-
-            int weight = itemStockModel.getItemModel().getWeight();
-            int quantity = itemMaxWeight - weight + 1;
-            itemStockModel.incrementQuantity(quantity);
-            stockWeightGained += quantity * weight;
-
-            itemStockWrapperObservableList.set(i, itemStockModel);
-        }
-
-        int currentStockWeight = getCurrentStockWeightProperty().getValue();
-        getCurrentStockWeightProperty().setValue(currentStockWeight + stockWeightGained);
-    }
-
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == SuccessBuySupplierEvent.class) {
-            SuccessBuySupplierEvent successBuySupplierEvent = (SuccessBuySupplierEvent) event;
-            SupplierModel supplierModel = successBuySupplierEvent.supplierModel();
-
-            getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
-        }
-    }
-
-    @Override
-    public void sendEvent(IEvent event) {
-        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }
