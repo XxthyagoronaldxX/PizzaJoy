@@ -5,8 +5,6 @@ import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.contracts.Flux;
 import com.danthy.pizzafun.app.events.mediator.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
-import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.domain.enums.SupplierLevel;
 import com.danthy.pizzafun.domain.models.SupplierModel;
 import javafx.animation.KeyFrame;
@@ -49,11 +47,6 @@ public class GenSupplierFlux extends Flux implements IMediatorEmitter {
 
     public void reactOnStartGameEvent(IEvent event) {
         play();
-    }
-
-    @Override
-    public void sendEvent(IEvent event) {
-        GetIt.getInstance().find(ActionsMediator.class).notify(event);
     }
 }
 

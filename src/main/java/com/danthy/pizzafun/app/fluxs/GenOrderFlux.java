@@ -55,9 +55,4 @@ public class GenOrderFlux extends Flux implements IMediatorEmitter {
     public void reactOnStartGameEvent(IEvent event) {
         play();
     }
-
-    @Override
-    public void sendEvent(IEvent event) {
-        GetIt.getInstance().find(ActionsMediator.class).notify(event);
-    }
 }

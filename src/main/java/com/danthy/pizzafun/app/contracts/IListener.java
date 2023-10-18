@@ -9,8 +9,6 @@ public interface IListener {
 
     @SneakyThrows
     default void update(IEvent event) {
-        String className = event.getClass().getSimpleName();
-
         for (Method method : getClass().getDeclaredMethods()) {
             method.setAccessible(true);
 
@@ -21,7 +19,5 @@ public interface IListener {
                 return;
             }
         }
-
-        throw new MethodNotFoundException("A method for the event [" + className + "] wasn't found!");
     }
 }

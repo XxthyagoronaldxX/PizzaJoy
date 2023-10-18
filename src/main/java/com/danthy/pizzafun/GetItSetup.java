@@ -39,10 +39,10 @@ public class GetItSetup {
         getIt.addSingleton(RoomSavesXmlData.getFromXml());
 
         // GETTING SERVICES TO SEND TO GETIT [SINGLETON]
-        ITokenShopService tokenShopService = new TokenShopServiceImpl(eventPublisher);
-        IPizzariaService pizzariaService = new PizzariaServiceImpl(eventPublisher);
-        IStockService stockService = new StockServiceImpl(eventPublisher);
-        IUpgradeService upgradeService = new UpgradeServiceImpl(eventPublisher);
+        ITokenShopService tokenShopService = new TokenShopServiceImpl();
+        IPizzariaService pizzariaService = new PizzariaServiceImpl();
+        IStockService stockService = new StockServiceImpl();
+        IUpgradeService upgradeService = new UpgradeServiceImpl();
 
         // CONFIGURING FXML FILES
         FXMLLoader roomLoader = FxmlUtil.loaderFromName(PathFxmlUtil.ROOM_VIEW, PizzaFunApplication.class);
