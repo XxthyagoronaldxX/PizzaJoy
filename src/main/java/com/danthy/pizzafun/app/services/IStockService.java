@@ -10,10 +10,6 @@ import javafx.scene.input.MouseEvent;
 public interface IStockService extends IService {
     void onBoostRateSpeedEvent(MouseEvent event);
 
-    boolean isRemoveOrderValid(OrderModel orderModel);
-
-    void removeItemStockFromOrder(OrderModel orderModel);
-
     ObservableList<ItemStockModel> getItemStockModelObservableList();
 
     Property<Double> getTimerToNextRestockProperty();

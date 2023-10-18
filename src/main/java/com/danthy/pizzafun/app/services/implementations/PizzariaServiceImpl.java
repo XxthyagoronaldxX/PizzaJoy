@@ -1,6 +1,7 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.Emitter;
+import com.danthy.pizzafun.app.contracts.EventMap;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.enums.NotifyType;
@@ -27,24 +28,9 @@ public class PizzariaServiceImpl extends Emitter implements IPizzariaService, IM
     }
 
     @Override
-    public int getTokens() {
-        return pizzariaState.getTokensObservable().getValue();
-    }
-
-    @Override
     public void addOrder(OrderWrapper orderWrapper) {
         Platform.runLater(() -> {
             pizzariaState.getOrderModelObservableList().add(orderWrapper);
-        });
-    }
-
-    @Override
-    public void removeOrder(OrderWrapper orderWrapper) {
-        Platform.runLater(() -> {
-            pizzariaState.getOrderModelObservableList().remove(orderWrapper);
-
-            pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPriceToSell());
-            pizzariaState.incTokens(1);
         });
     }
 
@@ -113,7 +99,12 @@ public class PizzariaServiceImpl extends Emitter implements IPizzariaService, IM
     public void reactOnSuccessProduceOrderEvent(IEvent event) {
         SuccessProduceOrderEvent successProduceOrderEvent = (SuccessProduceOrderEvent) event;
 
-        removeOrder(successProduceOrderEvent.orderWrapper());
+        OrderWrapper orderWrapper = successProduceOrderEvent.orderWrapper();
+
+        pizzariaState.getOrderModelObservableList().remove(orderWrapper);
+
+        pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPriceToSell());
+        pizzariaState.incTokens(1);
     }
 
     public void reactOnOrderGenerateEvent(IEvent event) {
@@ -122,15 +113,7 @@ public class PizzariaServiceImpl extends Emitter implements IPizzariaService, IM
         addOrder(new OrderWrapper(orderGenerateEvent.orderWrapper()));
     }
 
-    @Override
-    public void update(IEvent event) {
-        if (event.getClass() == SuccessBuySupplierEvent.class) onSuccessBuySupplierEvent(event);
-
-        else if (event.getClass() == SuccessLearnRecipeEvent.class) onLearnRecipeEvent(event);
-
-        else if (event.getClass() == SuccessLevelUpEvent.class) onSuccessLevelUpEvent(event);
-    }
-
+    @EventMap(SuccessBuySupplierEvent.class)
     private void onSuccessBuySupplierEvent(IEvent event) {
         SuccessBuySupplierEvent successBuySupplierEvent = (SuccessBuySupplierEvent) event;
 
@@ -139,12 +122,14 @@ public class PizzariaServiceImpl extends Emitter implements IPizzariaService, IM
         pizzariaState.decTokens(buyToken);
     }
 
+    @EventMap(SuccessLearnRecipeEvent.class)
     private void onLearnRecipeEvent(IEvent event) {
         SuccessLearnRecipeEvent successLearnRecipeEvent = (SuccessLearnRecipeEvent) event;
 
         pizzariaState.decTokens((int) successLearnRecipeEvent.recipeWrapper().getPizzaModel().getPriceToBuyRecipe());
     }
 
+    @EventMap(SuccessLevelUpEvent.class)
     private void onSuccessLevelUpEvent(IEvent event) {
         SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
 

@@ -15,7 +15,5 @@ public class PizzaFunApplication extends Application {
         GetIt.getInstance().find(ScreenManager.class).start();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) {launch();}
 }

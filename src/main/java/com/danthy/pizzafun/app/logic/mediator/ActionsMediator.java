@@ -114,11 +114,9 @@ public class ActionsMediator implements IMediator {
     }
 
     private void reactOnSuccessProduceOrderEvent(IEvent event) {
-        StockServiceImpl stockService = serviceFacade.getService(StockServiceImpl.class);
         PizzariaServiceImpl pizzariaService = serviceFacade.getService(PizzariaServiceImpl.class);
 
         pizzariaService.reactOnSuccessProduceOrderEvent(event);
-        stockService.reactOnSuccessProduceOrderEvent(event);
     }
 
     private void reactOnNotifyEvent(IEvent event) {

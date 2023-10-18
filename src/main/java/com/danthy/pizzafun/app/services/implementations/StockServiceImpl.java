@@ -4,6 +4,7 @@ import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.Emitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
+import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.mediator.NotifyEvent;
 import com.danthy.pizzafun.app.events.mediator.ReStockEvent;
@@ -42,46 +43,6 @@ public class StockServiceImpl extends Emitter implements IStockService, IMediato
     }
 
     @Override
-    public boolean isRemoveOrderValid(OrderModel orderModel) {
-        List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
-
-        for (ItemStockModel itemStockModel : stockState.getItemStockModelObservableList()) {
-            ItemModel itemModel = itemStockModel.getItemModel();
-
-            for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
-                ItemModel itemModelAux = itemPizzaModel.getItemModel();
-
-                if (itemModel.equals(itemModelAux)) {
-                    if (itemPizzaModel.getQuantity() > itemStockModel.getQuantity()) return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    @Override
-    public void removeItemStockFromOrder(OrderModel orderModel) {
-        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
-        List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
-
-        for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
-            ItemStockModel itemStockModel = itemStockWrapperObservableList.get(i);
-            ItemModel itemModel = itemStockModel.getItemModel();
-
-            for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
-                ItemModel itemModelAux = itemPizzaModel.getItemModel();
-
-                if (itemModel.equals(itemModelAux)) {
-                    itemStockModel.decrementQuantity(itemPizzaModel.getQuantity());
-                    itemStockWrapperObservableList.set(i, itemStockModel);
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
     public ObservableList<ItemStockModel> getItemStockModelObservableList() {
         return stockState.getItemStockModelObservableList();
     }
@@ -113,21 +74,58 @@ public class StockServiceImpl extends Emitter implements IStockService, IMediato
     public void reactOnRequestProduceOrderEvent(IEvent event) {
         RequestProduceOrderEvent requestProduceOrderEvent = (RequestProduceOrderEvent) event;
 
-        if (isRemoveOrderValid(requestProduceOrderEvent.orderWrapper().getOrderModel())) {
+        if (this.isRemoveOrderValid(requestProduceOrderEvent.orderWrapper().getOrderModel())) {
             requestProduceOrderEvent.cellController().startToProduceOrder();
 
-            removeItemStockFromOrder(requestProduceOrderEvent.orderWrapper().getOrderModel());
+            OrderModel orderModel = requestProduceOrderEvent.orderWrapper().getOrderModel();
+
+            this.removeItemStockFromOrder(orderModel);
+            this.refreshStockWeight(orderModel);
         } else {
             this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTSTOCK));
         }
     }
 
-    public void reactOnSuccessProduceOrderEvent(IEvent event) {
-        SuccessProduceOrderEvent successProduceOrderEvent = (SuccessProduceOrderEvent) event;
+    private boolean isRemoveOrderValid(OrderModel orderModel) {
+        List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
-        int stockWeightLosted = successProduceOrderEvent.orderWrapper()
-                .getOrderModel()
-                .getPizzaModel()
+        for (ItemStockModel itemStockModel : stockState.getItemStockModelObservableList()) {
+            ItemModel itemModel = itemStockModel.getItemModel();
+
+            for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
+                ItemModel itemModelAux = itemPizzaModel.getItemModel();
+
+                if (itemModel.equals(itemModelAux)) {
+                    if (itemPizzaModel.getQuantity() > itemStockModel.getQuantity()) return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private void removeItemStockFromOrder(OrderModel orderModel) {
+        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
+        List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
+
+        for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
+            ItemStockModel itemStockModel = itemStockWrapperObservableList.get(i);
+            ItemModel itemModel = itemStockModel.getItemModel();
+
+            for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
+                ItemModel itemModelAux = itemPizzaModel.getItemModel();
+
+                if (itemModel.equals(itemModelAux)) {
+                    itemStockModel.decrementQuantity(itemPizzaModel.getQuantity());
+                    itemStockWrapperObservableList.set(i, itemStockModel);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void refreshStockWeight(OrderModel orderModel) {
+        int stockWeightLosted = orderModel.getPizzaModel()
                 .getItemPizzaModels()
                 .stream()
                 .map(itemPizzaModel -> itemPizzaModel.getQuantity() * itemPizzaModel.getItemModel().getWeight())
@@ -164,14 +162,12 @@ public class StockServiceImpl extends Emitter implements IStockService, IMediato
 
     @Override
     public void update(IEvent event) {
-        if (event.getClass() == SuccessBuySupplierEvent.class) onSetSupplierEvent(event);
-    }
+        if (event.getClass() == SuccessBuySupplierEvent.class) {
+            SuccessBuySupplierEvent successBuySupplierEvent = (SuccessBuySupplierEvent) event;
+            SupplierModel supplierModel = successBuySupplierEvent.supplierModel();
 
-    private void onSetSupplierEvent(IEvent event) {
-        SuccessBuySupplierEvent successBuySupplierEvent = (SuccessBuySupplierEvent) event;
-        SupplierModel supplierModel = successBuySupplierEvent.supplierModel();
-
-        getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
+            getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
+        }
     }
 
     @Override

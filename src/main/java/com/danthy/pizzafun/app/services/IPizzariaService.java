@@ -7,11 +7,7 @@ import com.danthy.pizzafun.domain.models.PizzaModel;
 import javafx.collections.ObservableList;
 
 public interface IPizzariaService extends IService {
-    int getTokens();
-
     void addOrder(OrderWrapper orderWrapper);
-
-    void removeOrder(OrderWrapper orderWrapper);
 
     int getOrdersAmount();
 

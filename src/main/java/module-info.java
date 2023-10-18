@@ -18,8 +18,8 @@ module com.danthy.pizzafun {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
-        
-    opens com.danthy.pizzafun to javafx.fxml;
+
+    opens com.danthy.pizzafun to javafx.fxml, java.compiler;
     opens com.danthy.pizzafun.domain.models to com.google.gson, jakarta.xml.bind, org.eclipse.persistence.core;
     opens com.danthy.pizzafun.app.controllers to javafx.fxml;
     opens com.danthy.pizzafun.domain.data to jakarta.xml.bind;
@@ -36,4 +36,6 @@ module com.danthy.pizzafun {
     exports com.danthy.pizzafun;
     exports com.danthy.pizzafun.app.managers;
     opens com.danthy.pizzafun.app.managers to javafx.fxml;
+    exports com.danthy.pizzafun.newFeature;
+    opens com.danthy.pizzafun.newFeature to javafx.fxml;
 }

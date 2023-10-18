@@ -7,6 +7,7 @@ import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.services.implementations.PizzariaServiceImpl;
+import com.danthy.pizzafun.app.utils.AnimationUtil;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -106,42 +107,7 @@ public class PizzariaController implements IController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //DropShadow shadow = new DropShadow();
-        //upgradeViewButton.setEffect(shadow);
-
-        // Crie uma transição de escala para a sombra
-        //shadow.radiusProperty().set(10);
-        //shadow.setColor(Color.YELLOW);
-        //Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(shadow.radiusProperty(), 50)));
-        // Inverta a transição para criar uma animação de ida e volta
-        //timeline.setAutoReverse(true);
-        //timeline.setCycleCount(ScaleTransition.INDEFINITE);
-        //timeline.play();
-
-
-        upgradeViewButton.setOnMouseEntered((event) -> {
-            ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.3), upgradeViewButton);
-            scaleTransition.setFromX(upgradeViewButton.getScaleX()); // Escala inicial no eixo X
-            scaleTransition.setFromY(upgradeViewButton.getScaleY()); // Escala inicial no eixo Y
-            scaleTransition.setToX(1.2);   // Escala final no eixo X (zoom de 2x)
-            scaleTransition.setToY(1.2);   // Escala final no eixo Y (zoom de 2x)
-            scaleTransition.setAutoReverse(true);
-            scaleTransition.setCycleCount(1);
-            scaleTransition.play();
-        });
-
-        upgradeViewButton.setOnMouseExited((event) -> {
-            ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.3), upgradeViewButton);
-            scaleTransition.setFromX(upgradeViewButton.getScaleX()); // Escala inicial no eixo X
-            scaleTransition.setFromY(upgradeViewButton.getScaleY()); // Escala inicial no eixo Y
-            scaleTransition.setToX(1);   // Escala final no eixo X (zoom de 2x)
-            scaleTransition.setToY(1);   // Escala final no eixo Y (zoom de 2x)
-            scaleTransition.setAutoReverse(true);
-            scaleTransition.setCycleCount(1);
-            scaleTransition.play();
-        });
-
-
+        AnimationUtil.zoomOutInOnHover(upgradeViewButton, 1);
 
         roomView.widthProperty().addListener((observable, oldValue, newValue) -> {
             double value = newValue.doubleValue();
@@ -253,7 +219,6 @@ public class PizzariaController implements IController {
 
     public void reactOnNotifyEvent(IEvent event) {
         if (notificationWrapperPane.isVisible()) return;
-
 
         TranslateTransition translateTransitionStart = new TranslateTransition(Duration.seconds(0.3), notificationWrapperPane);
         translateTransitionStart.setFromX(-300);
