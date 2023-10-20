@@ -60,9 +60,4 @@ public class HomeController implements IController, IMediatorEmitter {
 
         sendEvent(new StartGameEvent(pizzaName));
     }
-
-    @Override
-    public void sendEvent(IEvent event) {
-        GetIt.getInstance().find(ActionsMediator.class).notify(event);
-    }
 }

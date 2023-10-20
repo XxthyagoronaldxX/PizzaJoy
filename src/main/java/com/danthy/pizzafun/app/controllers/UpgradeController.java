@@ -2,7 +2,9 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.controllers.widgets.upgradecell.UpgradeCellListFactory;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IUpgradeService;
 import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
@@ -31,6 +33,7 @@ public class UpgradeController implements IController {
         upgradeList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         IUpgradeService upgradeService = GetIt.getInstance().find(UpgradeServiceImpl.class);
 

@@ -8,10 +8,12 @@ import com.danthy.pizzafun.app.events.mediator.ReStockEvent;
 import com.danthy.pizzafun.app.events.mediator.RequestProduceOrderEvent;
 import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.events.services.SuccessBuySupplierEvent;
+import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.states.StockState;
 import com.danthy.pizzafun.app.utils.TimelineUtil;
+import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.*;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
@@ -19,7 +21,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
-public class StockServiceImpl  implements IStockService, IMediatorEmitter, IObserverEmitter {
+public class StockServiceImpl implements IStockService, IMediatorEmitter, IObserverEmitter {
     private StockState stockState;
 
     @Override
@@ -64,6 +66,18 @@ public class StockServiceImpl  implements IStockService, IMediatorEmitter, IObse
         SupplierModel supplierModel = successBuySupplierEvent.supplierModel();
 
         getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
+    }
+
+    @EventMap(SuccessLevelUpEvent.class)
+    private void onSuccessLevelUpEvent(IEvent event) {
+        SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
+        UpgradeModel upgradeModel = successLevelUpEvent.upgradeModel();
+
+        if(upgradeModel.getUpgradeType() == UpgradeType.REPLACER){
+            int level = upgradeModel.getLevel();
+            double calcRatetime = 0.1 * level;
+            stockState.incrementRateSpeed(calcRatetime);
+        }
     }
 
     @ReactOn(StartGameEvent.class)
@@ -112,7 +126,6 @@ public class StockServiceImpl  implements IStockService, IMediatorEmitter, IObse
         int currentStockWeight = getCurrentStockWeightProperty().getValue();
         getCurrentStockWeightProperty().setValue(currentStockWeight + stockWeightGained);
     }
-
 
     private boolean isRemoveOrderValid(OrderModel orderModel) {
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();

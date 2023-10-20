@@ -3,8 +3,10 @@ package com.danthy.pizzafun.app.fluxs;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.contracts.Flux;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.events.mediator.OrderGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.domain.enums.NpcLevel;
 import com.danthy.pizzafun.domain.models.NpcModel;
@@ -44,10 +46,12 @@ public class GenOrderFlux extends Flux implements IMediatorEmitter {
         this.sendEvent(new OrderGenerateEvent(orderModel));
     }
 
+    @ReactOn(OrderGenerateEvent.class)
     public void reactOnOrderGenerateEvent(IEvent event) {
         play();
     }
 
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         play();
     }

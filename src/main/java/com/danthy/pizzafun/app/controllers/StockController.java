@@ -2,7 +2,9 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IStockService;
 import com.danthy.pizzafun.app.services.implementations.StockServiceImpl;
@@ -50,6 +52,7 @@ public class StockController implements IController {
         stockImageBg.fitHeightProperty().bind(rootView.prefHeightProperty());
     }
 
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         stockService = GetIt.getInstance().find(StockServiceImpl.class);
 

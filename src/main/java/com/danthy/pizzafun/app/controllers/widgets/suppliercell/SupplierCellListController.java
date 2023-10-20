@@ -56,9 +56,4 @@ public class SupplierCellListController implements IController, IMediatorEmitter
         bonusChanceLabel.setText(bonusChance);
         buyTokenLabel.setText(buyToken);
     }
-
-    @Override
-    public void sendEvent(IEvent event) {
-        GetIt.getInstance().find(ActionsMediator.class).notify(event);
-    }
 }

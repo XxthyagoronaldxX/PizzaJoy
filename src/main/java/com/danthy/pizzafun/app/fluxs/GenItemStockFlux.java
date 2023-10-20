@@ -3,7 +3,9 @@ package com.danthy.pizzafun.app.fluxs;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.contracts.Flux;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.events.mediator.ReStockEvent;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.services.IStockService;
@@ -52,10 +54,12 @@ public class GenItemStockFlux extends Flux implements IMediatorEmitter {
         Platform.runLater(() -> {this.sendEvent(new ReStockEvent(supplierModel));});
     }
 
+    @ReactOn(ReStockEvent.class)
     public void reactOnRestockEvent(IEvent event) {
         replay();
     }
 
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         play();
     }

@@ -4,8 +4,8 @@ import com.danthy.pizzafun.app.contracts.EventMap;
 import com.danthy.pizzafun.app.contracts.IObserverEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.ReactOn;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IUpgradeService;
 import com.danthy.pizzafun.app.states.UpgradeState;
@@ -34,7 +34,7 @@ public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
         for (UpgradeModel upgradeModel : upgradeState.getUpgradeModelObservableList())
             if (upgradeModel.getUpgradeType() == upgradeType) return upgradeModel.getLevel();
 
-        return 0;
+        throw new RuntimeException("Upgrade not mapped yet.");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
         return upgradeState.getUpgradeModelObservableList();
     }
 
-    @ReactOn(UpgradeState.class)
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         upgradeState = GetIt.getInstance().find(UpgradeState.class);
     }

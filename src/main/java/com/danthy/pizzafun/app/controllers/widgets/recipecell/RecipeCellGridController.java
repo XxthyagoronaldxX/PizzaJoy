@@ -130,9 +130,4 @@ public class RecipeCellGridController implements IController, IMediatorEmitter {
         learnTimeline.setCycleCount(1);
         learnTimeline.play();
     }
-
-    @Override
-    public void sendEvent(IEvent event) {
-        GetIt.getInstance().find(ActionsMediator.class).notify(event);
-    }
 }

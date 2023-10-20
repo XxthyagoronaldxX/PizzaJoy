@@ -2,6 +2,7 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.events.mediator.NotifyEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -31,6 +32,7 @@ public class NotificationController implements IController {
         notificationBackgroundImg.setClip(clip);
     }
 
+    @ReactOn(NotifyEvent.class)
     public void reactOnNotifyEvent(IEvent event) {
         NotifyEvent notifyEvent = (NotifyEvent) event;
 
