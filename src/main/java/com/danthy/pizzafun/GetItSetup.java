@@ -5,6 +5,7 @@ import com.danthy.pizzafun.app.enums.ScreenType;
 import com.danthy.pizzafun.app.logic.*;
 import com.danthy.pizzafun.app.logic.mediator.*;
 import com.danthy.pizzafun.app.managers.GameManager;
+import com.danthy.pizzafun.app.managers.ScreenBuilder;
 import com.danthy.pizzafun.app.managers.ScreenManager;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.services.IStockService;
@@ -59,11 +60,13 @@ public class GetItSetup {
         NotificationController notificationController = pizzariaController.notificationController;
 
         // CONFIGURING SCREEN MANAGER
-        ScreenManager screenManager = ScreenManager
-                .build(stage)
+        ScreenManager screenManager = ScreenBuilder
+                .builder()
+                .setStage(stage)
                 .addScreen(ScreenType.HOME, homeScene)
                 .addScreen(ScreenType.ROOM, roomScene)
-                .setInit(ScreenType.HOME);
+                .setInit(ScreenType.HOME)
+                .build();
 
         // INITIALIZING GAME MANAGER (CLASS USED TO MANAGE THE CONTINUOUS "THREADS" THAT ARE WORKING ON START GAME)
         GameManager gameManager = new GameManager();
