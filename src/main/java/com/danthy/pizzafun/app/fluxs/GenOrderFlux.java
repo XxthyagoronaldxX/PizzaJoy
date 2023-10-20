@@ -5,8 +5,6 @@ import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.contracts.Flux;
 import com.danthy.pizzafun.app.events.mediator.OrderGenerateEvent;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
-import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.domain.enums.NpcLevel;
 import com.danthy.pizzafun.domain.models.NpcModel;
@@ -35,22 +33,20 @@ public class GenOrderFlux extends Flux implements IMediatorEmitter {
 
     @Override
     public void onFinished(ActionEvent event) {
-        int maxpizzas = ApplicationProperties.roomInitialMaxPizzas;
+        NpcModel npcModel = new NpcModel("Thyago", NpcLevel.EASY);
 
-        if (maxpizzas > pizzariaService.getOrdersAmount()) {
-            NpcModel npcModel = new NpcModel("Thyago", NpcLevel.EASY);
+        int randomPizza = (int) (pizzariaService.getOwnedPizzaModelObservableList().size() * Math.random());
 
-            int randomPizza = (int) (pizzariaService.getOwnedPizzaModelObservableList().size() * Math.random());
+        PizzaModel pizzaModel = pizzariaService.getOwnedPizzaModelObservableList().get(randomPizza);
 
-            PizzaModel pizzaModel = pizzariaService.getOwnedPizzaModelObservableList().get(randomPizza);
+        OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
 
-            OrderModel orderModel = new OrderModel(npcModel, pizzaModel);
-
-            this.sendEvent(new OrderGenerateEvent(orderModel));
-        }
+        this.sendEvent(new OrderGenerateEvent(orderModel));
     }
 
-    public void reactOnOrderGenerateEvent(IEvent event) {play();}
+    public void reactOnOrderGenerateEvent(IEvent event) {
+        play();
+    }
 
     public void reactOnStartGameEvent(IEvent event) {
         play();

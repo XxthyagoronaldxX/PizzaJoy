@@ -7,8 +7,6 @@ import com.danthy.pizzafun.domain.models.PizzaModel;
 import javafx.collections.ObservableList;
 
 public interface IPizzariaService extends IService {
-    int getOrdersAmount();
-
     ObservableValue<Double> getBalanceObservable();
 
     ObservableValue<Integer> getTokensObservable();

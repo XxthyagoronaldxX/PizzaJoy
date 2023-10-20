@@ -1,5 +1,6 @@
 package com.danthy.pizzafun.app.services.implementations;
 
+import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.*;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.mediator.*;
@@ -36,11 +37,6 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
     @Override
     public ObservableList<PizzaModel> getOwnedPizzaModelObservableList() {
         return pizzariaState.getOwnedPizzaModelObservableList();
-    }
-
-    @Override
-    public int getOrdersAmount() {
-        return pizzariaState.getOrderWrapperObservableList().size();
     }
 
     @EventMap(SuccessBuySupplierEvent.class)
@@ -120,12 +116,16 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
     @ReactOn(OrderGenerateEvent.class)
     public void reactOnOrderGenerateEvent(IEvent event) {
-        OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
+        int maxpizzas = ApplicationProperties.roomInitialMaxPizzas;
 
-        OrderWrapper orderWrapper = new OrderWrapper(orderGenerateEvent.orderModel());
+        if (maxpizzas > pizzariaState.getOrderWrapperObservableList().size()) {
+            OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
 
-        Platform.runLater(() -> {
-            pizzariaState.getOrderWrapperObservableList().add(orderWrapper);
-        });
+            OrderWrapper orderWrapper = new OrderWrapper(orderGenerateEvent.orderModel());
+
+            Platform.runLater(() -> {
+                pizzariaState.getOrderWrapperObservableList().add(orderWrapper);
+            });
+        }
     }
 }

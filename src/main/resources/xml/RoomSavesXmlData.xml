@@ -1,4 +1,223 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <roomSavesXmlData>
-   <roomModelList/>
+   <roomModelList>
+      <roomModel id="1e5f02c8-b6df-4eb9-bdab-ffa0c38b4e6f">
+         <name></name>
+         <balance>100.0</balance>
+         <tokens>40</tokens>
+         <stockModel id="afd39d89-c665-48f3-ac22-487346788ca1">
+            <itemStockModelList>
+               <itemStockModel>
+                  <itemModel id="Queijo" weight="2"/>
+                  <quantity>100</quantity>
+               </itemStockModel>
+               <itemStockModel>
+                  <itemModel id="Molho de tomate" weight="4"/>
+                  <quantity>49</quantity>
+               </itemStockModel>
+               <itemStockModel>
+                  <itemModel id="Massa" weight="4"/>
+                  <quantity>49</quantity>
+               </itemStockModel>
+               <itemStockModel>
+                  <itemModel id="Calabresa" weight="2"/>
+                  <quantity>98</quantity>
+               </itemStockModel>
+            </itemStockModelList>
+            <currentWeight>0</currentWeight>
+            <totalWeight>150</totalWeight>
+         </stockModel>
+         <supplierModel id="c3d7d0bf-3970-41df-8fb2-1ba21305c600">
+            <supplierLevel>LEVEL01</supplierLevel>
+            <name>Forcenedor Anônimo</name>
+            <cost>25.0</cost>
+            <bonus>10</bonus>
+            <buyToken>0</buyToken>
+            <bonusChance>0.0</bonusChance>
+            <deliveryTimeInSeconds>50.0</deliveryTimeInSeconds>
+         </supplierModel>
+         <pizzaModelList>
+            <pizzaModel id="Pizza de Calabresa">
+               <itemPizzaModelList>
+                  <itemPizzaModel>
+                     <itemModel id="Massa" weight="4"/>
+                     <quantity>1</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Queijo" weight="2"/>
+                     <quantity>2</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Molho de tomate" weight="4"/>
+                     <quantity>1</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Calabresa" weight="2"/>
+                     <quantity>2</quantity>
+                  </itemPizzaModel>
+               </itemPizzaModelList>
+               <priceToSell>32.0</priceToSell>
+               <priceToBuyRecipe>0.0</priceToBuyRecipe>
+               <priceToGetRecipe>0.0</priceToGetRecipe>
+               <timeInSecondsToLearn>5</timeInSecondsToLearn>
+               <timeInSecondsToProduce>5</timeInSecondsToProduce>
+               <pizzaEdgeModel>
+                  <itemPizzaModelList/>
+               </pizzaEdgeModel>
+            </pizzaModel>
+            <pizzaModel id="Pizza de Quatro queijos">
+               <itemPizzaModelList>
+                  <itemPizzaModel>
+                     <itemModel id="Massa" weight="4"/>
+                     <quantity>1</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Molho de tomate" weight="4"/>
+                     <quantity>1</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Queijo" weight="2"/>
+                     <quantity>4</quantity>
+                  </itemPizzaModel>
+               </itemPizzaModelList>
+               <priceToSell>40.0</priceToSell>
+               <priceToBuyRecipe>0.0</priceToBuyRecipe>
+               <priceToGetRecipe>0.0</priceToGetRecipe>
+               <timeInSecondsToLearn>5</timeInSecondsToLearn>
+               <timeInSecondsToProduce>8</timeInSecondsToProduce>
+               <pizzaEdgeModel>
+                  <itemPizzaModelList/>
+               </pizzaEdgeModel>
+            </pizzaModel>
+         </pizzaModelList>
+         <upgradeModelList>
+            <upgradeModel id="c808b253-f6ad-4c80-9f0e-612f03336990">
+               <level>0</level>
+               <name>Cozinheiro</name>
+               <upgradeCost>120.0</upgradeCost>
+               <upgradeCostBase>120.0</upgradeCostBase>
+               <upgradeCostScale>0.35</upgradeCostScale>
+               <upgradeType>COOK</upgradeType>
+            </upgradeModel>
+            <upgradeModel id="37d90860-0885-4164-9679-2fbe0fe5d044">
+               <level>0</level>
+               <name>Repositor</name>
+               <upgradeCost>130.0</upgradeCost>
+               <upgradeCostBase>130.0</upgradeCostBase>
+               <upgradeCostScale>0.32</upgradeCostScale>
+               <upgradeType>REPLACER</upgradeType>
+            </upgradeModel>
+         </upgradeModelList>
+         <orderModelList/>
+      </roomModel>
+      <roomModel id="1e5f02c8-b6df-4eb9-bdab-ffa0c38b4e6f">
+         <name></name>
+         <balance>100.0</balance>
+         <tokens>40</tokens>
+         <stockModel id="afd39d89-c665-48f3-ac22-487346788ca1">
+            <itemStockModelList>
+               <itemStockModel>
+                  <itemModel id="Queijo" weight="2"/>
+                  <quantity>100</quantity>
+               </itemStockModel>
+               <itemStockModel>
+                  <itemModel id="Molho de tomate" weight="4"/>
+                  <quantity>49</quantity>
+               </itemStockModel>
+               <itemStockModel>
+                  <itemModel id="Massa" weight="4"/>
+                  <quantity>49</quantity>
+               </itemStockModel>
+               <itemStockModel>
+                  <itemModel id="Calabresa" weight="2"/>
+                  <quantity>98</quantity>
+               </itemStockModel>
+            </itemStockModelList>
+            <currentWeight>0</currentWeight>
+            <totalWeight>150</totalWeight>
+         </stockModel>
+         <supplierModel id="c3d7d0bf-3970-41df-8fb2-1ba21305c600">
+            <supplierLevel>LEVEL01</supplierLevel>
+            <name>Forcenedor Anônimo</name>
+            <cost>25.0</cost>
+            <bonus>10</bonus>
+            <buyToken>0</buyToken>
+            <bonusChance>0.0</bonusChance>
+            <deliveryTimeInSeconds>50.0</deliveryTimeInSeconds>
+         </supplierModel>
+         <pizzaModelList>
+            <pizzaModel id="Pizza de Calabresa">
+               <itemPizzaModelList>
+                  <itemPizzaModel>
+                     <itemModel id="Massa" weight="4"/>
+                     <quantity>1</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Queijo" weight="2"/>
+                     <quantity>2</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Molho de tomate" weight="4"/>
+                     <quantity>1</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Calabresa" weight="2"/>
+                     <quantity>2</quantity>
+                  </itemPizzaModel>
+               </itemPizzaModelList>
+               <priceToSell>32.0</priceToSell>
+               <priceToBuyRecipe>0.0</priceToBuyRecipe>
+               <priceToGetRecipe>0.0</priceToGetRecipe>
+               <timeInSecondsToLearn>5</timeInSecondsToLearn>
+               <timeInSecondsToProduce>5</timeInSecondsToProduce>
+               <pizzaEdgeModel>
+                  <itemPizzaModelList/>
+               </pizzaEdgeModel>
+            </pizzaModel>
+            <pizzaModel id="Pizza de Quatro queijos">
+               <itemPizzaModelList>
+                  <itemPizzaModel>
+                     <itemModel id="Massa" weight="4"/>
+                     <quantity>1</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Molho de tomate" weight="4"/>
+                     <quantity>1</quantity>
+                  </itemPizzaModel>
+                  <itemPizzaModel>
+                     <itemModel id="Queijo" weight="2"/>
+                     <quantity>4</quantity>
+                  </itemPizzaModel>
+               </itemPizzaModelList>
+               <priceToSell>40.0</priceToSell>
+               <priceToBuyRecipe>0.0</priceToBuyRecipe>
+               <priceToGetRecipe>0.0</priceToGetRecipe>
+               <timeInSecondsToLearn>5</timeInSecondsToLearn>
+               <timeInSecondsToProduce>8</timeInSecondsToProduce>
+               <pizzaEdgeModel>
+                  <itemPizzaModelList/>
+               </pizzaEdgeModel>
+            </pizzaModel>
+         </pizzaModelList>
+         <upgradeModelList>
+            <upgradeModel id="c808b253-f6ad-4c80-9f0e-612f03336990">
+               <level>0</level>
+               <name>Cozinheiro</name>
+               <upgradeCost>120.0</upgradeCost>
+               <upgradeCostBase>120.0</upgradeCostBase>
+               <upgradeCostScale>0.35</upgradeCostScale>
+               <upgradeType>COOK</upgradeType>
+            </upgradeModel>
+            <upgradeModel id="37d90860-0885-4164-9679-2fbe0fe5d044">
+               <level>0</level>
+               <name>Repositor</name>
+               <upgradeCost>130.0</upgradeCost>
+               <upgradeCostBase>130.0</upgradeCostBase>
+               <upgradeCostScale>0.32</upgradeCostScale>
+               <upgradeType>REPLACER</upgradeType>
+            </upgradeModel>
+         </upgradeModelList>
+         <orderModelList/>
+      </roomModel>
+   </roomModelList>
 </roomSavesXmlData>

@@ -73,7 +73,7 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="84.0" prefWidth="304.0" spacing="20.0">
                                                    <children>
-                                                      <AnchorPane HBox.hgrow="ALWAYS">
+                                                      <AnchorPane styleClass="pizzaria-footer-button" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <ImageView fitHeight="86.0" fitWidth="88.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                <image>

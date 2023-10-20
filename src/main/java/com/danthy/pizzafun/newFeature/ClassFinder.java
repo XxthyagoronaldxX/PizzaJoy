@@ -5,6 +5,7 @@ import com.danthy.pizzafun.app.contracts.ReactOn;
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -27,8 +28,10 @@ public class ClassFinder {
         List<Class<?>> allClasses = getClassesInPackage(basePackage);
 
         for (Class<?> clazz : allClasses) {
-            if (clazz.isAnnotationPresent(annotation)) {
-                classesWithAnnotation.add(clazz);
+            for (Method method : clazz.getDeclaredMethods()) {
+                if (method.isAnnotationPresent(annotation)) {
+                    classesWithAnnotation.add(clazz);
+                }
             }
         }
 
@@ -44,6 +47,7 @@ public class ClassFinder {
             Enumeration<URL> resources = classLoader.getResources(packagePath);
             while (resources.hasMoreElements()) {
                 URL resource = resources.nextElement();
+
                 if (resource.getProtocol().equals("file")) {
                     File directory = new File(resource.getFile());
                     classes.addAll(findClassesInDirectory(packageName, directory));
@@ -58,6 +62,7 @@ public class ClassFinder {
 
     public static List<Class<?>> findClassesInDirectory(String packageName, File directory) {
         List<Class<?>> classes = new ArrayList<>();
+
         if (!directory.exists()) {
             return classes;
         }
@@ -72,6 +77,7 @@ public class ClassFinder {
                 classes.addAll(findClassesInDirectory(packageName + "." + file.getName(), file));
             } else if (file.getName().endsWith(".class")) {
                 String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
+
                 try {
                     classes.add(Class.forName(className));
                 } catch (ClassNotFoundException e) {

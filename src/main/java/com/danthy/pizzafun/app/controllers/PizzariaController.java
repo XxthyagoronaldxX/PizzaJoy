@@ -16,11 +16,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -107,7 +105,9 @@ public class PizzariaController implements IController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        AnimationUtil.zoomOutInOnHover(upgradeViewButton, 1);
+        AnimationUtil.zoomOutInOnHover(upgradeViewButton, 0.3);
+        AnimationUtil.zoomOutInOnHover(tokenShopViewButton, 0.3);
+        AnimationUtil.zoomOutInOnHover(stockViewButton, 0.3);
 
         roomView.widthProperty().addListener((observable, oldValue, newValue) -> {
             double value = newValue.doubleValue();
