@@ -48,7 +48,7 @@ public class GenOrderFlux extends Flux implements IMediatorEmitter {
 
     @ReactOn(OrderGenerateEvent.class)
     public void reactOnOrderGenerateEvent(IEvent event) {
-        play();
+        replay();
     }
 
     @ReactOn(StartGameEvent.class)

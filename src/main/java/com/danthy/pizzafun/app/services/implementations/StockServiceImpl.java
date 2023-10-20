@@ -111,20 +111,39 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
         ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
 
         int itemMaxWeight = ApplicationProperties.itemMaxWeight;
-        int stockWeightGained = 0;
+        int stockWeightGained = getTotalWeightGainedFromRestock(supplierModel);
+        int currentStockWeight = getCurrentStockWeightProperty().getValue();
+
+        if (stockWeightGained + currentStockWeight > stockState.getTotalStockWeight().getValue()) {
+            sendEvent(new NotifyEvent(NotifyType.MAXSTOCKWEIGHT));
+            return;
+        }
+
         for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
             ItemStockModel itemStockModel = itemStockWrapperObservableList.get(i);
 
             int weight = itemStockModel.getItemModel().getWeight();
             int quantity = itemMaxWeight - weight + 1;
             itemStockModel.incrementQuantity(quantity);
-            stockWeightGained += quantity * weight;
 
             itemStockWrapperObservableList.set(i, itemStockModel);
         }
 
-        int currentStockWeight = getCurrentStockWeightProperty().getValue();
         getCurrentStockWeightProperty().setValue(currentStockWeight + stockWeightGained);
+    }
+
+    private int getTotalWeightGainedFromRestock(SupplierModel supplierModel) {
+        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelObservableList();
+
+        int itemMaxWeight = ApplicationProperties.itemMaxWeight;
+        int stockWeightGained = 0;
+        for (ItemStockModel itemStockModel : itemStockWrapperObservableList) {
+            int weight = itemStockModel.getItemModel().getWeight();
+            int quantity = itemMaxWeight - weight + 1;
+            stockWeightGained += quantity * weight;
+        }
+
+        return stockWeightGained;
     }
 
     private boolean isRemoveOrderValid(OrderModel orderModel) {

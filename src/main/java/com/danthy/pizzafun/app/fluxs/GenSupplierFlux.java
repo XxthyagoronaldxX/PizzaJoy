@@ -45,7 +45,7 @@ public class GenSupplierFlux extends Flux implements IMediatorEmitter {
 
     @ReactOn(SupplierGenerateEvent.class)
     public void reactOnSupplierGenerateEvent(IEvent event) {
-        play();
+        replay();
     }
 
     @ReactOn(StartGameEvent.class)

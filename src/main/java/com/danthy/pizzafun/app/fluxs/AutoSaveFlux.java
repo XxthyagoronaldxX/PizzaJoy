@@ -24,7 +24,7 @@ public class AutoSaveFlux extends Flux implements IMediatorEmitter {
     }
 
     @ReactOn(SaveSnapshotRoomEvent.class)
-    public void reactOnSaveSnapshotRoomEvent(IEvent event) {play();}
+    public void reactOnSaveSnapshotRoomEvent(IEvent event) {replay();}
 
     @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
