@@ -7,23 +7,21 @@ import com.danthy.pizzafun.app.enums.ScreenType;
 import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
+@Setter
 public class ScreenManager implements IManager {
-
     private final Map<ScreenType, Scene> screens;
-    private final Stage stage;
+    private Stage stage;
     private Scene currentScreen;
 
-    public ScreenManager(Stage stage) {
-        this.stage = stage;
+    public ScreenManager() {
         this.screens = new HashMap<>();
-    }
-
-    public static ScreenManager build(Stage stage) {
-        return new ScreenManager(stage);
     }
 
     public void start() {
@@ -39,16 +37,8 @@ public class ScreenManager implements IManager {
         this.currentScreen = this.screens.get(screenType);
     }
 
-    public ScreenManager setInit(ScreenType type) {
+    public void setInit(ScreenType type) {
         setCurrentScreen(type);
-
-        return this;
-    }
-
-    public ScreenManager addScreen(ScreenType type, Scene screen) {
-        this.screens.put(type, screen);
-
-        return this;
     }
 
     @ReactOn(StartGameEvent.class)

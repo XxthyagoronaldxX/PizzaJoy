@@ -19,7 +19,6 @@ public abstract class FacadeMediator<T> {
 
         objectList.forEach(object -> {
             object.invoke(event);
-            System.out.println("Test");
         });
     }
 
