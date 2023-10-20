@@ -32,4 +32,10 @@ public class StockState {
         currentStockWeight = new ObservableValue<>(sumItemStockListWeight);
         totalStockWeight = new ObservableValue<>(roomModel.getStockModel().getTotalWeight());
     }
+
+    public void incrementRateSpeed(double rateSpeed) {
+        double currentRateSpeed = rateSpeedObservable.getValue();
+
+        rateSpeedObservable.getProperty().setValue(currentRateSpeed + rateSpeed);
+    }
 }

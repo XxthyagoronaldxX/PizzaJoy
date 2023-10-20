@@ -121,9 +121,4 @@ public class OrderCellListController implements IController, IMediatorEmitter {
     public void onRequestProduceOrderEvent(MouseEvent event) {
         this.sendEvent(new RequestProduceOrderEvent(orderWrapper, this));
     }
-
-    @Override
-    public void sendEvent(IEvent event) {
-        GetIt.getInstance().find(ActionsMediator.class).notify(event);
-    }
 }

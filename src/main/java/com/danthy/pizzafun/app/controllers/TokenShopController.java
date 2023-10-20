@@ -2,9 +2,11 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeCellGridWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
@@ -55,18 +57,7 @@ public class TokenShopController implements IController {
         supplierList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    public void refreshSupplier(SupplierModel supplierModel) {
-        String name = supplierModel.getName();
-        String cost = "Custo: R$" + supplierModel.getCost();
-        String bonusChance = "Chance de Bonus: " + supplierModel.getBonusChance() + "%";
-        String deliveryTimeInSeconds = "Tempo: " + supplierModel.getDeliveryTimeInSeconds() + "s";
-
-        supplierNameLabel.setText(name);
-        supplierCostLabel.setText(cost);
-        supplierBonusChanceLabel.setText(bonusChance);
-        supplierRestockTimeLabel.setText(deliveryTimeInSeconds);
-    }
-
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         tokenShopService = GetIt.getInstance().find(TokenShopServiceImpl.class);
 
@@ -101,5 +92,18 @@ public class TokenShopController implements IController {
         });
 
         refreshSupplier(currentSupplierProperty.getValue());
+    }
+
+
+    public void refreshSupplier(SupplierModel supplierModel) {
+        String name = supplierModel.getName();
+        String cost = "Custo: R$" + supplierModel.getCost();
+        String bonusChance = "Chance de Bonus: " + supplierModel.getBonusChance() + "%";
+        String deliveryTimeInSeconds = "Tempo: " + supplierModel.getDeliveryTimeInSeconds() + "s";
+
+        supplierNameLabel.setText(name);
+        supplierCostLabel.setText(cost);
+        supplierBonusChanceLabel.setText(bonusChance);
+        supplierRestockTimeLabel.setText(deliveryTimeInSeconds);
     }
 }

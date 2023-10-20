@@ -1,6 +1,5 @@
 package com.danthy.pizzafun.app.contracts;
 
-import com.danthy.pizzafun.domain.errors.MethodNotFoundException;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;

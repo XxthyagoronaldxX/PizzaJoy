@@ -4,9 +4,9 @@ import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.contracts.Flux;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.events.mediator.SaveSnapshotRoomEvent;
-import com.danthy.pizzafun.app.logic.GetIt;
-import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import javafx.animation.KeyFrame;
 import javafx.event.ActionEvent;
 import javafx.util.Duration;
@@ -23,8 +23,10 @@ public class AutoSaveFlux extends Flux implements IMediatorEmitter {
         this.sendEvent(new SaveSnapshotRoomEvent());
     }
 
+    @ReactOn(SaveSnapshotRoomEvent.class)
     public void reactOnSaveSnapshotRoomEvent(IEvent event) {play();}
 
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         play();
     }

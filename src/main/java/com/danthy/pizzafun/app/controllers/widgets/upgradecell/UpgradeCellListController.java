@@ -41,9 +41,4 @@ public class UpgradeCellListController implements IController, IMediatorEmitter 
     public void onLevelUpEvent(MouseEvent event) {
         this.sendEvent(new RequestLevelUpEvent(upgradeModel));
     }
-
-    @Override
-    public void sendEvent(IEvent event) {
-        GetIt.getInstance().find(ActionsMediator.class).notify(event);
-    }
 }

@@ -2,7 +2,10 @@ package com.danthy.pizzafun.app.controllers;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
+import com.danthy.pizzafun.app.events.mediator.NotifyEvent;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.IPizzariaService;
@@ -194,6 +197,7 @@ public class PizzariaController implements IController {
         });
     }
 
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         IPizzariaService pizzariaService = GetIt.getInstance().find(PizzariaServiceImpl.class);
 
@@ -217,6 +221,7 @@ public class PizzariaController implements IController {
         tokensLabel.setText(String.format("Tokens: %d TK", tokensProperty.getValue()));
     }
 
+    @ReactOn(NotifyEvent.class)
     public void reactOnNotifyEvent(IEvent event) {
         if (notificationWrapperPane.isVisible()) return;
 

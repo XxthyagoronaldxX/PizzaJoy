@@ -5,7 +5,6 @@ import com.danthy.pizzafun.app.contracts.IObserverEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
-import com.danthy.pizzafun.app.logic.EventPublisher;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IUpgradeService;
 import com.danthy.pizzafun.app.states.UpgradeState;
@@ -34,7 +33,7 @@ public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
         for (UpgradeModel upgradeModel : upgradeState.getUpgradeModelObservableList())
             if (upgradeModel.getUpgradeType() == upgradeType) return upgradeModel.getLevel();
 
-        return 0;
+        throw new RuntimeException("Upgrade not mapped yet.");
     }
 
     @Override
