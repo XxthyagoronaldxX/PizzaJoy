@@ -69,38 +69,38 @@ public class GetItSetup {
         GameManager gameManager = new GameManager();
 
         // INITIALIZING MEDIATOR
-        ControllerFacade controllerFacade = ControllerFacade
-                .build()
-                .addController(pizzariaController)
-                .addController(homeController)
-                .addController(tokenShopController)
-                .addController(stockController)
-                .addController(upgradeController)
-                .addController(notificationController);
+        ControllerFacade controllerFacade = new ControllerFacade();
 
-        ServiceFacade serviceFacade = ServiceFacade
-                .build()
-                .addService(stockService)
-                .addService(tokenShopService)
-                .addService(pizzariaService)
-                .addService(upgradeService);
+        controllerFacade.add(pizzariaController)
+                .add(homeController)
+                .add(tokenShopController)
+                .add(stockController)
+                .add(upgradeController)
+                .add(notificationController);
 
-        ManagerFacade managerFacade = ManagerFacade
-                .build()
-                .addManager(gameManager)
-                .addManager(screenManager);
+        ServiceFacade serviceFacade = new ServiceFacade();
+
+        serviceFacade.add(stockService)
+                .add(tokenShopService)
+                .add(pizzariaService)
+                .add(upgradeService);
+
+        ManagerFacade managerFacade = new ManagerFacade();
+
+        managerFacade.add(gameManager)
+                .add(screenManager);
 
         AutoSaveFlux autoSaveFlux = new AutoSaveFlux();
         GenSupplierFlux genSupplierFlux = new GenSupplierFlux();
         GenOrderFlux genOrderFlux = new GenOrderFlux(pizzariaService);
         GenItemStockFlux genItemStockFlux = new GenItemStockFlux(stockService, tokenShopService);
 
-        FluxFacade fluxFacade = FluxFacade
-                .build()
-                .addFlux(autoSaveFlux)
-                .addFlux(genSupplierFlux)
-                .addFlux(genOrderFlux)
-                .addFlux(genItemStockFlux);
+        FluxFacade fluxFacade = new FluxFacade();
+
+        fluxFacade.add(autoSaveFlux)
+                .add(genSupplierFlux)
+                .add(genOrderFlux)
+                .add(genItemStockFlux);
 
         ActionsMediator actionsMediator = new ActionsMediator(controllerFacade,serviceFacade, managerFacade, fluxFacade);
 

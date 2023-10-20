@@ -2,7 +2,9 @@ package com.danthy.pizzafun.app.managers;
 
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IManager;
+import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.enums.ScreenType;
+import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -49,6 +51,7 @@ public class ScreenManager implements IManager {
         return this;
     }
 
+    @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
         setCurrentScreen(ScreenType.ROOM);
         refresh();
