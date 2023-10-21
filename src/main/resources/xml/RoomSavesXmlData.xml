@@ -227,19 +227,19 @@
             <itemStockModelList>
                <itemStockModel>
                   <itemModel id="Queijo" weight="2"/>
-                  <quantity>390</quantity>
+                  <quantity>8</quantity>
                </itemStockModel>
                <itemStockModel>
                   <itemModel id="Molho de tomate" weight="4"/>
-                  <quantity>196</quantity>
+                  <quantity>6</quantity>
                </itemStockModel>
                <itemStockModel>
                   <itemModel id="Massa" weight="4"/>
-                  <quantity>196</quantity>
+                  <quantity>6</quantity>
                </itemStockModel>
                <itemStockModel>
                   <itemModel id="Calabresa" weight="2"/>
-                  <quantity>396</quantity>
+                  <quantity>18</quantity>
                </itemStockModel>
             </itemStockModelList>
             <currentWeight>0</currentWeight>
@@ -318,9 +318,9 @@
                <upgradeType>COOK</upgradeType>
             </upgradeModel>
             <upgradeModel>
-               <level>1</level>
+               <level>3</level>
                <name>Repositor</name>
-               <upgradeCost>171.6</upgradeCost>
+               <upgradeCost>254.79999999999998</upgradeCost>
                <upgradeCostBase>130.0</upgradeCostBase>
                <upgradeCostScale>0.32</upgradeCostScale>
                <upgradeType>REPLACER</upgradeType>
