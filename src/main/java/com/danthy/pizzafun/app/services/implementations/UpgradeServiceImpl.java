@@ -6,6 +6,7 @@ import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.ReactOn;
 import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
+import com.danthy.pizzafun.app.events.services.ValidLevelUpEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.IUpgradeService;
@@ -41,19 +42,15 @@ public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
         upgradeState = GetIt.getInstance().find(UpgradeState.class);
     }
 
-    @EventMap(SuccessLevelUpEvent.class)
+    @EventMap(ValidLevelUpEvent.class)
     public void onSuccessLevelUpEvent(IEvent event) {
-        SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
-        UpgradeType upgradeType = successLevelUpEvent.upgradeModel().getUpgradeType();
+        ValidLevelUpEvent validLevelUpEvent = (ValidLevelUpEvent) event;
+        UpgradeType upgradeType = validLevelUpEvent.upgradeModel().getUpgradeType();
 
         if (upgradeType == UpgradeType.PIZZARIA) {
             Property<UpgradeModel> pizzariaUpgradeProperty = upgradeState.getUpgradePizzariaObservableValue().getProperty();
 
             pizzariaUpgradeProperty.getValue().upgrade();
-
-
-            System.out.println(pizzariaUpgradeProperty.getValue());
-            System.out.println(pizzariaUpgradeProperty.getValue().getClone());
 
             pizzariaUpgradeProperty.setValue(pizzariaUpgradeProperty.getValue().getClone());
         } else {
@@ -67,5 +64,7 @@ public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
                 }
             }
         }
+
+        eventPublisher.notifyAll(new SuccessLevelUpEvent(validLevelUpEvent.upgradeModel()));
     }
 }

@@ -27,6 +27,9 @@ public class RoomModel implements Cloneable {
     private int tokens;
 
     @XmlElement
+    private int totalOrderAmount;
+
+    @XmlElement
     private StockModel stockModel;
 
     @XmlElement

@@ -7,12 +7,15 @@ import com.danthy.pizzafun.app.events.mediator.*;
 import com.danthy.pizzafun.app.events.services.SuccessBuySupplierEvent;
 import com.danthy.pizzafun.app.events.services.SuccessLearnRecipeEvent;
 import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
+import com.danthy.pizzafun.app.events.services.ValidLevelUpEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.IPizzariaService;
 import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
+import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.PizzaModel;
+import com.danthy.pizzafun.domain.models.UpgradeModel;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
@@ -58,9 +61,12 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
     @EventMap(SuccessLevelUpEvent.class)
     private void onSuccessLevelUpEvent(IEvent event) {
         SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
+        UpgradeModel upgradeModel = successLevelUpEvent.upgradeModel();
 
-        pizzariaState.decTokens(successLevelUpEvent.upgradeModel().getTokenUpgradeCost());
-        pizzariaState.decBalance(successLevelUpEvent.upgradeModel().getUpgradeCost());
+        if (upgradeModel.getUpgradeType() == UpgradeType.PIZZARIA)
+            pizzariaState.incTotalOrderAmount(1);
+        pizzariaState.decTokens(upgradeModel.getTokenUpgradeCost());
+        pizzariaState.decBalance(upgradeModel.getUpgradeCost());
     }
 
     @ReactOn(StartGameEvent.class)
@@ -73,7 +79,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
         RequestLevelUpEvent requestLevelUpEvent = (RequestLevelUpEvent) event;
 
         if (pizzariaState.getBalanceObservable().getValue() >= requestLevelUpEvent.upgradeModel().getUpgradeCost()) {
-            eventPublisher.notifyAll(new SuccessLevelUpEvent(requestLevelUpEvent.upgradeModel()));
+            eventPublisher.notifyAll(new ValidLevelUpEvent(requestLevelUpEvent.upgradeModel()));
         } else {
             this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTMONEY));
         }
@@ -117,9 +123,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
     @ReactOn(OrderGenerateEvent.class)
     public void reactOnOrderGenerateEvent(IEvent event) {
-        int maxpizzas = ApplicationProperties.roomInitialMaxPizzas;
-
-        if (maxpizzas > pizzariaState.getOrderWrapperObservableList().size()) {
+        if (pizzariaState.getTotalOrderAmountObservable().getValue() > pizzariaState.getOrderWrapperObservableList().size()) {
             OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
 
             OrderWrapper orderWrapper = new OrderWrapper(orderGenerateEvent.orderModel());

@@ -3,6 +3,7 @@
     <name>test</name>
     <balance>1000.0</balance>
     <tokens>400</tokens>
+    <totalOrderAmount>3</totalOrderAmount>
     <stockModel id="afd39d89-c665-48f3-ac22-487346788ca1">
         <itemStockModelList>
             <itemStockModel>
