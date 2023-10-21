@@ -4,13 +4,12 @@ import com.danthy.pizzafun.domain.enums.UpgradeType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
+import org.apache.commons.beanutils.BeanUtils;
 
 import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString
-@NoArgsConstructor
 public class UpgradeModel {
     @EqualsAndHashCode.Include
     @XmlAttribute(name = "id")
@@ -32,30 +31,41 @@ public class UpgradeModel {
     private double upgradeCostScale;
 
     @XmlElement
+    private int tokenUpgradeCost;
+
+    @XmlElement
+    private int tokenUpgradeCostBase;
+
+    @XmlElement
+    private int tokenUpgradeCostScale;
+
+    @XmlElement
     private UpgradeType upgradeType;
+
+    public UpgradeModel() {
+        this.id = UUID.randomUUID();
+    }
 
     public UpgradeModel getClone() {
         UpgradeModel upgradeModelClone = new UpgradeModel();
 
-        upgradeModelClone.setLevel(level);
-        upgradeModelClone.setName(name);
-        upgradeModelClone.setUpgradeCost(upgradeCost);
-        upgradeModelClone.setUpgradeCostScale(upgradeCostScale);
-        upgradeModelClone.setUpgradeCostBase(upgradeCostBase);
         upgradeModelClone.setUpgradeType(upgradeType);
+        upgradeModelClone.setName(name);
+        upgradeModelClone.setLevel(level);
+        upgradeModelClone.setTokenUpgradeCost(tokenUpgradeCost);
+        upgradeModelClone.setTokenUpgradeCostBase(tokenUpgradeCostScale);
+        upgradeModelClone.setTokenUpgradeCostScale(tokenUpgradeCostScale);
+        upgradeModelClone.setUpgradeCost(upgradeCost);
+        upgradeModelClone.setUpgradeCostBase(upgradeCostBase);
+        upgradeModelClone.setUpgradeCostScale(upgradeCostScale);
 
         return upgradeModelClone;
     }
 
     public void upgrade() {
         this.upgradeCost += this.upgradeCostBase * this.upgradeCostScale;
+        this.tokenUpgradeCost += this.tokenUpgradeCostBase * this.tokenUpgradeCostScale;
 
         this.level += 1;
-    }
-
-    public void downgrade() {
-        this.upgradeCost -= this.upgradeCostBase * this.upgradeCostScale;
-
-        this.level -= 1;
     }
 }

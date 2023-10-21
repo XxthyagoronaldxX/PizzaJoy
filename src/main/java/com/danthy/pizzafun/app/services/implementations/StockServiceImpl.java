@@ -75,8 +75,12 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
 
         if(upgradeModel.getUpgradeType() == UpgradeType.REPLACER){
             int level = upgradeModel.getLevel();
-            double calcRatetime = 0.1 * level;
+            double calcRatetime = 0.09 * level;
             stockState.incrementRateSpeed(calcRatetime);
+        } else if (upgradeModel.getUpgradeType() == UpgradeType.PIZZARIA) {
+            int level = upgradeModel.getLevel();
+            int calcStockWeight = 75 * level;
+            stockState.incrementTotalStockWeight(calcStockWeight);
         }
     }
 

@@ -36,6 +36,4 @@ module com.danthy.pizzafun {
     exports com.danthy.pizzafun;
     exports com.danthy.pizzafun.app.managers;
     opens com.danthy.pizzafun.app.managers to javafx.fxml;
-    exports com.danthy.pizzafun.newFeature;
-    opens com.danthy.pizzafun.newFeature to javafx.fxml;
 }

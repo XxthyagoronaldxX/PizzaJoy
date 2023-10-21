@@ -38,4 +38,10 @@ public class StockState {
 
         rateSpeedObservable.getProperty().setValue(currentRateSpeed + rateSpeed);
     }
+
+    public void incrementTotalStockWeight(int weight) {
+        int currentTotalWeight = totalStockWeight.getValue();
+
+        totalStockWeight.getProperty().setValue(currentTotalWeight + weight);
+    }
 }

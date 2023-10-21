@@ -59,6 +59,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
     private void onSuccessLevelUpEvent(IEvent event) {
         SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
 
+        pizzariaState.decTokens(successLevelUpEvent.upgradeModel().getTokenUpgradeCost());
         pizzariaState.decBalance(successLevelUpEvent.upgradeModel().getUpgradeCost());
     }
 

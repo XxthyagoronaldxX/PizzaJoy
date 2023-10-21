@@ -47,14 +47,14 @@
                   </FlowPane>
                   <VBox>
                      <children>
-                        <Label text="Tokens: 150 TK" />
-                        <Label text="Dinheiro: $ 500" />
+                        <Label fx:id="tokenCostLabel" text="Tokens: 150 TK" />
+                        <Label fx:id="costLabel" text="Dinheiro: $ 500" />
                      </children>
                      <padding>
                         <Insets left="20.0" />
                      </padding>
                   </VBox>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" text="Level Up Pizzaria">
+                  <Button onMouseClicked="#onLevelUpPizzaria" mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" text="Level Up Pizzaria">
                      <font>
                         <Font name="Unispace-Bold" size="12.0" />
                      </font>
