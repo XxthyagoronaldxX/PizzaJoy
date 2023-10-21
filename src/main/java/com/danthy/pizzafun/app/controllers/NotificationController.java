@@ -9,9 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class NotificationController implements IController {
     @FXML
     public ImageView notificationBackgroundImg;
@@ -20,7 +17,7 @@ public class NotificationController implements IController {
     public Label notifyTitleLabel;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initComponents() {
         Rectangle clip = new Rectangle();
         clip.setArcWidth(10);
         clip.setArcHeight(10);

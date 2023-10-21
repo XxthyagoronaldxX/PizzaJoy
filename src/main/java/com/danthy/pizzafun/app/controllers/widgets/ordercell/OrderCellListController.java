@@ -3,11 +3,9 @@ package com.danthy.pizzafun.app.controllers.widgets.ordercell;
 
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.mediator.RequestProduceOrderEvent;
 import com.danthy.pizzafun.app.events.mediator.SuccessProduceOrderEvent;
-import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IUpgradeService;
 import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
@@ -24,9 +22,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class OrderCellListController implements IController, IMediatorEmitter {
     @FXML
@@ -55,13 +50,13 @@ public class OrderCellListController implements IController, IMediatorEmitter {
     public OrderWrapper orderWrapper;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initComponents() {
         orderImageBg.fitWidthProperty().bind(cellRoot.prefWidthProperty());
         orderImageBg.fitHeightProperty().bind(cellRoot.prefHeightProperty());
         cellRoot.setAlignment(Pos.CENTER);
     }
 
-    public void setOrderWrapper(OrderWrapper orderWrapper) {
+    public void initCell(OrderWrapper orderWrapper) {
         this.upgradeService = GetIt.getInstance().find(UpgradeServiceImpl.class);
         this.orderWrapper = orderWrapper;
         OrderModel orderModel = orderWrapper.getOrderModel();
@@ -118,7 +113,7 @@ public class OrderCellListController implements IController, IMediatorEmitter {
         handleLoadingToProduce();
     }
 
-    public void onRequestProduceOrderEvent(MouseEvent event) {
+    private void onRequestProduceOrderEvent(MouseEvent event) {
         this.sendEvent(new RequestProduceOrderEvent(orderWrapper, this));
     }
 }

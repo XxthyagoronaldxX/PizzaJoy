@@ -16,7 +16,7 @@ public class ItemStockCellListWrapper extends HBox {
         try {
             HBox hBox = loader.load();
             ItemStockCellListController controller = loader.getController();
-            controller.setItemStockWrapper(itemStockWrapper);
+            controller.initCell(itemStockWrapper);
 
             getChildren().add(hBox);
             setHgrow(hBox, Priority.ALWAYS);

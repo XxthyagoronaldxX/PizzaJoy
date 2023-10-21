@@ -1,6 +1,5 @@
 package com.danthy.pizzafun.app.services.implementations;
 
-import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.*;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.mediator.*;

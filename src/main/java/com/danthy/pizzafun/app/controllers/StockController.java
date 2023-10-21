@@ -16,9 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class StockController implements IController {
     @FXML
     public ListView itemStockList;
@@ -41,10 +38,8 @@ public class StockController implements IController {
     @FXML
     public Label stockLimitLabel;
 
-    public IStockService stockService;
-
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initComponents() {
         itemStockList.setCellFactory(object -> new ItemStockCellListFactory());
         itemStockList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -54,7 +49,7 @@ public class StockController implements IController {
 
     @ReactOn(StartGameEvent.class)
     public void reactOnStartGameEvent(IEvent event) {
-        stockService = GetIt.getInstance().find(StockServiceImpl.class);
+        IStockService stockService = GetIt.getInstance().find(StockServiceImpl.class);
 
         itemStockList.setItems(stockService.getItemStockModelObservableList());
 
@@ -80,5 +75,4 @@ public class StockController implements IController {
         stockLimitLabel.setText(currentStockWeight + "/" + totStockWeight);
         boostTimeRateButton.setOnMouseClicked(stockService::onBoostRateSpeedEvent);
     }
-
 }

@@ -11,7 +11,6 @@ import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
 import com.danthy.pizzafun.domain.models.SupplierModel;
-import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -20,9 +19,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.*;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class TokenShopController implements IController {
     @FXML
@@ -51,8 +48,9 @@ public class TokenShopController implements IController {
 
     private ITokenShopService tokenShopService;
 
+
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initComponents() {
         supplierList.setCellFactory(object -> new SupplierCellListFactory());
         supplierList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
@@ -63,11 +61,15 @@ public class TokenShopController implements IController {
 
         supplierList.setItems(tokenShopService.getSupplierModelObservableList());
 
+        tokenShopService.getCurrentSupplierProperty().addListener((observer, oldValue, newValue) -> {
+            refreshSupplier(newValue);
+        });
+
+        refreshSupplier(tokenShopService.getCurrentSupplierProperty().getValue());
         initRecipeGridView();
-        initObservers();
     }
 
-    public void initRecipeGridView() {
+    private void initRecipeGridView() {
         List<RecipeWrapper> recipeWrapperList = tokenShopService.getRecipeWrapperObservableList();
 
         GridPane gridPane = new GridPane();
@@ -84,18 +86,7 @@ public class TokenShopController implements IController {
         gridPane.prefWidthProperty().bind(recipeListScroll.widthProperty());
     }
 
-    public void initObservers() {
-        Property<SupplierModel> currentSupplierProperty = tokenShopService.getCurrentSupplierProperty();
-
-        currentSupplierProperty.addListener((observer, oldValue, newValue) -> {
-            refreshSupplier(newValue);
-        });
-
-        refreshSupplier(currentSupplierProperty.getValue());
-    }
-
-
-    public void refreshSupplier(SupplierModel supplierModel) {
+    private void refreshSupplier(SupplierModel supplierModel) {
         String name = supplierModel.getName();
         String cost = "Custo: R$" + supplierModel.getCost();
         String bonusChance = "Chance de Bonus: " + supplierModel.getBonusChance() + "%";

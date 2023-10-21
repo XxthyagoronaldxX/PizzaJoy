@@ -15,7 +15,7 @@ public class OrderCellListWrapper extends VBox {
         try {
             VBox vBox = loader.load();
             OrderCellListController controller = loader.getController();
-            controller.setOrderWrapper(orderWrapper);
+            controller.initCell(orderWrapper);
 
             getChildren().add(vBox);
             setVgrow(vBox, Priority.ALWAYS);

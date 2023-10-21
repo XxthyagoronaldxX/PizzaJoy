@@ -27,9 +27,6 @@ public class UpgradeCellListController implements IController, IMediatorEmitter 
 
     public UpgradeModel upgradeModel;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {}
-
     public void setUpgradeModel(UpgradeModel upgradeModel) {
         this.upgradeModel = upgradeModel;
 
