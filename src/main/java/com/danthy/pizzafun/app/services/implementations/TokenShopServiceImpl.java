@@ -23,27 +23,27 @@ public class TokenShopServiceImpl  implements ITokenShopService, IObserverEmitte
 
     @Override
     public void setCurrentSupplier(SupplierModel supplierModel) {
-        tokenShopState.setCurrentSupplierObservable(supplierModel);
+        tokenShopState.setCurrentSupplierNotifier(supplierModel);
     }
 
     @Override
     public ObservableList<RecipeWrapper> getRecipeWrapperObservableList() {
-        return tokenShopState.getRecipeWrapperObservableList();
+        return tokenShopState.getRecipeWrapperNotifierList();
     }
 
     @Override
     public ObservableList<SupplierModel> getSupplierModelObservableList() {
-        return tokenShopState.getSupplierModelObservableList();
+        return tokenShopState.getSupplierModelNotifierList();
     }
 
     @Override
     public ObservableValue<SupplierModel> getCurrentSupplierObservable() {
-        return tokenShopState.getCurrentSupplierObservable();
+        return tokenShopState.getCurrentSupplierNotifier();
     }
 
     @Override
     public Property<SupplierModel> getCurrentSupplierProperty() {
-        return tokenShopState.getCurrentSupplierObservable().getProperty();
+        return tokenShopState.getCurrentSupplierNotifier().getProperty();
     }
 
     @ReactOn(StartGameEvent.class)
@@ -56,7 +56,7 @@ public class TokenShopServiceImpl  implements ITokenShopService, IObserverEmitte
         SupplierGenerateEvent supplierGenerateEvent = (SupplierGenerateEvent) event;
         List<SupplierModel> supplierModelList = supplierGenerateEvent.supplierModelList();
 
-        ObservableList<SupplierModel> supplierWrapperObservableList = this.tokenShopState.getSupplierModelObservableList();
+        ObservableList<SupplierModel> supplierWrapperObservableList = this.tokenShopState.getSupplierModelNotifierList();
 
         supplierWrapperObservableList.clear();
         supplierWrapperObservableList.addAll(supplierModelList);

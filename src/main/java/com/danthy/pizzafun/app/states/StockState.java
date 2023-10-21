@@ -10,50 +10,50 @@ import lombok.Getter;
 
 @Getter
 public class StockState {
-    private final ObservableValue<Double> rateSpeedObservable;
+    private final ObservableValue<Double> rateSpeedNotifier;
 
-    private final ObservableValue<Double> timerToNextRestockObservable;
+    private final ObservableValue<Double> timerToNextRestockNotifier;
 
-    private final ObservableList<ItemStockModel> itemStockModelObservableList;
+    private final ObservableList<ItemStockModel> itemStockModelNotifierList;
 
-    private final ObservableValue<Integer> currentStockWeight;
+    private final ObservableValue<Integer> currentStockWeightNotifier;
 
-    private final ObservableValue<Integer> totalStockWeight;
+    private final ObservableValue<Integer> totalStockWeightNotifier;
 
     public StockState(RoomModel roomModel) {
-        itemStockModelObservableList = FXCollections.observableArrayList(roomModel.getStockModel().getItemStockModels());
-        timerToNextRestockObservable = new ObservableValue<>(50.0);
-        rateSpeedObservable = new ObservableValue<>(1.0);
+        itemStockModelNotifierList = FXCollections.observableArrayList(roomModel.getStockModel().getItemStockModels());
+        timerToNextRestockNotifier = new ObservableValue<>(50.0);
+        rateSpeedNotifier = new ObservableValue<>(1.0);
 
-        int sumItemStockListWeight = itemStockModelObservableList
+        int sumItemStockListWeight = itemStockModelNotifierList
                 .stream()
                 .map(itemStockModel -> itemStockModel.getItemModel().getWeight() * itemStockModel.getQuantity())
                 .reduce(0, Integer::sum);
 
-        currentStockWeight = new ObservableValue<>(sumItemStockListWeight);
-        totalStockWeight = new ObservableValue<>(roomModel.getStockModel().getTotalWeight());
+        currentStockWeightNotifier = new ObservableValue<>(sumItemStockListWeight);
+        totalStockWeightNotifier = new ObservableValue<>(roomModel.getStockModel().getTotalWeight());
     }
 
     public boolean containsItemModel(ItemModel itemModel) {
-        for (ItemStockModel itemStockModel : itemStockModelObservableList)
+        for (ItemStockModel itemStockModel : itemStockModelNotifierList)
             if (itemStockModel.getItemModel().equals(itemModel)) return true;
 
         return false;
     }
 
     public void addItemStockModel(ItemStockModel itemStockModel) {
-        itemStockModelObservableList.add(itemStockModel);
+        itemStockModelNotifierList.add(itemStockModel);
     }
 
     public void incrementRateSpeed(double rateSpeed) {
-        double currentRateSpeed = rateSpeedObservable.getValue();
+        double currentRateSpeed = rateSpeedNotifier.getValue();
 
-        rateSpeedObservable.getProperty().setValue(currentRateSpeed + rateSpeed);
+        rateSpeedNotifier.getProperty().setValue(currentRateSpeed + rateSpeed);
     }
 
     public void incrementTotalStockWeight(int weight) {
-        int currentTotalWeight = totalStockWeight.getValue();
+        int currentTotalWeight = totalStockWeightNotifier.getValue();
 
-        totalStockWeight.getProperty().setValue(currentTotalWeight + weight);
+        totalStockWeightNotifier.getProperty().setValue(currentTotalWeight + weight);
     }
 }

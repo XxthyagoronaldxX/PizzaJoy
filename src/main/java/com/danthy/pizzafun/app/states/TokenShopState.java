@@ -13,11 +13,11 @@ import java.util.List;
 
 @Getter
 public class TokenShopState {
-    private final ObservableValue<SupplierModel> currentSupplierObservable;
+    private final ObservableValue<SupplierModel> currentSupplierNotifier;
 
-    private final ObservableList<SupplierModel> supplierModelObservableList;
+    private final ObservableList<SupplierModel> supplierModelNotifierList;
 
-    private final ObservableList<RecipeWrapper> recipeWrapperObservableList;
+    private final ObservableList<RecipeWrapper> recipeWrapperNotifierList;
 
     public TokenShopState(RoomModel roomModel, List<PizzaModel> pizzaModelList) {
         SupplierModel currentSupplierModel = roomModel.getSupplierModel();
@@ -30,12 +30,12 @@ public class TokenShopState {
                 .map(RecipeWrapper::new)
                 .toList();
 
-        recipeWrapperObservableList = FXCollections.observableArrayList(recipeWrapperList);
-        currentSupplierObservable = new ObservableValue<>(currentSupplierModel);
-        supplierModelObservableList = FXCollections.observableArrayList();
+        recipeWrapperNotifierList = FXCollections.observableArrayList(recipeWrapperList);
+        currentSupplierNotifier = new ObservableValue<>(currentSupplierModel);
+        supplierModelNotifierList = FXCollections.observableArrayList();
     }
 
-    public void setCurrentSupplierObservable(SupplierModel supplierModel) {
-        currentSupplierObservable.getProperty().setValue(supplierModel);
+    public void setCurrentSupplierNotifier(SupplierModel supplierModel) {
+        currentSupplierNotifier.getProperty().setValue(supplierModel);
     }
 }
