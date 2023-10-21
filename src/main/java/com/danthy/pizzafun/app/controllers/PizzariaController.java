@@ -24,9 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class PizzariaController implements IController {
     @FXML
     public Label balanceLabel;
@@ -105,28 +102,12 @@ public class PizzariaController implements IController {
 
     public double stockViewWidth;
 
-
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initComponents() {
         AnimationUtil.zoomOutInOnHover(upgradeViewButton, 0.3);
         AnimationUtil.zoomOutInOnHover(tokenShopViewButton, 0.3);
         AnimationUtil.zoomOutInOnHover(stockViewButton, 0.3);
-
-        roomView.widthProperty().addListener((observable, oldValue, newValue) -> {
-            double value = newValue.doubleValue();
-
-            headerRoomImageBg.setFitWidth(value);
-            footerRoomImageBg.setFitWidth(value);
-        });
-        roomView.heightProperty().addListener((observable, oldValue, newValue) -> {
-            double value = newValue.doubleValue();
-
-            headerRoomImageBg.setFitHeight(value * 0.6);
-            headerRoomView.setPrefHeight(value * 0.6);
-            footerRoomView.setPrefHeight(value * 0.4);
-            footerButtonsPane.setPrefHeight(value * 0.2);
-            footerRoomImageBg.setFitHeight(value * 0.2);
-        });
+        AnimationUtil.zoomOutInOnHover(stock, 0.4, 1.01, 1.01);
 
         orderListView.setCellFactory(object -> {
             OrderCellListFactory orderCellListFactory = new OrderCellListFactory();
@@ -137,33 +118,43 @@ public class PizzariaController implements IController {
         });
         orderListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        initializeStock();
-        initializeTokenShop();
-        initializeUpgrade();
-    }
+        roomView.widthProperty().addListener((observable, oldValue, newValue) -> {
+            double value = newValue.doubleValue();
 
-    private void initializeUpgrade() {
-        upgradeController.rootView.prefWidthProperty().bind(rootView.widthProperty());
-        upgradeController.rootView.prefHeightProperty().bind(rootView.heightProperty());
+            tokenShopController.rootView.setPrefWidth(value);
+            upgradeController.rootView.setPrefWidth(value);
 
-        upgradeViewButton.setOnMouseClicked(this::onUpgradeViewEvent);
-        upgradeController.closeButton.setOnMouseClicked(this::onUpgradeViewEvent);
-    }
+            headerRoomImageBg.setFitWidth(value);
+            footerRoomImageBg.setFitWidth(value);
+        });
+        roomView.heightProperty().addListener((observable, oldValue, newValue) -> {
+            double value = newValue.doubleValue();
 
-    private void initializeTokenShop() {
-        tokenShopController.rootView.prefWidthProperty().bind(rootView.widthProperty());
-        tokenShopController.rootView.prefHeightProperty().bind(rootView.heightProperty());
-        tokenShopViewButton.setOnMouseClicked(this::onTokenShopViewEvent);
-        tokenShopWrapperPane.setOnMouseClicked(this::onTokenShopViewEvent);
-    }
+            tokenShopController.rootView.setPrefHeight(value);
+            upgradeController.rootView.setPrefHeight(value);
 
-    private void initializeStock() {
+            headerRoomImageBg.setFitHeight(value * 0.6);
+            headerRoomView.setPrefHeight(value * 0.6);
+            footerRoomView.setPrefHeight(value * 0.4);
+            footerButtonsPane.setPrefHeight(value * 0.2);
+            footerRoomImageBg.setFitHeight(value * 0.2);
+        });
+
         stockController.rootView.setPrefWidth(300);
         stockViewWidth = stockController.rootView.getPrefWidth();
 
         stock.prefHeightProperty().bind(stockWrapperPane.heightProperty());
         stockController.stockView.prefHeightProperty().bind(stockWrapperPane.heightProperty());
         AnchorPane.setRightAnchor(stockWrapperPane, (-1) * stockViewWidth);
+    }
+
+    @Override
+    public void initActionEvents() {
+        upgradeViewButton.setOnMouseClicked(this::onUpgradeViewEvent);
+        upgradeController.closeButton.setOnMouseClicked(this::onUpgradeViewEvent);
+
+        tokenShopViewButton.setOnMouseClicked(this::onTokenShopViewEvent);
+        tokenShopWrapperPane.setOnMouseClicked(this::onTokenShopViewEvent);
 
         stockViewButton.setOnMouseClicked(this::onStockViewEvent);
     }

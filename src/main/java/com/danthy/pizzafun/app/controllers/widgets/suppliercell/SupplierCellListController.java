@@ -37,10 +37,6 @@ public class SupplierCellListController implements IController, IMediatorEmitter
         sendEvent(new RequestBuySupplierEvent(supplierModel));
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
-
     public void setSupplierModel(SupplierModel supplierModel) {
         this.supplierModel = supplierModel;
 

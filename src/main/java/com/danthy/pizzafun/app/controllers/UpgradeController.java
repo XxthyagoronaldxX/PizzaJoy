@@ -10,8 +10,6 @@ import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IUpgradeService;
 import com.danthy.pizzafun.app.services.implementations.UpgradeServiceImpl;
-import com.danthy.pizzafun.domain.models.UpgradeModel;
-import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -19,9 +17,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class UpgradeController implements IController, IMediatorEmitter {
     @FXML
@@ -42,7 +37,7 @@ public class UpgradeController implements IController, IMediatorEmitter {
     private IUpgradeService upgradeService;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initComponents() {
         upgradeList.setCellFactory(object -> new UpgradeCellListFactory());
         upgradeList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }

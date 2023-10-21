@@ -1,16 +1,12 @@
 package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.domain.models.ItemModel;
 import com.danthy.pizzafun.domain.models.ItemStockModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ItemStockCellListController implements IController {
     @FXML
@@ -25,16 +21,14 @@ public class ItemStockCellListController implements IController {
     @FXML
     private ImageView itemStockBg;
 
-    public ItemStockCellListController() {}
-
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initComponents() {
         cellRoot.widthProperty().addListener((observable, oldValue, newValue) -> {
             itemStockBg.setFitWidth(newValue.doubleValue());
         });
     }
 
-    public void setItemStockWrapper(ItemStockModel itemStockModel) {
+    public void initCell(ItemStockModel itemStockModel) {
         ItemModel itemModel = itemStockModel.getItemModel();
 
         itemStockNameLabel.setText(itemModel.getName());

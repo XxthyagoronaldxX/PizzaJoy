@@ -47,6 +47,11 @@ public class RecipeCellGridController implements IController, IMediatorEmitter {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    @Override
+    public void initComponents() {
         learnProgressBar.setVisible(false);
     }
 
