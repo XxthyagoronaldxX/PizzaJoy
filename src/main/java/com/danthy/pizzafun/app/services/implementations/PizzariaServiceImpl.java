@@ -23,22 +23,22 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
     @Override
     public ObservableValue<Double> getBalanceObservable() {
-        return pizzariaState.getBalanceObservable();
+        return pizzariaState.getBalanceNotifier();
     }
 
     @Override
     public ObservableValue<Integer> getTokensObservable() {
-        return pizzariaState.getTokensObservable();
+        return pizzariaState.getTokenNotifier();
     }
 
     @Override
     public ObservableList<OrderWrapper> getOrderModelObservableList() {
-        return pizzariaState.getOrderWrapperObservableList();
+        return pizzariaState.getOrderWrapperNotifierList();
     }
 
     @Override
     public ObservableList<PizzaModel> getOwnedPizzaModelObservableList() {
-        return pizzariaState.getOwnedPizzaModelObservableList();
+        return pizzariaState.getOwnedPizzaModelNotifierList();
     }
 
     @EventMap(SuccessBuySupplierEvent.class)
@@ -78,7 +78,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
     public void reactOnRequestLevelUpEvent(IEvent event) {
         RequestLevelUpEvent requestLevelUpEvent = (RequestLevelUpEvent) event;
 
-        if (pizzariaState.getBalanceObservable().getValue() >= requestLevelUpEvent.upgradeModel().getUpgradeCost()) {
+        if (pizzariaState.getBalanceNotifier().getValue() >= requestLevelUpEvent.upgradeModel().getUpgradeCost()) {
             eventPublisher.notifyAll(new ValidLevelUpEvent(requestLevelUpEvent.upgradeModel()));
         } else {
             this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTMONEY));
@@ -89,7 +89,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
     public void reactOnRequestBuySupplierEvent(IEvent event) {
         RequestBuySupplierEvent requestBuySupplierEvent = (RequestBuySupplierEvent) event;
 
-        if (pizzariaState.getTokensObservable().getValue() >= requestBuySupplierEvent.supplierModel().getBuyToken()) {
+        if (pizzariaState.getTokenNotifier().getValue() >= requestBuySupplierEvent.supplierModel().getBuyToken()) {
             eventPublisher.notifyAll(new SuccessBuySupplierEvent(requestBuySupplierEvent.supplierModel()));
         } else {
             this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTTOKEN));
@@ -102,7 +102,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
         float tokenToBuyRecipe = requestLearnRecipeEvent.recipeWrapper().getPizzaModel().getPriceToBuyRecipe();
 
-        if (pizzariaState.getTokensObservable().getValue() >= tokenToBuyRecipe) {
+        if (pizzariaState.getTokenNotifier().getValue() >= tokenToBuyRecipe) {
             requestLearnRecipeEvent.controller().startToLearnTheRecipe();
 
             pizzariaState.decTokens((int) tokenToBuyRecipe);
@@ -117,20 +117,20 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
         OrderWrapper orderWrapper = successProduceOrderEvent.orderWrapper();
 
-        pizzariaState.getOrderWrapperObservableList().remove(orderWrapper);
+        pizzariaState.getOrderWrapperNotifierList().remove(orderWrapper);
         pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPriceToSell());
         pizzariaState.incTokens(1);
     }
 
     @ReactOn(OrderGenerateEvent.class)
     public void reactOnOrderGenerateEvent(IEvent event) {
-        if (pizzariaState.getTotalOrderAmountObservable().getValue() > pizzariaState.getOrderWrapperObservableList().size()) {
+        if (pizzariaState.getTotalOrderAmountNotifier().getValue() > pizzariaState.getOrderWrapperNotifierList().size()) {
             OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
 
             OrderWrapper orderWrapper = new OrderWrapper(orderGenerateEvent.orderModel());
 
             Platform.runLater(() -> {
-                pizzariaState.getOrderWrapperObservableList().add(orderWrapper);
+                pizzariaState.getOrderWrapperNotifierList().add(orderWrapper);
             });
         }
     }

@@ -10,56 +10,56 @@ import lombok.Getter;
 
 @Getter
 public class PizzariaState {
-    private final ObservableValue<Double> balanceObservable;
+    private final ObservableValue<Double> balanceNotifier;
 
-    private final ObservableValue<Integer> tokensObservable;
+    private final ObservableValue<Integer> tokenNotifier;
 
-    private final ObservableValue<Integer> totalOrderAmountObservable;
+    private final ObservableValue<Integer> totalOrderAmountNotifier;
 
-    private final ObservableList<OrderWrapper> orderWrapperObservableList;
+    private final ObservableList<OrderWrapper> orderWrapperNotifierList;
 
-    private final ObservableList<PizzaModel> ownedPizzaModelObservableList;
+    private final ObservableList<PizzaModel> ownedPizzaModelNotifierList;
 
     public PizzariaState(RoomModel roomModel) {
-        balanceObservable = new ObservableValue<>(roomModel.getBalance());
-        tokensObservable = new ObservableValue<>(roomModel.getTokens());
-        totalOrderAmountObservable = new ObservableValue<>(roomModel.getTotalOrderAmount());
+        balanceNotifier = new ObservableValue<>(roomModel.getBalance());
+        tokenNotifier = new ObservableValue<>(roomModel.getTokens());
+        totalOrderAmountNotifier = new ObservableValue<>(roomModel.getTotalOrderAmount());
 
-        orderWrapperObservableList = FXCollections.observableArrayList();
-        ownedPizzaModelObservableList = FXCollections.observableArrayList(roomModel.getPizzaModels());
+        orderWrapperNotifierList = FXCollections.observableArrayList();
+        ownedPizzaModelNotifierList = FXCollections.observableArrayList(roomModel.getPizzaModels());
     }
 
     public void addOwnedPizza(PizzaModel pizzaModel) {
-        ownedPizzaModelObservableList.add(pizzaModel);
+        ownedPizzaModelNotifierList.add(pizzaModel);
     }
 
     public void incTotalOrderAmount(int totalOrderAmount) {
-        int currentTotalOrderAmount = totalOrderAmountObservable.getValue();
+        int currentTotalOrderAmount = totalOrderAmountNotifier.getValue();
 
-        totalOrderAmountObservable.getProperty().setValue(currentTotalOrderAmount + totalOrderAmount);
+        totalOrderAmountNotifier.getProperty().setValue(currentTotalOrderAmount + totalOrderAmount);
     }
 
     public void decBalance(double decrement) {
-        double currentBalance = balanceObservable.getValue();
+        double currentBalance = balanceNotifier.getValue();
 
-        balanceObservable.getProperty().setValue(currentBalance - decrement);
+        balanceNotifier.getProperty().setValue(currentBalance - decrement);
     }
 
     public void incBalance(double increment) {
-        double currentBalance = balanceObservable.getValue();
+        double currentBalance = balanceNotifier.getValue();
 
-        balanceObservable.getProperty().setValue(currentBalance + increment);
+        balanceNotifier.getProperty().setValue(currentBalance + increment);
     }
 
     public void incTokens(int increment) {
-        int currentTokens = tokensObservable.getValue();
+        int currentTokens = tokenNotifier.getValue();
 
-        tokensObservable.getProperty().setValue(currentTokens + increment);
+        tokenNotifier.getProperty().setValue(currentTokens + increment);
     }
 
     public void decTokens(int decrement) {
-        int currentTokens = tokensObservable.getValue();
+        int currentTokens = tokenNotifier.getValue();
 
-        tokensObservable.getProperty().setValue(currentTokens - decrement);
+        tokenNotifier.getProperty().setValue(currentTokens - decrement);
     }
 }

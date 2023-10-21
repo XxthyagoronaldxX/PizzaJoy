@@ -21,7 +21,7 @@ public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
 
     @Override
     public int getLevel(UpgradeType upgradeType) {
-        for (UpgradeModel upgradeModel : upgradeState.getUpgradeModelObservableList())
+        for (UpgradeModel upgradeModel : upgradeState.getUpgradeModelNotifierList())
             if (upgradeModel.getUpgradeType() == upgradeType) return upgradeModel.getLevel();
 
         throw new RuntimeException("Upgrade not mapped yet.");
@@ -29,12 +29,12 @@ public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
 
     @Override
     public ObservableValue<UpgradeModel> getUpgradePizzariaObservableValue() {
-        return upgradeState.getUpgradePizzariaObservableValue();
+        return upgradeState.getUpgradePizzariaNotifierValue();
     }
 
     @Override
     public ObservableList<UpgradeModel> getUpgradeModelObservableList() {
-        return upgradeState.getUpgradeModelObservableList();
+        return upgradeState.getUpgradeModelNotifierList();
     }
 
     @ReactOn(StartGameEvent.class)
@@ -48,19 +48,19 @@ public class UpgradeServiceImpl implements IUpgradeService, IObserverEmitter  {
         UpgradeType upgradeType = validLevelUpEvent.upgradeModel().getUpgradeType();
 
         if (upgradeType == UpgradeType.PIZZARIA) {
-            Property<UpgradeModel> pizzariaUpgradeProperty = upgradeState.getUpgradePizzariaObservableValue().getProperty();
+            Property<UpgradeModel> pizzariaUpgradeProperty = upgradeState.getUpgradePizzariaNotifierValue().getProperty();
 
             pizzariaUpgradeProperty.getValue().upgrade();
 
             pizzariaUpgradeProperty.setValue(pizzariaUpgradeProperty.getValue().getClone());
         } else {
-            for (int i = 0; i < upgradeState.getUpgradeModelObservableList().size(); i++) {
-                UpgradeModel upgradeModel = upgradeState.getUpgradeModelObservableList().get(i);
+            for (int i = 0; i < upgradeState.getUpgradeModelNotifierList().size(); i++) {
+                UpgradeModel upgradeModel = upgradeState.getUpgradeModelNotifierList().get(i);
 
                 if (upgradeModel.getUpgradeType() == upgradeType) {
                     upgradeModel.upgrade();
 
-                    upgradeState.getUpgradeModelObservableList().set(i, upgradeModel.getClone());
+                    upgradeState.getUpgradeModelNotifierList().set(i, upgradeModel.getClone());
                 }
             }
         }
