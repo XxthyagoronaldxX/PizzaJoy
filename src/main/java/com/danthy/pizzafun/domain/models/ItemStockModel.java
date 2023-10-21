@@ -13,7 +13,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@NoArgsConstructor
 @XmlRootElement
 public class ItemStockModel {
     @EqualsAndHashCode.Include
@@ -25,6 +24,16 @@ public class ItemStockModel {
 
     @XmlElement
     private int quantity;
+
+    public ItemStockModel() {
+        this.id = UUID.randomUUID();
+    }
+
+    public ItemStockModel(ItemModel itemModel) {
+        this.id = UUID.randomUUID();
+        this.itemModel = itemModel;
+        this.quantity = 0;
+    }
 
     public void incrementQuantity(int quantity) {
         this.quantity += quantity;

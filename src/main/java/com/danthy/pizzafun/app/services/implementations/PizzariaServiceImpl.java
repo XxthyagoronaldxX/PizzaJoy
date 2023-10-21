@@ -1,10 +1,10 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.*;
+import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.mediator.*;
 import com.danthy.pizzafun.app.events.services.SuccessBuySupplierEvent;
-import com.danthy.pizzafun.app.events.services.SuccessLearnRecipeEvent;
 import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
 import com.danthy.pizzafun.app.events.services.ValidLevelUpEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -50,13 +50,6 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
         pizzariaState.decTokens(buyToken);
     }
 
-    @EventMap(SuccessLearnRecipeEvent.class)
-    private void onLearnRecipeEvent(IEvent event) {
-        SuccessLearnRecipeEvent successLearnRecipeEvent = (SuccessLearnRecipeEvent) event;
-
-        pizzariaState.decTokens((int) successLearnRecipeEvent.recipeWrapper().getPizzaModel().getPriceToBuyRecipe());
-    }
-
     @EventMap(SuccessLevelUpEvent.class)
     private void onSuccessLevelUpEvent(IEvent event) {
         SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
@@ -66,6 +59,14 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
             pizzariaState.incTotalOrderAmount(1);
         pizzariaState.decTokens(upgradeModel.getTokenUpgradeCost());
         pizzariaState.decBalance(upgradeModel.getUpgradeCost());
+    }
+
+    @ReactOn(SuccessLearnRecipeEvent.class)
+    private void onSuccessLearnRecipeEvent(IEvent event) {
+        SuccessLearnRecipeEvent successLearnRecipeEvent = (SuccessLearnRecipeEvent) event;
+        RecipeWrapper recipeWrapper = successLearnRecipeEvent.recipeWrapper();
+
+        pizzariaState.addOwnedPizza(recipeWrapper.getPizzaModel());
     }
 
     @ReactOn(StartGameEvent.class)
@@ -103,7 +104,8 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
         if (pizzariaState.getTokensObservable().getValue() >= tokenToBuyRecipe) {
             requestLearnRecipeEvent.controller().startToLearnTheRecipe();
-            eventPublisher.notifyAll(new SuccessLearnRecipeEvent(requestLearnRecipeEvent.recipeWrapper()));
+
+            pizzariaState.decTokens((int) tokenToBuyRecipe);
         } else {
             this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTTOKEN));
         }
