@@ -27,6 +27,9 @@ public class RoomModel implements Cloneable {
     private int tokens;
 
     @XmlElement
+    private int totalOrderAmount;
+
+    @XmlElement
     private StockModel stockModel;
 
     @XmlElement
@@ -52,9 +55,8 @@ public class RoomModel implements Cloneable {
             BeanUtils.copyProperties(this, clone);
 
             return clone;
-        } catch (CloneNotSupportedException | IllegalAccessException | InvocationTargetException e) {
-            System.out.println(e.getMessage());
-            throw new AssertionError();
+        } catch (CloneNotSupportedException | IllegalAccessException | InvocationTargetException exception) {
+            throw new RuntimeException(exception);
         }
     }
 }

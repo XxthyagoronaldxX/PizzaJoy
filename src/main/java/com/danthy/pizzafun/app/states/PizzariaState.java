@@ -14,6 +14,8 @@ public class PizzariaState {
 
     private final ObservableValue<Integer> tokensObservable;
 
+    private final ObservableValue<Integer> totalOrderAmountObservable;
+
     private final ObservableList<OrderWrapper> orderWrapperObservableList;
 
     private final ObservableList<PizzaModel> ownedPizzaModelObservableList;
@@ -21,9 +23,16 @@ public class PizzariaState {
     public PizzariaState(RoomModel roomModel) {
         balanceObservable = new ObservableValue<>(roomModel.getBalance());
         tokensObservable = new ObservableValue<>(roomModel.getTokens());
+        totalOrderAmountObservable = new ObservableValue<>(roomModel.getTotalOrderAmount());
 
         orderWrapperObservableList = FXCollections.observableArrayList();
         ownedPizzaModelObservableList = FXCollections.observableArrayList(roomModel.getPizzaModels());
+    }
+
+    public void incTotalOrderAmount(int totalOrderAmount) {
+        int currentTotalOrderAmount = totalOrderAmountObservable.getValue();
+
+        totalOrderAmountObservable.getProperty().setValue(currentTotalOrderAmount + totalOrderAmount);
     }
 
     public void decBalance(double decrement) {

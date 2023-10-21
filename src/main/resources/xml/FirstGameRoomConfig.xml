@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <roomModel id="1e5f02c8-b6df-4eb9-bdab-ffa0c38b4e6f">
     <name>test</name>
-    <balance>100.0</balance>
-    <tokens>40</tokens>
+    <balance>1000.0</balance>
+    <tokens>400</tokens>
+    <totalOrderAmount>3</totalOrderAmount>
     <stockModel id="afd39d89-c665-48f3-ac22-487346788ca1">
         <itemStockModelList>
             <itemStockModel>
@@ -89,12 +90,26 @@
         </pizzaModel>
     </pizzaModelList>
     <upgradeModelList>
+        <upgradeModel id="f0f6e1a1-3117-44c8-bb36-bee0438f62cd">
+            <level>0</level>
+            <name>Restaurante</name>
+            <upgradeCost>550.0</upgradeCost>
+            <upgradeCostBase>550.0</upgradeCostBase>
+            <upgradeCostScale>0.4</upgradeCostScale>
+            <tokenUpgradeCost>200</tokenUpgradeCost>
+            <tokenUpgradeCostBase>200</tokenUpgradeCostBase>
+            <tokenUpgradeCostScale>0.75</tokenUpgradeCostScale>
+            <upgradeType>PIZZARIA</upgradeType>
+        </upgradeModel>
         <upgradeModel id="c808b253-f6ad-4c80-9f0e-612f03336990">
             <level>0</level>
             <name>Cozinheiro</name>
             <upgradeCost>120.0</upgradeCost>
             <upgradeCostBase>120.0</upgradeCostBase>
             <upgradeCostScale>0.35</upgradeCostScale>
+            <tokenUpgradeCost>0</tokenUpgradeCost>
+            <tokenUpgradeCostBase>0</tokenUpgradeCostBase>
+            <tokenUpgradeCostScale>0</tokenUpgradeCostScale>
             <upgradeType>COOK</upgradeType>
         </upgradeModel>
         <upgradeModel id="37d90860-0885-4164-9679-2fbe0fe5d044">
@@ -103,6 +118,9 @@
             <upgradeCost>130.0</upgradeCost>
             <upgradeCostBase>130.0</upgradeCostBase>
             <upgradeCostScale>0.32</upgradeCostScale>
+            <tokenUpgradeCost>0</tokenUpgradeCost>
+            <tokenUpgradeCostBase>0</tokenUpgradeCostBase>
+            <tokenUpgradeCostScale>0</tokenUpgradeCostScale>
             <upgradeType>REPLACER</upgradeType>
         </upgradeModel>
     </upgradeModelList>
