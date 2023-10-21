@@ -29,6 +29,10 @@ public class PizzariaState {
         ownedPizzaModelObservableList = FXCollections.observableArrayList(roomModel.getPizzaModels());
     }
 
+    public void addOwnedPizza(PizzaModel pizzaModel) {
+        ownedPizzaModelObservableList.add(pizzaModel);
+    }
+
     public void incTotalOrderAmount(int totalOrderAmount) {
         int currentTotalOrderAmount = totalOrderAmountObservable.getValue();
 

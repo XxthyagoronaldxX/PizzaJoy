@@ -3,10 +3,7 @@ package com.danthy.pizzafun.app.services.implementations;
 import com.danthy.pizzafun.app.config.ApplicationProperties;
 import com.danthy.pizzafun.app.contracts.*;
 import com.danthy.pizzafun.app.enums.NotifyType;
-import com.danthy.pizzafun.app.events.mediator.NotifyEvent;
-import com.danthy.pizzafun.app.events.mediator.ReStockEvent;
-import com.danthy.pizzafun.app.events.mediator.RequestProduceOrderEvent;
-import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
+import com.danthy.pizzafun.app.events.mediator.*;
 import com.danthy.pizzafun.app.events.services.SuccessBuySupplierEvent;
 import com.danthy.pizzafun.app.events.services.SuccessLevelUpEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -82,6 +79,15 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
             int calcStockWeight = 75 * level;
             stockState.incrementTotalStockWeight(calcStockWeight);
         }
+    }
+
+    @ReactOn(SuccessLearnRecipeEvent.class)
+    public void reactOnSuccessLearnRecipeEvent(IEvent event) {
+        SuccessLearnRecipeEvent successLearnRecipeEvent = (SuccessLearnRecipeEvent) event;
+
+        for (ItemPizzaModel itemPizzaModel : successLearnRecipeEvent.recipeWrapper().getPizzaModel().getItemPizzaModels())
+            if (!stockState.containsItemModel(itemPizzaModel.getItemModel()))
+                stockState.addItemStockModel(new ItemStockModel(itemPizzaModel.getItemModel()));
     }
 
     @ReactOn(StartGameEvent.class)

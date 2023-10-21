@@ -1,6 +1,7 @@
 package com.danthy.pizzafun.app.states;
 
 import com.danthy.pizzafun.app.logic.ObservableValue;
+import com.danthy.pizzafun.domain.models.ItemModel;
 import com.danthy.pizzafun.domain.models.ItemStockModel;
 import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.collections.FXCollections;
@@ -31,6 +32,17 @@ public class StockState {
 
         currentStockWeight = new ObservableValue<>(sumItemStockListWeight);
         totalStockWeight = new ObservableValue<>(roomModel.getStockModel().getTotalWeight());
+    }
+
+    public boolean containsItemModel(ItemModel itemModel) {
+        for (ItemStockModel itemStockModel : itemStockModelObservableList)
+            if (itemStockModel.getItemModel().equals(itemModel)) return true;
+
+        return false;
+    }
+
+    public void addItemStockModel(ItemStockModel itemStockModel) {
+        itemStockModelObservableList.add(itemStockModel);
     }
 
     public void incrementRateSpeed(double rateSpeed) {

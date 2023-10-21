@@ -4,6 +4,7 @@ import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.mediator.RequestLearnRecipeEvent;
+import com.danthy.pizzafun.app.events.mediator.SuccessLearnRecipeEvent;
 import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
 import javafx.animation.FadeTransition;
@@ -133,6 +134,10 @@ public class RecipeCellGridController implements IController, IMediatorEmitter {
 
         Timeline learnTimeline = new Timeline(keyFrame);
         learnTimeline.setCycleCount(1);
+        learnTimeline.setOnFinished((event) -> {
+            sendEvent(new SuccessLearnRecipeEvent(recipeWrapper));
+        });
+
         learnTimeline.play();
     }
 }
