@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<HBox onMouseClicked="#onSetSupplierEvent" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListController">
+<HBox onMouseClicked="#onSetSupplierEvent" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.widgets.suppliercell.SupplierCellListController">
    <children>
       <ImageView fitHeight="60.0" fitWidth="53.0" pickOnBounds="true">
          <image>

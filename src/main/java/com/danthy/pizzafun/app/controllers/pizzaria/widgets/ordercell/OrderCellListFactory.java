@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.controllers.widgets.ordercell;
+package com.danthy.pizzafun.app.controllers.pizzaria.widgets.ordercell;
 
 import javafx.animation.*;
 import javafx.application.Platform;

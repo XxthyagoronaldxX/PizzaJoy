@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.controllers.widgets.ordercell;
+package com.danthy.pizzafun.app.controllers.pizzaria.widgets.ordercell;
 
 import com.danthy.pizzafun.app.utils.FxmlUtil;
 import com.danthy.pizzafun.app.utils.PathFxmlUtil;

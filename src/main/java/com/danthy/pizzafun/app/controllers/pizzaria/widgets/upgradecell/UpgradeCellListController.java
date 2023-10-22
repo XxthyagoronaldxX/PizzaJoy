@@ -1,19 +1,15 @@
-package com.danthy.pizzafun.app.controllers.widgets.upgradecell;
+package com.danthy.pizzafun.app.controllers.pizzaria.widgets.upgradecell;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.mediator.RequestLevelUpEvent;
-import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
-import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.domain.models.UpgradeModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class UpgradeCellListController implements IController, IMediatorEmitter {
     @FXML
@@ -25,7 +21,19 @@ public class UpgradeCellListController implements IController, IMediatorEmitter 
     @FXML
     public VBox upgradeButton;
 
+    @FXML
+    public ImageView cellBackgroundImg;
+
+    @FXML
+    public AnchorPane cellRoot;
+
     public UpgradeModel upgradeModel;
+
+    @Override
+    public void initComponents() {
+        cellBackgroundImg.fitHeightProperty().bind(cellRoot.heightProperty());
+        cellBackgroundImg.fitWidthProperty().bind(cellRoot.widthProperty());
+    }
 
     public void setUpgradeModel(UpgradeModel upgradeModel) {
         this.upgradeModel = upgradeModel;

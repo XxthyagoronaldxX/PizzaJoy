@@ -1,10 +1,10 @@
-package com.danthy.pizzafun.app.controllers;
+package com.danthy.pizzafun.app.controllers.pizzaria.subviews;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.contracts.ReactOn;
-import com.danthy.pizzafun.app.controllers.widgets.upgradecell.UpgradeCellListFactory;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.upgradecell.UpgradeCellListFactory;
 import com.danthy.pizzafun.app.events.mediator.RequestLevelUpEvent;
 import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -16,14 +16,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class UpgradeController implements IController, IMediatorEmitter {
     @FXML
     public ListView upgradeList;
 
     @FXML
-    public HBox rootView;
+    public VBox rootView;
 
     @FXML
     public FlowPane closeButton;

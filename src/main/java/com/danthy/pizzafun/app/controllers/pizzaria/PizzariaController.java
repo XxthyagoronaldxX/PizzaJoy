@@ -1,9 +1,13 @@
-package com.danthy.pizzafun.app.controllers;
+package com.danthy.pizzafun.app.controllers.pizzaria;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.ReactOn;
-import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListFactory;
+import com.danthy.pizzafun.app.controllers.pizzaria.subviews.NotificationController;
+import com.danthy.pizzafun.app.controllers.pizzaria.subviews.StockController;
+import com.danthy.pizzafun.app.controllers.pizzaria.subviews.TokenShopController;
+import com.danthy.pizzafun.app.controllers.pizzaria.subviews.UpgradeController;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.ordercell.OrderCellListFactory;
 import com.danthy.pizzafun.app.events.mediator.NotifyEvent;
 import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -72,9 +76,6 @@ public class PizzariaController implements IController {
 
     @FXML
     public VBox tokenShopViewButton;
-
-    @FXML
-    public HBox upgrade;
 
     @FXML
     public UpgradeController upgradeController;

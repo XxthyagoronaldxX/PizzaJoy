@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.controllers;
+package com.danthy.pizzafun.app.controllers.home;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="cellRoot" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListController">
+<HBox fx:id="cellRoot" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.widgets.itemstockcell.ItemStockCellListController">
    <children>
       <AnchorPane prefHeight="54.0" prefWidth="226.0" stylesheets="@../styles/widgets/item-stock-cell-list-widget.css" HBox.hgrow="ALWAYS">
          <children>

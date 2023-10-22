@@ -1,7 +1,7 @@
 package com.danthy.pizzafun.app.states;
 
 import com.danthy.pizzafun.app.logic.ObservableValue;
-import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.ordercell.OrderWrapper;
 import com.danthy.pizzafun.domain.models.PizzaModel;
 import com.danthy.pizzafun.domain.models.RoomModel;
 import javafx.collections.FXCollections;
@@ -10,56 +10,56 @@ import lombok.Getter;
 
 @Getter
 public class PizzariaState {
-    private final ObservableValue<Double> balanceNotifier;
+    private final ObservableValue<Double> balanceObservable;
 
-    private final ObservableValue<Integer> tokenNotifier;
+    private final ObservableValue<Integer> tokenObservable;
 
-    private final ObservableValue<Integer> totalOrderAmountNotifier;
+    private final ObservableValue<Integer> totalOrderAmountObservable;
 
-    private final ObservableList<OrderWrapper> orderWrapperNotifierList;
+    private final ObservableList<OrderWrapper> orderWrapperObservableList;
 
-    private final ObservableList<PizzaModel> ownedPizzaModelNotifierList;
+    private final ObservableList<PizzaModel> ownedPizzaObservableList;
 
     public PizzariaState(RoomModel roomModel) {
-        balanceNotifier = new ObservableValue<>(roomModel.getBalance());
-        tokenNotifier = new ObservableValue<>(roomModel.getTokens());
-        totalOrderAmountNotifier = new ObservableValue<>(roomModel.getTotalOrderAmount());
+        balanceObservable = new ObservableValue<>(roomModel.getBalance());
+        tokenObservable = new ObservableValue<>(roomModel.getTokens());
+        totalOrderAmountObservable = new ObservableValue<>(roomModel.getTotalOrderAmount());
 
-        orderWrapperNotifierList = FXCollections.observableArrayList();
-        ownedPizzaModelNotifierList = FXCollections.observableArrayList(roomModel.getPizzaModels());
+        orderWrapperObservableList = FXCollections.observableArrayList();
+        ownedPizzaObservableList = FXCollections.observableArrayList(roomModel.getPizzaModels());
     }
 
     public void addOwnedPizza(PizzaModel pizzaModel) {
-        ownedPizzaModelNotifierList.add(pizzaModel);
+        ownedPizzaObservableList.add(pizzaModel);
     }
 
     public void incTotalOrderAmount(int totalOrderAmount) {
-        int currentTotalOrderAmount = totalOrderAmountNotifier.getValue();
+        int currentTotalOrderAmount = totalOrderAmountObservable.getValue();
 
-        totalOrderAmountNotifier.getProperty().setValue(currentTotalOrderAmount + totalOrderAmount);
+        totalOrderAmountObservable.getProperty().setValue(currentTotalOrderAmount + totalOrderAmount);
     }
 
     public void decBalance(double decrement) {
-        double currentBalance = balanceNotifier.getValue();
+        double currentBalance = balanceObservable.getValue();
 
-        balanceNotifier.getProperty().setValue(currentBalance - decrement);
+        balanceObservable.getProperty().setValue(currentBalance - decrement);
     }
 
     public void incBalance(double increment) {
-        double currentBalance = balanceNotifier.getValue();
+        double currentBalance = balanceObservable.getValue();
 
-        balanceNotifier.getProperty().setValue(currentBalance + increment);
+        balanceObservable.getProperty().setValue(currentBalance + increment);
     }
 
     public void incTokens(int increment) {
-        int currentTokens = tokenNotifier.getValue();
+        int currentTokens = tokenObservable.getValue();
 
-        tokenNotifier.getProperty().setValue(currentTokens + increment);
+        tokenObservable.getProperty().setValue(currentTokens + increment);
     }
 
     public void decTokens(int decrement) {
-        int currentTokens = tokenNotifier.getValue();
+        int currentTokens = tokenObservable.getValue();
 
-        tokenNotifier.getProperty().setValue(currentTokens - decrement);
+        tokenObservable.getProperty().setValue(currentTokens - decrement);
     }
 }

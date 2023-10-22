@@ -1,11 +1,9 @@
-package com.danthy.pizzafun.app.controllers.widgets.recipecell;
+package com.danthy.pizzafun.app.controllers.pizzaria.widgets.recipecell;
 
 import com.danthy.pizzafun.app.contracts.IController;
-import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.IMediatorEmitter;
 import com.danthy.pizzafun.app.events.mediator.RequestLearnRecipeEvent;
 import com.danthy.pizzafun.app.events.mediator.SuccessLearnRecipeEvent;
-import com.danthy.pizzafun.app.logic.mediator.ActionsMediator;
 import com.danthy.pizzafun.app.logic.GetIt;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;

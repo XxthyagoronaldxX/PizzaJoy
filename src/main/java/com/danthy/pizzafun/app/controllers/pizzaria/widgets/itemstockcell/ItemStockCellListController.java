@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.controllers.widgets.itemstockcell;
+package com.danthy.pizzafun.app.controllers.pizzaria.widgets.itemstockcell;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.domain.models.ItemModel;
