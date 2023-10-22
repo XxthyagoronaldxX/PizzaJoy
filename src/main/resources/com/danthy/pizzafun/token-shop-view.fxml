@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="root-view" fx:id="rootView" stylesheets="@styles/token-shop.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.TokenShopController">
+<AnchorPane id="root-view" fx:id="rootView" stylesheets="@styles/token-shop.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.subviews.TokenShopController">
     <children>
         <HBox id="token-show-view" alignment="CENTER" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
             <children>

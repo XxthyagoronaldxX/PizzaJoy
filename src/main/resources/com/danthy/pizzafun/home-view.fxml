@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="pizzaBgContainer" prefHeight="200.0" prefWidth="200.0" stylesheets="@styles/home.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.HomeController">
+<AnchorPane fx:id="pizzaBgContainer" prefHeight="200.0" prefWidth="200.0" stylesheets="@styles/home.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.home.HomeController">
     <children>
          <ImageView fx:id="pizzaBackground" fitHeight="531.0" fitWidth="721.0" nodeOrientation="INHERIT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
              <image>

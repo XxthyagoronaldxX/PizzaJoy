@@ -23,7 +23,7 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
 
     @Override
     public void onBoostRateSpeedEvent(MouseEvent event) {
-        double currentRateSpeed = stockState.getRateSpeedNotifier().getValue();
+        double currentRateSpeed = stockState.getRateSpeedObservable().getValue();
 
         getRateSpeedProperty().setValue(currentRateSpeed + 0.1);
 
@@ -34,27 +34,27 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
 
     @Override
     public ObservableList<ItemStockModel> getItemStockModelObservableList() {
-        return stockState.getItemStockModelNotifierList();
+        return stockState.getItemStockObservableList();
     }
 
     @Override
     public Property<Double> getTimerToNextRestockProperty() {
-        return stockState.getTimerToNextRestockNotifier().getProperty();
+        return stockState.getTimerToNextRestockObservable().getProperty();
     }
 
     @Override
     public Property<Integer> getCurrentStockWeightProperty() {
-        return stockState.getCurrentStockWeightNotifier().getProperty();
+        return stockState.getCurrentStockWeightObservable().getProperty();
     }
 
     @Override
     public Property<Integer> getTotalStockWeightProperty() {
-        return stockState.getTotalStockWeightNotifier().getProperty();
+        return stockState.getTotalStockWeightObservable().getProperty();
     }
 
     @Override
     public Property<Double> getRateSpeedProperty() {
-        return stockState.getRateSpeedNotifier().getProperty();
+        return stockState.getRateSpeedObservable().getProperty();
     }
 
     @EventMap(SuccessBuySupplierEvent.class)
@@ -118,13 +118,13 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
 
         getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
 
-        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelNotifierList();
+        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockObservableList();
 
         int itemMaxWeight = ApplicationProperties.itemMaxWeight;
         int stockWeightGained = getTotalWeightGainedFromRestock(supplierModel);
         int currentStockWeight = getCurrentStockWeightProperty().getValue();
 
-        if (stockWeightGained + currentStockWeight > stockState.getTotalStockWeightNotifier().getValue()) {
+        if (stockWeightGained + currentStockWeight > stockState.getTotalStockWeightObservable().getValue()) {
             sendEvent(new NotifyEvent(NotifyType.MAXSTOCKWEIGHT));
             return;
         }
@@ -143,7 +143,7 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
     }
 
     private int getTotalWeightGainedFromRestock(SupplierModel supplierModel) {
-        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelNotifierList();
+        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockObservableList();
 
         int itemMaxWeight = ApplicationProperties.itemMaxWeight;
         int stockWeightGained = 0;
@@ -159,7 +159,7 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
     private boolean isRemoveOrderValid(OrderModel orderModel) {
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
-        for (ItemStockModel itemStockModel : stockState.getItemStockModelNotifierList()) {
+        for (ItemStockModel itemStockModel : stockState.getItemStockObservableList()) {
             ItemModel itemModel = itemStockModel.getItemModel();
 
             for (ItemPizzaModel itemPizzaModel : itemPizzaModelList) {
@@ -175,7 +175,7 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
     }
 
     private void removeItemStockFromOrder(OrderModel orderModel) {
-        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockModelNotifierList();
+        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockObservableList();
         List<ItemPizzaModel> itemPizzaModelList = orderModel.getPizzaModel().getItemPizzaModels();
 
         for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {

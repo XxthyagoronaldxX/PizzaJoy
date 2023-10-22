@@ -1,9 +1,9 @@
-package com.danthy.pizzafun.app.controllers;
+package com.danthy.pizzafun.app.controllers.pizzaria.subviews;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.ReactOn;
-import com.danthy.pizzafun.app.controllers.widgets.itemstockcell.ItemStockCellListFactory;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.itemstockcell.ItemStockCellListFactory;
 import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.IStockService;

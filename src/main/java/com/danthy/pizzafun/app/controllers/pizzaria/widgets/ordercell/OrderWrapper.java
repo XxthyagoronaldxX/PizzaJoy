@@ -1,4 +1,4 @@
-package com.danthy.pizzafun.app.controllers.widgets.ordercell;
+package com.danthy.pizzafun.app.controllers.pizzaria.widgets.ordercell;
 
 import com.danthy.pizzafun.domain.models.OrderModel;
 import javafx.scene.control.Button;

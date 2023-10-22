@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="cellRoot" stylesheets="@../styles/widgets/order-cell-list-widget.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderCellListController">
+<VBox fx:id="cellRoot" stylesheets="@../styles/widgets/order-cell-list-widget.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.widgets.ordercell.OrderCellListController">
    <children>
       <StackPane prefHeight="203.0" prefWidth="231.0">
          <children>

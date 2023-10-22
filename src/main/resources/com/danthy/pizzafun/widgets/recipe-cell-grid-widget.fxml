@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane id="cell-root" fx:id="cellRoot" stylesheets="@../styles/widgets/recipe-cell-list-widget.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeCellGridController">
+<StackPane id="cell-root" fx:id="cellRoot" stylesheets="@../styles/widgets/recipe-cell-list-widget.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.widgets.recipecell.RecipeCellGridController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>

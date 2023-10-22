@@ -1,7 +1,7 @@
 package com.danthy.pizzafun.app.services.implementations;
 
 import com.danthy.pizzafun.app.contracts.*;
-import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.enums.NotifyType;
 import com.danthy.pizzafun.app.events.mediator.*;
 import com.danthy.pizzafun.app.events.services.SuccessBuySupplierEvent;
@@ -10,7 +10,7 @@ import com.danthy.pizzafun.app.events.services.ValidLevelUpEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.app.services.IPizzariaService;
-import com.danthy.pizzafun.app.controllers.widgets.ordercell.OrderWrapper;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.ordercell.OrderWrapper;
 import com.danthy.pizzafun.app.states.PizzariaState;
 import com.danthy.pizzafun.domain.enums.UpgradeType;
 import com.danthy.pizzafun.domain.models.PizzaModel;
@@ -23,22 +23,22 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
     @Override
     public ObservableValue<Double> getBalanceObservable() {
-        return pizzariaState.getBalanceNotifier();
+        return pizzariaState.getBalanceObservable();
     }
 
     @Override
     public ObservableValue<Integer> getTokensObservable() {
-        return pizzariaState.getTokenNotifier();
+        return pizzariaState.getTokenObservable();
     }
 
     @Override
     public ObservableList<OrderWrapper> getOrderModelObservableList() {
-        return pizzariaState.getOrderWrapperNotifierList();
+        return pizzariaState.getOrderWrapperObservableList();
     }
 
     @Override
     public ObservableList<PizzaModel> getOwnedPizzaModelObservableList() {
-        return pizzariaState.getOwnedPizzaModelNotifierList();
+        return pizzariaState.getOwnedPizzaObservableList();
     }
 
     @EventMap(SuccessBuySupplierEvent.class)
@@ -78,7 +78,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
     public void reactOnRequestLevelUpEvent(IEvent event) {
         RequestLevelUpEvent requestLevelUpEvent = (RequestLevelUpEvent) event;
 
-        if (pizzariaState.getBalanceNotifier().getValue() >= requestLevelUpEvent.upgradeModel().getUpgradeCost()) {
+        if (pizzariaState.getBalanceObservable().getValue() >= requestLevelUpEvent.upgradeModel().getUpgradeCost()) {
             eventPublisher.notifyAll(new ValidLevelUpEvent(requestLevelUpEvent.upgradeModel()));
         } else {
             this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTMONEY));
@@ -89,7 +89,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
     public void reactOnRequestBuySupplierEvent(IEvent event) {
         RequestBuySupplierEvent requestBuySupplierEvent = (RequestBuySupplierEvent) event;
 
-        if (pizzariaState.getTokenNotifier().getValue() >= requestBuySupplierEvent.supplierModel().getBuyToken()) {
+        if (pizzariaState.getTokenObservable().getValue() >= requestBuySupplierEvent.supplierModel().getBuyToken()) {
             eventPublisher.notifyAll(new SuccessBuySupplierEvent(requestBuySupplierEvent.supplierModel()));
         } else {
             this.sendEvent(new NotifyEvent(NotifyType.INSUFFICIENTTOKEN));
@@ -102,7 +102,7 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
         float tokenToBuyRecipe = requestLearnRecipeEvent.recipeWrapper().getPizzaModel().getPriceToBuyRecipe();
 
-        if (pizzariaState.getTokenNotifier().getValue() >= tokenToBuyRecipe) {
+        if (pizzariaState.getTokenObservable().getValue() >= tokenToBuyRecipe) {
             requestLearnRecipeEvent.controller().startToLearnTheRecipe();
 
             pizzariaState.decTokens((int) tokenToBuyRecipe);
@@ -117,20 +117,20 @@ public class PizzariaServiceImpl implements IPizzariaService, IMediatorEmitter, 
 
         OrderWrapper orderWrapper = successProduceOrderEvent.orderWrapper();
 
-        pizzariaState.getOrderWrapperNotifierList().remove(orderWrapper);
+        pizzariaState.getOrderWrapperObservableList().remove(orderWrapper);
         pizzariaState.incBalance(orderWrapper.getOrderModel().getPizzaModel().getPriceToSell());
         pizzariaState.incTokens(1);
     }
 
     @ReactOn(OrderGenerateEvent.class)
     public void reactOnOrderGenerateEvent(IEvent event) {
-        if (pizzariaState.getTotalOrderAmountNotifier().getValue() > pizzariaState.getOrderWrapperNotifierList().size()) {
+        if (pizzariaState.getTotalOrderAmountObservable().getValue() > pizzariaState.getOrderWrapperObservableList().size()) {
             OrderGenerateEvent orderGenerateEvent = (OrderGenerateEvent) event;
 
             OrderWrapper orderWrapper = new OrderWrapper(orderGenerateEvent.orderModel());
 
             Platform.runLater(() -> {
-                pizzariaState.getOrderWrapperNotifierList().add(orderWrapper);
+                pizzariaState.getOrderWrapperObservableList().add(orderWrapper);
             });
         }
     }

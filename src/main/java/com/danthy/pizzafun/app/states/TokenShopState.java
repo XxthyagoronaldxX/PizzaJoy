@@ -1,6 +1,6 @@
 package com.danthy.pizzafun.app.states;
 
-import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.logic.ObservableValue;
 import com.danthy.pizzafun.domain.models.PizzaModel;
 import com.danthy.pizzafun.domain.models.RoomModel;
@@ -13,11 +13,11 @@ import java.util.List;
 
 @Getter
 public class TokenShopState {
-    private final ObservableValue<SupplierModel> currentSupplierNotifier;
+    private final ObservableValue<SupplierModel> currentSupplierObservable;
 
-    private final ObservableList<SupplierModel> supplierModelNotifierList;
+    private final ObservableList<SupplierModel> supplierObservableList;
 
-    private final ObservableList<RecipeWrapper> recipeWrapperNotifierList;
+    private final ObservableList<RecipeWrapper> recipeWrapperObservableList;
 
     public TokenShopState(RoomModel roomModel, List<PizzaModel> pizzaModelList) {
         SupplierModel currentSupplierModel = roomModel.getSupplierModel();
@@ -30,12 +30,16 @@ public class TokenShopState {
                 .map(RecipeWrapper::new)
                 .toList();
 
-        recipeWrapperNotifierList = FXCollections.observableArrayList(recipeWrapperList);
-        currentSupplierNotifier = new ObservableValue<>(currentSupplierModel);
-        supplierModelNotifierList = FXCollections.observableArrayList();
+        recipeWrapperObservableList = FXCollections.observableArrayList(recipeWrapperList);
+        currentSupplierObservable = new ObservableValue<>(currentSupplierModel);
+        supplierObservableList = FXCollections.observableArrayList();
     }
 
-    public void setCurrentSupplierNotifier(SupplierModel supplierModel) {
-        currentSupplierNotifier.getProperty().setValue(supplierModel);
+    public void removeRecipe(RecipeWrapper recipeWrapper) {
+        recipeWrapperObservableList.remove(recipeWrapper);
+    }
+
+    public void setCurrentSupplierObservable(SupplierModel supplierModel) {
+        currentSupplierObservable.getProperty().setValue(supplierModel);
     }
 }

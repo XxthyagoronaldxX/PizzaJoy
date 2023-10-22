@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="rootView" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.StockController">
+<VBox fx:id="rootView" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.subviews.StockController">
    <children>
       <StackPane fx:id="stockView" maxHeight="690.0" maxWidth="295.0" prefHeight="690.0" prefWidth="295.0" stylesheets="@styles/stock.css" VBox.vgrow="ALWAYS">
           <children>

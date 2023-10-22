@@ -13,9 +13,9 @@ import java.util.List;
 
 @Getter
 public class UpgradeState {
-    private final ObservableList<UpgradeModel> upgradeModelNotifierList;
+    private final ObservableList<UpgradeModel> upgradeObservableList;
 
-    private final ObservableValue<UpgradeModel> upgradePizzariaNotifierValue;
+    private final ObservableValue<UpgradeModel> upgradePizzariaObservableValue;
 
     public UpgradeState(RoomModel roomModel) {
         List<UpgradeModel> upgradeModelListFiltered = new ArrayList<>();
@@ -28,7 +28,7 @@ public class UpgradeState {
                 pizzariaUpgradeModel = upgradeModel;
         }
 
-        upgradePizzariaNotifierValue = new ObservableValue<>(pizzariaUpgradeModel);
-        upgradeModelNotifierList = FXCollections.observableList(upgradeModelListFiltered);
+        upgradePizzariaObservableValue = new ObservableValue<>(pizzariaUpgradeModel);
+        upgradeObservableList = FXCollections.observableList(upgradeModelListFiltered);
     }
 }

@@ -4,8 +4,9 @@ import com.danthy.pizzafun.app.contracts.EventMap;
 import com.danthy.pizzafun.app.contracts.IObserverEmitter;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.ReactOn;
-import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.recipecell.RecipeWrapper;
 import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
+import com.danthy.pizzafun.app.events.mediator.SuccessLearnRecipeEvent;
 import com.danthy.pizzafun.app.events.services.SuccessBuySupplierEvent;
 import com.danthy.pizzafun.app.events.mediator.SupplierGenerateEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
@@ -22,28 +23,23 @@ public class TokenShopServiceImpl  implements ITokenShopService, IObserverEmitte
     private TokenShopState tokenShopState;
 
     @Override
-    public void setCurrentSupplier(SupplierModel supplierModel) {
-        tokenShopState.setCurrentSupplierNotifier(supplierModel);
-    }
-
-    @Override
     public ObservableList<RecipeWrapper> getRecipeWrapperObservableList() {
-        return tokenShopState.getRecipeWrapperNotifierList();
+        return tokenShopState.getRecipeWrapperObservableList();
     }
 
     @Override
     public ObservableList<SupplierModel> getSupplierModelObservableList() {
-        return tokenShopState.getSupplierModelNotifierList();
+        return tokenShopState.getSupplierObservableList();
     }
 
     @Override
     public ObservableValue<SupplierModel> getCurrentSupplierObservable() {
-        return tokenShopState.getCurrentSupplierNotifier();
+        return tokenShopState.getCurrentSupplierObservable();
     }
 
     @Override
     public Property<SupplierModel> getCurrentSupplierProperty() {
-        return tokenShopState.getCurrentSupplierNotifier().getProperty();
+        return tokenShopState.getCurrentSupplierObservable().getProperty();
     }
 
     @ReactOn(StartGameEvent.class)
@@ -56,16 +52,23 @@ public class TokenShopServiceImpl  implements ITokenShopService, IObserverEmitte
         SupplierGenerateEvent supplierGenerateEvent = (SupplierGenerateEvent) event;
         List<SupplierModel> supplierModelList = supplierGenerateEvent.supplierModelList();
 
-        ObservableList<SupplierModel> supplierWrapperObservableList = this.tokenShopState.getSupplierModelNotifierList();
+        ObservableList<SupplierModel> supplierWrapperObservableList = this.tokenShopState.getSupplierObservableList();
 
         supplierWrapperObservableList.clear();
         supplierWrapperObservableList.addAll(supplierModelList);
+    }
+
+    @ReactOn(SuccessLearnRecipeEvent.class)
+    public void reactOnSuccessLearnRecipeEvent(IEvent event) {
+        SuccessLearnRecipeEvent successLearnRecipeEvent = (SuccessLearnRecipeEvent) event;
+
+        tokenShopState.removeRecipe(successLearnRecipeEvent.recipeWrapper());
     }
 
     @EventMap(SuccessBuySupplierEvent.class)
     public void onSuccessBuySupplierEvent(IEvent event) {
         SuccessBuySupplierEvent successBuySupplierEvent = (SuccessBuySupplierEvent) event;
 
-        setCurrentSupplier(successBuySupplierEvent.supplierModel());
+        tokenShopState.setCurrentSupplierObservable(successBuySupplierEvent.supplierModel());
     }
 }

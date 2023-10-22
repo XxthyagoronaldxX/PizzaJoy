@@ -1,16 +1,18 @@
-package com.danthy.pizzafun.app.controllers;
+package com.danthy.pizzafun.app.controllers.pizzaria.subviews;
 
 import com.danthy.pizzafun.app.contracts.IController;
 import com.danthy.pizzafun.app.contracts.IEvent;
 import com.danthy.pizzafun.app.contracts.ReactOn;
-import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeCellGridWrapper;
-import com.danthy.pizzafun.app.controllers.widgets.recipecell.RecipeWrapper;
-import com.danthy.pizzafun.app.controllers.widgets.suppliercell.SupplierCellListFactory;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.recipecell.RecipeCellGridWrapper;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.recipecell.RecipeWrapper;
+import com.danthy.pizzafun.app.controllers.pizzaria.widgets.suppliercell.SupplierCellListFactory;
 import com.danthy.pizzafun.app.events.mediator.StartGameEvent;
+import com.danthy.pizzafun.app.events.mediator.SuccessLearnRecipeEvent;
 import com.danthy.pizzafun.app.logic.GetIt;
 import com.danthy.pizzafun.app.services.ITokenShopService;
 import com.danthy.pizzafun.app.services.implementations.TokenShopServiceImpl;
 import com.danthy.pizzafun.domain.models.SupplierModel;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -66,10 +68,15 @@ public class TokenShopController implements IController {
         });
 
         refreshSupplier(tokenShopService.getCurrentSupplierProperty().getValue());
-        initRecipeGridView();
+
+        tokenShopService.getRecipeWrapperObservableList().addListener((ListChangeListener<? super RecipeWrapper>) change -> {
+            buildRecipeGridView();
+        });
+
+        buildRecipeGridView();
     }
 
-    private void initRecipeGridView() {
+    private void buildRecipeGridView() {
         List<RecipeWrapper> recipeWrapperList = tokenShopService.getRecipeWrapperObservableList();
 
         GridPane gridPane = new GridPane();
