@@ -58,6 +58,7 @@ public class UpgradeModel {
         upgradeModelClone.setUpgradeType(upgradeType);
         upgradeModelClone.setName(name);
         upgradeModelClone.setLevel(level);
+        upgradeModelClone.setLevelUpProperties(levelUpProperties);
         upgradeModelClone.setTokenUpgradeCost(tokenUpgradeCost);
         upgradeModelClone.setTokenUpgradeCostBase(tokenUpgradeCostScale);
         upgradeModelClone.setTokenUpgradeCostScale(tokenUpgradeCostScale);
