@@ -3,9 +3,11 @@ package com.danthy.pizzafun.domain.models;
 import com.danthy.pizzafun.domain.enums.UpgradeType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import org.apache.commons.beanutils.BeanUtils;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -38,6 +40,10 @@ public class UpgradeModel {
 
     @XmlElement
     private int tokenUpgradeCostScale;
+
+    @XmlElementWrapper(name = "levelUpProperties")
+    @XmlElement(name = "levelUpProperty")
+    private List<String> levelUpProperties;
 
     @XmlElement
     private UpgradeType upgradeType;

@@ -25,7 +25,7 @@
                            <children>
                               <StackPane prefHeight="192.0" prefWidth="693.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <ImageView fx:id="headerRoomImageBg" fitHeight="444.0" fitWidth="693.0" pickOnBounds="true" StackPane.alignment="CENTER">
+                                    <ImageView fx:id="headerRoomImageBg" fitHeight="444.0" fitWidth="889.0" pickOnBounds="true" StackPane.alignment="CENTER">
                                        <image>
                                           <Image url="@assets/imgs/pizza-order-thread-background.png" />
                                        </image>

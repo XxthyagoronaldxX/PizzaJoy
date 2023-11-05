@@ -99,6 +99,7 @@
             <tokenUpgradeCost>200</tokenUpgradeCost>
             <tokenUpgradeCostBase>200</tokenUpgradeCostBase>
             <tokenUpgradeCostScale>0.75</tokenUpgradeCostScale>
+            <levelUpProperties/>
             <upgradeType>PIZZARIA</upgradeType>
         </upgradeModel>
         <upgradeModel id="c808b253-f6ad-4c80-9f0e-612f03336990">
@@ -110,6 +111,9 @@
             <tokenUpgradeCost>0</tokenUpgradeCost>
             <tokenUpgradeCostBase>0</tokenUpgradeCostBase>
             <tokenUpgradeCostScale>0</tokenUpgradeCostScale>
+            <levelUpProperties>
+                <levelUpProperty>Velocidade de produção: 1.0x</levelUpProperty>
+            </levelUpProperties>
             <upgradeType>COOK</upgradeType>
         </upgradeModel>
         <upgradeModel id="37d90860-0885-4164-9679-2fbe0fe5d044">
@@ -121,6 +125,9 @@
             <tokenUpgradeCost>0</tokenUpgradeCost>
             <tokenUpgradeCostBase>0</tokenUpgradeCostBase>
             <tokenUpgradeCostScale>0</tokenUpgradeCostScale>
+            <levelUpProperties>
+                <levelUpProperty>Velocidade de reposição: 1.0x</levelUpProperty>
+            </levelUpProperties>
             <upgradeType>REPLACER</upgradeType>
         </upgradeModel>
     </upgradeModelList>
