@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,14 +9,14 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane fx:id="cellRoot" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.widgets.upgradecell.UpgradeCellListController">
+<AnchorPane fx:id="cellRoot" prefHeight="211.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.widgets.upgradecell.UpgradeCellListController">
    <children>
-      <ImageView fx:id="cellBackgroundImg" fitHeight="353.0" fitWidth="200.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="cellBackgroundImg" fitHeight="218.0" fitWidth="200.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../assets/imgs/pizza-upgrade-card-background.png" />
          </image>
       </ImageView>
-      <VBox alignment="CENTER" layoutX="14.0" layoutY="12.0" prefHeight="329.0" prefWidth="172.0" spacing="15.0" stylesheets="@../styles/widgets/upgrade-cell-list-widget.css" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0">
+      <VBox alignment="CENTER" layoutX="14.0" layoutY="12.0" prefHeight="192.0" prefWidth="172.0" spacing="15.0" stylesheets="@../styles/widgets/upgrade-cell-list-widget.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0">
          <children>
               <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true">
                   <image>
@@ -32,7 +31,6 @@
                       <Font name="Unispace-Bold" size="12.0" />
                   </font>
               </Label>
-            <ListView fx:id="propertyListView" prefHeight="146.0" prefWidth="200.0" />
             <VBox id="upgrade-button" fx:id="upgradeButton" alignment="CENTER" prefHeight="58.0" prefWidth="172.0">
                <children>
                   <ImageView fitHeight="48.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">

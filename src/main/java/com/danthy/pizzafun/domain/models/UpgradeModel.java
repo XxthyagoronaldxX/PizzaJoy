@@ -41,10 +41,6 @@ public class UpgradeModel {
     @XmlElement
     private int tokenUpgradeCostScale;
 
-    @XmlElementWrapper(name = "levelUpProperties")
-    @XmlElement(name = "levelUpProperty")
-    private List<String> levelUpProperties;
-
     @XmlElement
     private UpgradeType upgradeType;
 
@@ -58,7 +54,6 @@ public class UpgradeModel {
         upgradeModelClone.setUpgradeType(upgradeType);
         upgradeModelClone.setName(name);
         upgradeModelClone.setLevel(level);
-        upgradeModelClone.setLevelUpProperties(levelUpProperties);
         upgradeModelClone.setTokenUpgradeCost(tokenUpgradeCost);
         upgradeModelClone.setTokenUpgradeCostBase(tokenUpgradeCostScale);
         upgradeModelClone.setTokenUpgradeCostScale(tokenUpgradeCostScale);

@@ -29,9 +29,6 @@ public class UpgradeCellListController implements IController, IMediatorEmitter 
     @FXML
     public AnchorPane cellRoot;
 
-    @FXML
-    public ListView propertyListView;
-
     public UpgradeModel upgradeModel;
 
     @Override
@@ -46,7 +43,6 @@ public class UpgradeCellListController implements IController, IMediatorEmitter 
         upgradeTitleLabel.setText(upgradeModel.getName() + " Lv." + upgradeModel.getLevel());
         upgradePriceLabel.setText(String.format("$%.2f", upgradeModel.getUpgradeCost()));
         upgradeButton.setOnMouseClicked(this::onLevelUpEvent);
-        propertyListView.setItems(FXCollections.observableList(upgradeModel.getLevelUpProperties()));
     }
 
     public void onLevelUpEvent(MouseEvent event) {
