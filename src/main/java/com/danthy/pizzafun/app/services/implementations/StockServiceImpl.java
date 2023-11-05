@@ -115,58 +115,42 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
     public void reactOnRestockEvent(IEvent event) {
         ReStockEvent reStockEvent = (ReStockEvent) event;
         SupplierModel supplierModel = reStockEvent.supplierModel();
-
         getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
-
-        ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockObservableList();
+        ObservableList<ItemStockModel> itemStockModelObservableList = stockState.getItemStockObservableList();
 
         int itemMaxWeight = ApplicationProperties.itemMaxWeight;
-        int stockWeightGained = getTotalWeightGainedFromRestock(supplierModel);
+        int stockWeightGained = getTotalWeightGainedFromRestock();
         int currentStockWeight = getCurrentStockWeightProperty().getValue();
         int totalStock = stockState.getTotalStockWeightObservable().getValue();
 
         if (currentStockWeight == totalStock) {
             sendEvent(new NotifyEvent(NotifyType.MAXSTOCKWEIGHT));
-            return;
-        } else if(stockWeightGained + currentStockWeight > totalStock) {
-            int valueToRestock = totalStock % currentStockWeight;
+        } else {
+            int diffStock = totalStock - currentStockWeight;
+            int availableStock = (diffStock > stockWeightGained) ? stockWeightGained : diffStock;
 
-            for (int i = 0; i < itemStockWrapperObservableList.size(); i++) {
-                ItemStockModel itemStockModel = itemStockWrapperObservableList.get(i);
+            int effectiveStockWeightGained = 0;
+            for (int i = 0;i < stockState.getItemStockObservableList().size();i++) {
+                ItemStockModel itemStockModel = stockState.getItemStockObservableList().get(i);
+                int itemWeight = itemStockModel.getItemModel().getWeight();
+                int itemQuantityToRestock = itemMaxWeight - itemWeight + 1;
 
-                int weight = itemStockModel.getItemModel().getWeight();
-                int quantity = itemMaxWeight - weight + 1;
-                int itemStockValue = quantity * weight;
-
-                if(valueToRestock % itemStockValue == valueToRestock) {
-                    itemStockModel.incrementQuantity(valueToRestock);
-                } else {
-                    itemStockModel.incrementQuantity(quantity);
+                if (itemWeight * itemQuantityToRestock > availableStock) {
+                    itemQuantityToRestock = availableStock/itemWeight;
                 }
-                itemStockWrapperObservableList.set(i, itemStockModel);
 
-                valueToRestock -= itemStockValue;
-                if(valueToRestock <= 0) {
-                    getCurrentStockWeightProperty().setValue(totalStock);
-                    return;
-                }
+                availableStock -= itemQuantityToRestock * itemWeight;
+                effectiveStockWeightGained += itemQuantityToRestock * itemWeight;
+                itemStockModel.incrementQuantity(itemQuantityToRestock);
+
+                itemStockModelObservableList.set(i, itemStockModel);
             }
+
+            getCurrentStockWeightProperty().setValue(currentStockWeight + effectiveStockWeightGained);
         }
-
-        for (int j = 0; j < itemStockWrapperObservableList.size(); j++) {
-            ItemStockModel itemStockModel = itemStockWrapperObservableList.get(j);
-
-            int weight = itemStockModel.getItemModel().getWeight();
-            int quantity = itemMaxWeight - weight + 1;
-            itemStockModel.incrementQuantity(quantity);
-
-            itemStockWrapperObservableList.set(j, itemStockModel);
-        }
-
-        getCurrentStockWeightProperty().setValue(currentStockWeight + stockWeightGained);
     }
 
-    private int getTotalWeightGainedFromRestock(SupplierModel supplierModel) {
+    private int getTotalWeightGainedFromRestock() {
         ObservableList<ItemStockModel> itemStockWrapperObservableList = stockState.getItemStockObservableList();
 
         int itemMaxWeight = ApplicationProperties.itemMaxWeight;

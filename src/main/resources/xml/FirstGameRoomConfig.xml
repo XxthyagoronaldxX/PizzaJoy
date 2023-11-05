@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <roomModel id="1e5f02c8-b6df-4eb9-bdab-ffa0c38b4e6f">
     <name>test</name>
-    <balance>1000.0</balance>
+    <balance>10000.0</balance>
     <tokens>400</tokens>
     <totalOrderAmount>3</totalOrderAmount>
     <stockModel id="afd39d89-c665-48f3-ac22-487346788ca1">
@@ -19,7 +19,7 @@
                 <quantity>8</quantity>
             </itemStockModel>
             <itemStockModel>
-                <itemModel id="Calabresa" weight="2"/>
+                <itemModel id="Calabresa" weight="1"/>
                 <quantity>14</quantity>
             </itemStockModel>
         </itemStockModelList>
