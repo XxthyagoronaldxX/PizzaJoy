@@ -23,6 +23,9 @@ public class ItemStockModel {
     private ItemModel itemModel;
 
     @XmlElement
+    private boolean isLocked;
+
+    @XmlElement
     private int quantity;
 
     public ItemStockModel() {

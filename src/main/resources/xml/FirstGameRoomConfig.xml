@@ -6,21 +6,25 @@
     <totalOrderAmount>3</totalOrderAmount>
     <stockModel id="afd39d89-c665-48f3-ac22-487346788ca1">
         <itemStockModelList>
-            <itemStockModel>
+            <itemStockModel id="eb872416-f4fa-4252-ac68-15688821ae33">
                 <itemModel id="Queijo" weight="2"/>
                 <quantity>20</quantity>
+                <isLocked>false</isLocked>
             </itemStockModel>
-            <itemStockModel>
+            <itemStockModel id="d21361e2-7bb6-42cf-ba41-a377b1033fd5">
                 <itemModel id="Molho de tomate" weight="4"/>
                 <quantity>8</quantity>
+                <isLocked>false</isLocked>
             </itemStockModel>
-            <itemStockModel>
+            <itemStockModel id="401a203e-f07f-471a-b5fc-10a61a6a4c54">
                 <itemModel id="Massa" weight="4"/>
                 <quantity>8</quantity>
+                <isLocked>false</isLocked>
             </itemStockModel>
-            <itemStockModel>
+            <itemStockModel id="cc9b513e-980e-4779-b40c-55d137ea8cc3">
                 <itemModel id="Calabresa" weight="1"/>
                 <quantity>14</quantity>
+                <isLocked>false</isLocked>
             </itemStockModel>
         </itemStockModelList>
         <currentWeight>0</currentWeight>
