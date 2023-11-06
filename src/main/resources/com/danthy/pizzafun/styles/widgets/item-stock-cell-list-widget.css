@@ -1,3 +1,7 @@
+.cmp_cell-root {
+    -fx-cursor: hand;
+}
+
 #item-stock-img {
     -fx-padding: 5px;
 }

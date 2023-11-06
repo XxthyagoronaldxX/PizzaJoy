@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <HBox onMouseClicked="#onSetSupplierEvent" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.pizzaria.widgets.suppliercell.SupplierCellListController">
    <children>
       <ImageView fitHeight="60.0" fitWidth="53.0" pickOnBounds="true">
@@ -28,12 +27,7 @@
             </Label>
             <HBox>
                <children>
-                  <Label fx:id="restockTimeLabel" prefHeight="12.0" prefWidth="105.0" text="Velocidade: 40s">
-                     <font>
-                        <Font name="Unispace-Bold" size="9.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="costLabel" prefHeight="16.0" prefWidth="105.0" text="Custo: R$ 20">
+                  <Label fx:id="restockTimeLabel" prefHeight="12.0" prefWidth="224.0" text="Velocidade: 40s">
                      <font>
                         <Font name="Unispace-Bold" size="9.0" />
                      </font>
