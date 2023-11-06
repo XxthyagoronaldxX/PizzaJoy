@@ -108,7 +108,6 @@ public class PizzariaController implements IController {
         AnimationUtil.zoomOutInOnHover(upgradeViewButton, 0.3);
         AnimationUtil.zoomOutInOnHover(tokenShopViewButton, 0.3);
         AnimationUtil.zoomOutInOnHover(stockViewButton, 0.3);
-        AnimationUtil.zoomOutInOnHover(stock, 0.4, 1.01, 1.01);
 
         orderListView.setCellFactory(object -> {
             OrderCellListFactory orderCellListFactory = new OrderCellListFactory();

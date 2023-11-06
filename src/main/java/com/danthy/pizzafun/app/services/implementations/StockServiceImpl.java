@@ -70,7 +70,7 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
         SuccessLevelUpEvent successLevelUpEvent = (SuccessLevelUpEvent) event;
         UpgradeModel upgradeModel = successLevelUpEvent.upgradeModel();
 
-        if(upgradeModel.getUpgradeType() == UpgradeType.REPLACER){
+        if (upgradeModel.getUpgradeType() == UpgradeType.REPLACER) {
             int level = upgradeModel.getLevel();
             double calcRatetime = 0.09 * level;
             stockState.incrementRateSpeed(calcRatetime);
@@ -111,10 +111,20 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
         }
     }
 
+    @ReactOn(LockItemEvent.class)
+    public void reactOnLockItemEvent(IEvent event) {
+        ItemStockModel itemStockModel = ((LockItemEvent) event).itemStockModel();
+
+        int index = getItemStockModelObservableList().indexOf(itemStockModel);
+
+        itemStockModel.switchLock();
+
+        getItemStockModelObservableList().set(index, itemStockModel);
+    }
+
     @ReactOn(ReStockEvent.class)
     public void reactOnRestockEvent(IEvent event) {
-        ReStockEvent reStockEvent = (ReStockEvent) event;
-        SupplierModel supplierModel = reStockEvent.supplierModel();
+        SupplierModel supplierModel = ((ReStockEvent) event).supplierModel();
         getTimerToNextRestockProperty().setValue(supplierModel.getDeliveryTimeInSeconds());
         ObservableList<ItemStockModel> itemStockModelObservableList = stockState.getItemStockObservableList();
 
@@ -128,26 +138,55 @@ public class StockServiceImpl implements IStockService, IMediatorEmitter, IObser
         } else {
             int diffStock = totalStock - currentStockWeight;
             int availableStock = (diffStock > stockWeightGained) ? stockWeightGained : diffStock;
+            int countOfUnlockedItems = getCountOfUnlockedItems();
+            int bonusItems = getWeightGainedFromLockedItems();
+            int effectiveBonus = (int) Math.floor((double) bonusItems / countOfUnlockedItems);
 
             int effectiveStockWeightGained = 0;
-            for (int i = 0;i < stockState.getItemStockObservableList().size();i++) {
-                ItemStockModel itemStockModel = stockState.getItemStockObservableList().get(i);
-                int itemWeight = itemStockModel.getItemModel().getWeight();
-                int itemQuantityToRestock = itemMaxWeight - itemWeight + 1;
+            for (int i = 0; i < itemStockModelObservableList.size(); i++) {
+                ItemStockModel itemStockModel = itemStockModelObservableList.get(i);
 
-                if (itemWeight * itemQuantityToRestock > availableStock) {
-                    itemQuantityToRestock = availableStock/itemWeight;
+                if (!itemStockModel.isLocked()) {
+                    int itemWeight = itemStockModel.getItemModel().getWeight();
+                    int itemQuantityToRestock = itemMaxWeight - itemWeight + 1;
+
+                    if (itemWeight * itemQuantityToRestock > availableStock)
+                        itemQuantityToRestock = availableStock / itemWeight;
+
+                    if (itemWeight * (itemQuantityToRestock + effectiveBonus) < availableStock)
+                        itemQuantityToRestock += effectiveBonus;
+                    else
+                        itemQuantityToRestock += (availableStock - (itemQuantityToRestock * itemWeight)) / itemWeight;
+
+                    availableStock -= itemQuantityToRestock * itemWeight;
+                    effectiveStockWeightGained += itemQuantityToRestock * itemWeight;
+                    itemStockModel.incrementQuantity(itemQuantityToRestock);
+
+                    itemStockModelObservableList.set(i, itemStockModel);
                 }
-
-                availableStock -= itemQuantityToRestock * itemWeight;
-                effectiveStockWeightGained += itemQuantityToRestock * itemWeight;
-                itemStockModel.incrementQuantity(itemQuantityToRestock);
-
-                itemStockModelObservableList.set(i, itemStockModel);
             }
 
             getCurrentStockWeightProperty().setValue(currentStockWeight + effectiveStockWeightGained);
         }
+    }
+
+    private int getWeightGainedFromLockedItems() {
+        int weight = 0;
+
+        for (ItemStockModel itemStockModel : getItemStockModelObservableList())
+            if (itemStockModel.isLocked())
+                weight += ApplicationProperties.itemMaxWeight - itemStockModel.getItemModel().getWeight() + 1;
+
+        return weight;
+    }
+
+    private int getCountOfUnlockedItems() {
+        int count = 0;
+
+        for (ItemStockModel itemStockModel : getItemStockModelObservableList())
+            if (!itemStockModel.isLocked()) count++;
+
+        return count;
     }
 
     private int getTotalWeightGainedFromRestock() {

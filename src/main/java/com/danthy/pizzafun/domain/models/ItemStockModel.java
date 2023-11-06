@@ -5,7 +5,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
@@ -36,6 +35,10 @@ public class ItemStockModel {
         this.id = UUID.randomUUID();
         this.itemModel = itemModel;
         this.quantity = 0;
+    }
+
+    public void switchLock() {
+        this.isLocked = !this.isLocked;
     }
 
     public void incrementQuantity(int quantity) {

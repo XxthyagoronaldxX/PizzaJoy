@@ -35,12 +35,10 @@ public class SupplierCellListController implements IController, IMediatorEmitter
         this.supplierModel = supplierModel;
 
         String name = supplierModel.getName();
-        String cost = "Custo: R$" + supplierModel.getCost();
         String bonusChance = "Chance de Bonus: " + supplierModel.getBonusChance() + "%";
         String deliveryTimeInSeconds = "Tempo: " + supplierModel.getDeliveryTimeInSeconds() + "s";
         String buyToken = supplierModel.getBuyToken() + " TK";
 
-        costLabel.setText(cost);
         restockTimeLabel.setText(deliveryTimeInSeconds);
         nameLabel.setText(name);
         bonusChanceLabel.setText(bonusChance);

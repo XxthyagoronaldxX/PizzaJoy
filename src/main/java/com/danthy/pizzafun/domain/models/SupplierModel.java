@@ -22,9 +22,6 @@ public class SupplierModel {
     private String name;
 
     @XmlElement
-    private double cost;
-
-    @XmlElement
     private int bonus;
 
     @XmlElement
@@ -41,7 +38,6 @@ public class SupplierModel {
         this.name = name;
         this.supplierLevel = supplierLevel;
 
-        this.cost = supplierLevel.getCost();
         this.bonus = supplierLevel.getBonus();
         this.bonusChance = supplierLevel.getBonusChance();
         this.deliveryTimeInSeconds = supplierLevel.getDeliveryTimeInSeconds();

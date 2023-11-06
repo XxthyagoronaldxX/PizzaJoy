@@ -95,12 +95,10 @@ public class TokenShopController implements IController {
 
     private void refreshSupplier(SupplierModel supplierModel) {
         String name = supplierModel.getName();
-        String cost = "Custo: R$" + supplierModel.getCost();
         String bonusChance = "Chance de Bonus: " + supplierModel.getBonusChance() + "%";
         String deliveryTimeInSeconds = "Tempo: " + supplierModel.getDeliveryTimeInSeconds() + "s";
 
         supplierNameLabel.setText(name);
-        supplierCostLabel.setText(cost);
         supplierBonusChanceLabel.setText(bonusChance);
         supplierRestockTimeLabel.setText(deliveryTimeInSeconds);
     }

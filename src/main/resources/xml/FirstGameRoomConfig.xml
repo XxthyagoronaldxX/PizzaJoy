@@ -33,7 +33,6 @@
     <supplierModel id="c3d7d0bf-3970-41df-8fb2-1ba21305c600">
         <supplierLevel>LEVEL01</supplierLevel>
         <name>Forcenedor Anônimo</name>
-        <cost>25.0</cost>
         <bonus>10</bonus>
         <buyToken>0</buyToken>
         <bonusChance>0.0</bonusChance>
