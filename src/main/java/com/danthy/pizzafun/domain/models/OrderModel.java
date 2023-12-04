@@ -31,4 +31,18 @@ public class OrderModel {
         this.npcModel = npcModel;
         this.pizzaModel = pizzaModel;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (ItemPizzaModel itemPizzaModel : pizzaModel.getItemPizzaModels())
+            stringBuilder
+                    .append(itemPizzaModel.getQuantity())
+                    .append("x ")
+                    .append(itemPizzaModel.getItemModel().getName())
+                    .append("\n");
+
+        return stringBuilder.toString();
+    }
 }
