@@ -34,8 +34,8 @@ public abstract class Flux {
     }
 
     public final void play() {
-        initOneTimeFlux();
-        initFlux();
+        initOneTimeFlux(); // OPCIONAL
+        initFlux(); // OBRIGATORIO
         timeline.play();
     }
 }

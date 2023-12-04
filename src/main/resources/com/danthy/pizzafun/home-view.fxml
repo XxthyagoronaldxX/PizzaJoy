@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pizzaBgContainer" prefHeight="200.0" prefWidth="200.0" stylesheets="@styles/home.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.home.HomeController">
+<AnchorPane fx:id="pizzaBgContainer" prefHeight="200.0" prefWidth="200.0" stylesheets="@styles/home.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danthy.pizzafun.app.controllers.home.HomeController">
     <children>
          <ImageView fx:id="pizzaBackground" fitHeight="531.0" fitWidth="721.0" nodeOrientation="INHERIT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
              <image>
@@ -21,7 +25,7 @@
             <Rectangle2D height="180.0" minX="50.0" minY="150.0" width="400.0" />
          </viewport>
       </ImageView>
-         <FlowPane id="home-container-button" alignment="CENTER" columnHalignment="CENTER" layoutX="14.0" layoutY="374.0" prefHeight="143.0" prefWidth="135.0" vgap="10.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
+         <FlowPane id="home-container-button" alignment="CENTER" columnHalignment="CENTER" layoutY="388.0" prefHeight="163.0" prefWidth="259.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
              <children>
                  <Button fx:id="playGameButton" prefHeight="60.0" prefWidth="180.0" styleClass="home-button" text="Jogar" textFill="WHITE">
                      <graphic>
@@ -33,16 +37,6 @@
                          <Font name="Arial Bold" size="14.0" />
                      </font>
                  </Button>
-                 <Button prefHeight="60.0" prefWidth="180.0" styleClass="home-button" text="Sobre" textFill="WHITE">
-                     <graphic>
-                         <ImageView fitHeight="50" fitWidth="50">
-                             <Image url="@assets/imgs/pizza-button-background.png" />
-                         </ImageView>
-                     </graphic>
-                    <font>
-                        <Font name="Arial Bold" size="14.0" />
-                    </font>
-                 </Button>
              </children>
          </FlowPane>
       <AnchorPane id="pizza-form-name-bg" fx:id="pizzaFormNameRoot" prefHeight="531.0" prefWidth="721.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -52,7 +46,8 @@
                   <Label layoutX="26.0" layoutY="33.0" text="Nome da Pizzaria:" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
                   <TextField fx:id="pizzaNameField" layoutX="26.0" layoutY="65.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0" />
                   <Button id="home-button-init" fx:id="startGameButton" layoutX="10.0" layoutY="105.0" prefHeight="60.0" prefWidth="180.0" styleClass="home-button" text="Iniciar" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <graphic>
@@ -68,6 +63,7 @@
                   </Button>
                </children>
             </AnchorPane>
-         </children></AnchorPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
